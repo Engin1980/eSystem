@@ -9,30 +9,44 @@ import com.sun.istack.internal.NotNull;
 
 /**
  * This class contains methods used to extend the behavior of Exceptions.
+ *
  * @author Marek Vajgl
  */
 public class ExceptionUtil {
   /**
    * Prints long exception string including type and all exception causes.
+   *
    * @param t The exception to be printed
    * @return The full exception text message
    */
-  public static String toFullString(@NotNull Throwable t){
+  public static String toFullString(@NotNull Throwable t) {
+    String ret = toFullString(t, "==>");
+    return ret;
+  }
+
+  /**
+   * Prints long exception string including type and all exception causes.
+   *
+   * @param t         The exception to be printed
+   * @param separator The string used as separator between messages.
+   * @return The full exception text message
+   */
+  public static String toFullString(@NotNull Throwable t, @NotNull String separator) {
     StringBuilder sb = new StringBuilder();
-    
+
     Throwable tt = t;
-    while (tt != null){
-      if (t != tt){
-        sb.append(" ==> ");
+    while (tt != null) {
+      if (t != tt) {
+        sb.append(separator);
       }
       sb.append("[");
       sb.append(tt.getClass().getSimpleName());
       sb.append("]:: ");
       sb.append(tt.getMessage());
-      
+
       tt = tt.getCause();
     }
-    
+
     return sb.toString();
   }
 }

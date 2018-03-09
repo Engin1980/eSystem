@@ -12,7 +12,7 @@ import java.lang.String;
  *
  * @author Marek Vajgl
  */
-public class ParseUtil {
+public class ConversionUtils {
 
   public static int toInt(String value) {
     return Integer.parseInt(value);
@@ -48,6 +48,20 @@ public class ParseUtil {
       ret = toBoolean(value);
     } catch (Exception ex){
       ret = null;
+    }
+    return ret;
+  }
+
+  public static <T> T convertOrNull(Object o) {
+    T ret;
+    if (o == null)
+      ret = null;
+    else {
+      try {
+        ret = (T) o;
+      } catch (Throwable t) {
+        ret = null;
+      }
     }
     return ret;
   }

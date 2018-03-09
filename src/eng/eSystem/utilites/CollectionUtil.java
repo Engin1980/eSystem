@@ -2,6 +2,7 @@ package eng.eSystem.utilites;
 
 import com.sun.istack.internal.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -26,6 +27,17 @@ public class CollectionUtil {
       sum += selector.getValue(t);
     }
     return sum;
+  }
+
+  public static <T>List<T> where(Iterable<T> lst, Predicate<T> predicate){
+    List<T> ret = new ArrayList<>();
+
+    for (T t : lst) {
+      if (predicate.test(t))
+        ret.add(t);
+    }
+
+    return ret;
   }
 
   /**
