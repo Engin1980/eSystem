@@ -1,5 +1,7 @@
 package eng.eSystem;
 
+import eng.eSystem.utilites.Selector;
+
 public class EStringBuilder {
   private final StringBuilder sb;
 
@@ -39,6 +41,19 @@ public class EStringBuilder {
 
   public EStringBuilder appendLine(){
     this.appendLine("");
+    return this;
+  }
+
+  public <T> EStringBuilder appendItems(Iterable<T> items, Selector<T, String> selector, String separator){
+    boolean isFirst = true;
+    for (T item : items) {
+      if (isFirst)
+        isFirst = false;
+      else
+        this.append(separator);
+      String it = selector.getValue(item);
+      this.append(it);
+    }
     return this;
   }
 

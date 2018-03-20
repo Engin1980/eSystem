@@ -52,7 +52,7 @@ public class ConversionUtils {
     return ret;
   }
 
-  public static <T> T convertOrNull(Object o) {
+  public static <T> T tryConvert(Object o) {
     T ret;
     if (o == null)
       ret = null;

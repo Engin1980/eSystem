@@ -19,7 +19,7 @@ public class ComponentUtils {
 
     if (selector == null || selector.test(top))
       adjuster.adjust(top);
-    Container container = ConversionUtils.convertOrNull(top);
+    Container container = ConversionUtils.tryConvert(top);
     if (container != null) {
       for (Component component : container.getComponents()) {
         adjustComponentTree(component, adjuster);
