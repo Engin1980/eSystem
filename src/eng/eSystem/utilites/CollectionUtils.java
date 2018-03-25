@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class CollectionUtil {
+public class CollectionUtils {
 
   public static <T> T tryGetFirst(Iterable<T> lst, Predicate<T> predicate) {
     T ret = null;
@@ -20,12 +20,39 @@ public class CollectionUtil {
     return ret;
   }
 
+  public static <T> T tryGetFirst(Iterable<T> lst){
+    return tryGetFirst(lst, o -> true);
+  }
+
+  public static <T> T tryGetLast(Iterable<T> lst, Predicate<T> predicate) {
+    T ret = null;
+    for (T t : lst) {
+      if (predicate.test(t)) {
+        ret = t;
+      }
+    }
+    return ret;
+  }
+
+  public static <T> T tryGetLast(Iterable<T> lst){
+    return tryGetLast(lst, o -> true);
+  }
+
   public static <T> double sum(Iterable<T> lst, Selector<T, Double> selector) {
     double sum = 0;
     for (T t : lst) {
       sum += selector.getValue(t);
     }
     return sum;
+  }
+
+  public static <T,K> List<K> select(Iterable <T> lst, Selector<T,K> selector){
+    List<K> ret = new ArrayList<>();
+    for (T t : lst) {
+      K k = selector.getValue(t);
+      ret.add(k);
+    }
+    return ret;
   }
 
   public static <T> List<T> where(Iterable<T> lst, Predicate<T> predicate) {

@@ -9,7 +9,7 @@ package eng.eSystem.utilites;
  *
  * @author Marek Vajgl
  */
-public class NumberUtil {
+public class NumberUtils {
   /**
    * Returns if value is between specified exclusive bounds.
    * @param min Minimum value
@@ -50,5 +50,29 @@ public class NumberUtil {
    */
   public static boolean isBetweenOrEqual(double min, double value, double max){
     return min <= value && value <= max;
+  }
+
+  public static double round(double value, int radix){
+    double mult = Math.pow(10, radix);
+    double tmp = value / mult;
+    tmp = Math.round(tmp);
+    tmp = tmp * mult;
+    return tmp;
+  }
+
+  public static double floor(double value, int radix){
+    double mult = Math.pow(10, radix);
+    double tmp = value / mult;
+    tmp = Math.floor(tmp);
+    tmp = tmp * mult;
+    return tmp;
+  }
+
+  public static double ceil(double value, int radix){
+    double mult = Math.pow(10, radix);
+    double tmp = value / mult;
+    tmp = Math.ceil(tmp);
+    tmp = tmp * mult;
+    return tmp;
   }
 }
