@@ -1,11 +1,13 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.collections.exceptions.NoSuchKeyException;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class EMap<K, V> {
+public class EMap<K, V> implements IMap<K,V> {
   private Map<K, V> inner;
 
   public EMap(Map<K, V> inner) {
@@ -46,7 +48,8 @@ public class EMap<K, V> {
       return inner.get(key);
   }
 
-  public V put(K key, V value) {
+  @Override
+  public V add(K key, V value) {
     return inner.put(key, value);
   }
 
@@ -64,7 +67,8 @@ public class EMap<K, V> {
       return null;
   }
 
-  public void putAll(Map<? extends K, ? extends V> m) {
+  @Override
+  public void addAll(Map<? extends K, ? extends V> m) {
     inner.putAll(m);
   }
 

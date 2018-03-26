@@ -4,33 +4,33 @@ import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Action;
 import eng.eSystem.utilites.Selector;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class EList<T> implements IList<T> {
+public class ESet<T> implements ISet<T> {
 
-  private final static Class DEFAULT_CLASS = ArrayList.class;
+  private final static Class DEFAULT_CLASS = HashSet.class;
 
-  private List<T> inner;
+  private Set<T> inner;
 
-  public EList(Class innerType) {
+  public ESet(Class innerType) {
     this(innerType, null);
   }
 
-  public EList(Iterable<? extends T> elements) {
+  public ESet(Iterable<? extends T> elements) {
     this(DEFAULT_CLASS, elements);
   }
 
-  public EList() {
+  public ESet() {
     this(DEFAULT_CLASS, null);
   }
 
-  public EList(Class innerType, Iterable<? extends T> content) {
+  public ESet(Class innerType, Iterable<? extends T> content) {
     try {
-      this.inner = (List) innerType.newInstance();
+      this.inner = (Set) innerType.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
       throw new RuntimeException("Unable to create a new instance.");
     }
@@ -60,22 +60,8 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public void set(int index, T item) {
-    inner.set(index, item);
-  }
-
-  @Override
-  public void removeAt(int index) {
-    inner.remove((int) index);
-  }
-
-  @Override
   public void remove(T item) {
-    if (item.getClass().equals(int.class)) {
-      inner.remove((Integer) item);
-    } else {
-      inner.remove(item);
-    }
+    inner.remove(item);
   }
 
   @Override
@@ -87,39 +73,34 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void remove(Predicate<T> predicate) {
-    IList<T> tmp = this.where(predicate);
+    ISet<T> tmp = this.where(predicate);
     for (T t : tmp) {
-      this.remove(t);
+      this.remove(tmp);
     }
   }
 
   @Override
   public void retain(Predicate<T> predicate) {
-    IList<T> tmp = this.where(predicate.negate());
+    ISet<T> tmp = this.where(predicate.negate());
     for (T t : tmp) {
-      this.remove(t);
+      this.remove(tmp);
     }
   }
 
   @Override
   public void clear() {
-    this.inner.clear();
+    inner.clear();
   }
 
   @Override
-  public T get(int index) {
-    return inner.get(index);
-  }
-
-  @Override
-  public IList<T> where(Predicate<T> predicate) {
-    EList<T> ret = new EList<>();
-    ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toList());
+  public ISet<T> where(Predicate<T> predicate) {
+    ESet<T> ret = new ESet<>();
+    ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
     return ret;
   }
 
   @Override
-  public T tryGetFirst(Predicate<T> predicate) {
+  public T tryGet(Predicate<T> predicate) {
     T ret = null;
     for (T t : inner) {
       if (predicate.test(t)) {
@@ -131,7 +112,7 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public T getFirst(Predicate<T> predicate) {
+  public T get(Predicate<T> predicate) {
     T ret = null;
     boolean isFound = false;
     for (T t : inner) {
@@ -147,29 +128,30 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public T tryGetLast(Predicate<T> predicate) {
-    T ret = null;
+  public <V> ISet<V> select(Selector<T, V> selector) {
+    ISet<V> ret = new ESet<>();
     for (T t : inner) {
-      if (predicate.test(t)) {
-        ret = t;
-      }
+      V v = selector.getValue(t);
+      ret.add(v);
     }
     return ret;
   }
 
   @Override
-  public T getLast(Predicate<T> predicate) {
-    T ret = null;
-    boolean isFound = false;
-    for (T t : inner) {
-      if (predicate.test(t)) {
-        ret = t;
-        isFound = true;
-      }
-    }
-    if (!isFound)
-      throw new ElementNotFoundException();
+  public Set<T> toSet() {
+    Set<T> ret = new HashSet<>();
+    ret.addAll(this.inner);
     return ret;
+  }
+
+  @Override
+  public void toSet(Set<T> target) {
+    target.addAll(this.inner);
+  }
+
+  @Override
+  public int size() {
+    return this.inner.size();
   }
 
   @Override
@@ -222,33 +204,6 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public <V> IList<V> select(Selector<T, V> selector) {
-    IList<V> ret = new EList<>();
-    for (T t : inner) {
-      V v = selector.getValue(t);
-      ret.add(v);
-    }
-    return ret;
-  }
-
-  @Override
-  public List<T> toList() {
-    List<T> ret = new ArrayList<>();
-    ret.addAll(this.inner);
-    return ret;
-  }
-
-  @Override
-  public void toList(List<T> target) {
-    target.addAll(this.inner);
-  }
-
-  @Override
-  public int size() {
-    return inner.size();
-  }
-
-  @Override
   public boolean contains(T item) {
     return this.inner.contains(item);
   }
@@ -262,6 +217,6 @@ public class EList<T> implements IList<T> {
 
   @Override
   public Iterator<T> iterator() {
-    return inner.iterator();
+    return this.inner.iterator();
   }
 }
