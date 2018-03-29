@@ -6,12 +6,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
-public class EMap<K, V> implements IMap<K,V> {
+public class EMap<K, V> implements IMap<K, V> {
   private Map<K, V> inner;
 
   public EMap(Map<K, V> inner) {
     this.inner = inner;
+  }
+
+  public EMap(ISet<Map.Entry<K,V>> entries){
+    this.inner = new HashMap<>();
+    entries.forEach(q->inner.put(q.getKey(), q.getValue()));
   }
 
   public EMap() {
@@ -26,12 +32,31 @@ public class EMap<K, V> implements IMap<K,V> {
     return inner.isEmpty();
   }
 
+  @Override
   public boolean containsKey(K key) {
     return inner.containsKey(key);
   }
 
   public boolean containsValue(V value) {
     return inner.containsValue(value);
+  }
+
+  @Override
+  public IMap<K, V> whereKey(Predicate<K> predicate) {
+    EMap<K,V> ret;
+    ISet<Map.Entry<K,V>> entries = this.entrySet();
+    entries = entries.where(q -> predicate.test(q.getKey()));
+    ret = new EMap<>(entries);
+    return ret;
+  }
+
+  @Override
+  public IMap<K, V> whereValue(Predicate<V> predicate) {
+    EMap<K,V> ret;
+    ISet<Map.Entry<K,V>> entries = this.entrySet();
+    entries = entries.where(q -> predicate.test(q.getValue()));
+    ret = new EMap<>(entries);
+    return ret;
   }
 
   public V get(K key) {
@@ -48,46 +73,50 @@ public class EMap<K, V> implements IMap<K,V> {
       return inner.get(key);
   }
 
-  @Override
-  public V add(K key, V value) {
-    return inner.put(key, value);
+  public ISet<K> keySet() {
+    return new ESet(inner.keySet());
   }
 
-  public V remove(Object key) {
+  public ICollection<V> values() {
+    return new EList<>(inner.values());
+  }
+
+  public ISet<Map.Entry<K, V>> entrySet() {
+    return new ESet<Map.Entry<K, V>>(inner.entrySet());
+  }
+
+  @Override
+  public void add(K key, V value) {
+    inner.put(key, value);
+  }
+
+  public void remove(Object key) {
     if (inner.containsKey(key) == false)
       throw new NoSuchKeyException(key);
     else
-      return inner.remove(key);
+      inner.remove(key);
   }
 
-  public V tryRemove(Object key) {
+  public void tryRemove(Object key) {
     if (inner.containsKey(key))
-      return inner.remove(key);
-    else
-      return null;
+      inner.remove(key);
   }
 
   @Override
-  public void addAll(Map<? extends K, ? extends V> m) {
+  public void add(Map<? extends K, ? extends V> m) {
     inner.putAll(m);
+  }
+
+  @Override
+  public void add(Map.Entry<? extends K, ? extends V> m) {
+
   }
 
   public void clear() {
     inner.clear();
   }
 
-  public Set<K> keySet() {
-    return inner.keySet();
-  }
-
-  public Collection<V> values() {
-    return inner.values();
-  }
-
-  public Set<Map.Entry<K, V>> entrySet() {
-    return inner.entrySet();
-  }
-
+  @Override
   public int hashCode() {
     return inner.hashCode();
   }
@@ -95,5 +124,10 @@ public class EMap<K, V> implements IMap<K,V> {
   @Override
   public boolean equals(Object o) {
     return inner.equals(o);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("EMap{%d items}", this.size());
   }
 }

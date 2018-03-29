@@ -9,6 +9,8 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void add(T[] items);
 
+  void insert(int index, T item);
+
   void set(int index, T item);
 
   void removeAt(int index);

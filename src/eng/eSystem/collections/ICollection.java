@@ -20,7 +20,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   int count(Predicate<T> predicate);
 
-  boolean contains(T item);
+  boolean isEmpty();
 
-  void forEach(Action<T> action);
+  boolean contains(T item);
 }

@@ -204,19 +204,32 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public boolean isEmpty() {
+    return this.inner.isEmpty();
+  }
+
+  @Override
   public boolean contains(T item) {
     return this.inner.contains(item);
   }
 
   @Override
-  public void forEach(Action<T> action) {
-    for (T t : inner) {
-      action.apply(t);
-    }
+  public Iterator<T> iterator() {
+    return this.inner.iterator();
   }
 
   @Override
-  public Iterator<T> iterator() {
-    return this.inner.iterator();
+  public String toString() {
+    return String.format("ESet{%d items}", this.size());
+  }
+
+  @Override
+  public int hashCode() {
+    return inner.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return inner.equals(o);
   }
 }

@@ -1,7 +1,6 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
-import eng.eSystem.utilites.Action;
 import eng.eSystem.utilites.Selector;
 
 import java.util.ArrayList;
@@ -22,6 +21,11 @@ public class EList<T> implements IList<T> {
 
   public EList(Iterable<? extends T> elements) {
     this(DEFAULT_CLASS, elements);
+  }
+
+  public EList(T[] elements) {
+    this(DEFAULT_CLASS, null);
+    this.add(elements);
   }
 
   public EList() {
@@ -57,6 +61,11 @@ public class EList<T> implements IList<T> {
     for (T item : items) {
       inner.add(item);
     }
+  }
+
+  @Override
+  public void insert(int index, T item) {
+    this.inner.add(index,item);
   }
 
   @Override
@@ -249,19 +258,32 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public boolean isEmpty() {
+    return this.inner.isEmpty();
+  }
+
+  @Override
   public boolean contains(T item) {
     return this.inner.contains(item);
   }
 
   @Override
-  public void forEach(Action<T> action) {
-    for (T t : inner) {
-      action.apply(t);
-    }
+  public Iterator<T> iterator() {
+    return inner.iterator();
   }
 
   @Override
-  public Iterator<T> iterator() {
-    return inner.iterator();
+  public String toString() {
+    return String.format("EList{%d items}", this.size());
+  }
+
+  @Override
+  public int hashCode() {
+    return inner.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return inner.equals(o);
   }
 }

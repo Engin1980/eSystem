@@ -65,4 +65,18 @@ public class ConversionUtils {
     }
     return ret;
   }
+
+  public static boolean isInstanceOf(Object value, Class ... types){
+    if (value == null) return false;
+
+    boolean ret = false;
+    for (Class type : types) {
+      if (type.isAssignableFrom(value.getClass()))
+      {
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
 }
