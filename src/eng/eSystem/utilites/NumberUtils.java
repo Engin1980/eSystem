@@ -52,6 +52,24 @@ public class NumberUtils {
     return min <= value && value <= max;
   }
 
+  public static boolean isInRange(double a, double value, double b){
+    boolean ret;
+    if (a <= b)
+      ret = isBetween(a, value, b);
+    else
+      ret = isBetween(b, value, a);
+    return ret;
+  }
+
+  public static boolean isInRangeInclusive(double a, double value, double b){
+    boolean ret;
+    if (a <= b)
+      ret = isBetweenOrEqual(a, value, b);
+    else
+      ret = isBetweenOrEqual(b, value, a);
+    return ret;
+  }
+
   public static double round(double value, int radix){
     double mult = Math.pow(10, radix);
     double tmp = value / mult;
