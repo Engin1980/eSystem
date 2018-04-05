@@ -286,4 +286,14 @@ public class EList<T> implements IList<T> {
   public boolean equals(Object o) {
     return inner.equals(o);
   }
+
+  @Override
+  public T getRandom(){
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    int index = (int) (Math.random() * this.size());
+    T ret = this.get(index);
+    return ret;
+  }
 }

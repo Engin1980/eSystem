@@ -2,10 +2,8 @@ package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.NoSuchKeyException;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 
 public class EMap<K, V> implements IMap<K, V> {
@@ -15,9 +13,9 @@ public class EMap<K, V> implements IMap<K, V> {
     this.inner = inner;
   }
 
-  public EMap(ISet<Map.Entry<K,V>> entries){
+  public EMap(ISet<Map.Entry<K, V>> entries) {
     this.inner = new HashMap<>();
-    entries.forEach(q->inner.put(q.getKey(), q.getValue()));
+    entries.forEach(q -> inner.put(q.getKey(), q.getValue()));
   }
 
   public EMap() {
@@ -43,8 +41,8 @@ public class EMap<K, V> implements IMap<K, V> {
 
   @Override
   public IMap<K, V> whereKey(Predicate<K> predicate) {
-    EMap<K,V> ret;
-    ISet<Map.Entry<K,V>> entries = this.entrySet();
+    EMap<K, V> ret;
+    ISet<Map.Entry<K, V>> entries = this.entrySet();
     entries = entries.where(q -> predicate.test(q.getKey()));
     ret = new EMap<>(entries);
     return ret;
@@ -52,8 +50,8 @@ public class EMap<K, V> implements IMap<K, V> {
 
   @Override
   public IMap<K, V> whereValue(Predicate<V> predicate) {
-    EMap<K,V> ret;
-    ISet<Map.Entry<K,V>> entries = this.entrySet();
+    EMap<K, V> ret;
+    ISet<Map.Entry<K, V>> entries = this.entrySet();
     entries = entries.where(q -> predicate.test(q.getValue()));
     ret = new EMap<>(entries);
     return ret;
@@ -86,7 +84,7 @@ public class EMap<K, V> implements IMap<K, V> {
   }
 
   @Override
-  public void add(K key, V value) {
+  public void set(K key, V value) {
     inner.put(key, value);
   }
 
@@ -103,12 +101,12 @@ public class EMap<K, V> implements IMap<K, V> {
   }
 
   @Override
-  public void add(Map<? extends K, ? extends V> m) {
+  public void set(Map<? extends K, ? extends V> m) {
     inner.putAll(m);
   }
 
   @Override
-  public void add(Map.Entry<? extends K, ? extends V> m) {
+  public void set(Map.Entry<? extends K, ? extends V> m) {
 
   }
 

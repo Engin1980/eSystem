@@ -36,4 +36,5 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   List<T> toList();
   void toList(List<T> target);
 
+  T getRandom();
 }

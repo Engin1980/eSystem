@@ -1,6 +1,7 @@
 package eng.eSystem.utilites;
 
 import com.sun.istack.internal.NotNull;
+import eng.eSystem.collections.IList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,30 @@ public class CollectionUtils {
     }
 
     return ret;
+  }
+
+  public static <T> boolean containsSameItems (IList<T> a, IList<T> b){
+    return containsSameItems(a.toList(), b.toList());
+  }
+
+  public static <T> boolean containsSameItems (List<T> a, List<T> b){
+    if (a.size() != b.size())
+      return false;
+
+    List<T> ac = new ArrayList<>(a);
+    List<T> bc = new ArrayList<>(b);
+
+    while (ac.size() > 0){
+      T it = ac.get(0);
+      if (bc.contains(it)){
+        ac.remove(it);
+        bc.remove(it);
+      }
+      else
+        return false;
+    }
+
+    return true;
   }
 
   /**
