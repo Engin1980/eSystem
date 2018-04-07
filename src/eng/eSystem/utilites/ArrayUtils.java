@@ -9,7 +9,7 @@ package eng.eSystem.utilites;
  *
  * @author Marek Vajgl
  */
-public class ArrayUtil {
+public class ArrayUtils {
 
   /**
    * Gets random element from the array. Array cannot be empty.
@@ -30,5 +30,16 @@ public class ArrayUtil {
     T ret = array[rnd];
     return ret;
 
+  }
+
+  public static <T> boolean contains(T[] array, T element){
+    boolean ret = false;
+    for (T t : array) {
+      if (t.equals(element)){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
   }
 }
