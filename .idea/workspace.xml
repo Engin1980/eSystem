@@ -8,7 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f240e1ed-8dae-46a8-aee4-3146d38663da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,117 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="IDistinctItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IDistinctItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArrayUtils.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EDistinctList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EDistinctList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-              <folding>
-                <element signature="class#Behavior#0;class#EDistinctList#0" />
-                <element signature="method#EDistinctList#0;class#EDistinctList#0" />
-                <element signature="method#add#0;class#EDistinctList#0" />
-                <element signature="method#add#1;class#EDistinctList#0" />
-                <element signature="method#add#2;class#EDistinctList#0" />
-                <element signature="method#insert#0;class#EDistinctList#0" />
-                <element signature="method#set#0;class#EDistinctList#0" />
-                <element signature="method#throwIfRequired#0;class#EDistinctList#0" />
-                <element signature="method#existsDistinctValue#0;class#EDistinctList#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CollectionUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/CollectionUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="81" column="22" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
-              <folding>
-                <element signature="method#tryGetFirst#0;class#CollectionUtils#0" />
-                <element signature="method#tryGetLast#0;class#CollectionUtils#0" />
-                <element signature="method#sum#0;class#CollectionUtils#0" />
-                <element signature="method#select#0;class#CollectionUtils#0" />
-                <element signature="method#where#0;class#CollectionUtils#0" />
-                <element signature="docComment;method#getRandom#0;class#CollectionUtils#0" />
-                <element signature="method#getRandom#0;class#CollectionUtils#0" />
-                <element signature="docComment;method#getRandom#1;class#CollectionUtils#0" />
-                <element signature="method#getRandom#1;class#CollectionUtils#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IReadOnlyList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2220">
-              <caret line="294" column="4" selection-start-line="294" selection-start-column="4" selection-end-line="294" selection-end-column="4" />
-              <folding>
-                <element signature="method#EList#4;class#EList#0" />
-                <element signature="method#add#1;class#EList#0" />
-                <element signature="method#add#2;class#EList#0" />
-                <element signature="method#remove#0;class#EList#0" />
-                <element signature="method#remove#1;class#EList#0" />
-                <element signature="method#remove#2;class#EList#0" />
-                <element signature="method#retain#0;class#EList#0" />
-                <element signature="method#where#0;class#EList#0" />
-                <element signature="method#tryGetFirst#0;class#EList#0" />
-                <element signature="method#tryGetLast#0;class#EList#0" />
-                <element signature="method#getLast#0;class#EList#0" />
-                <element signature="method#isAny#0;class#EList#0" />
-                <element signature="method#isAll#0;class#EList#0" />
-                <element signature="method#sum#0;class#EList#0" />
-                <element signature="method#min#0;class#EList#0" />
-                <element signature="method#max#0;class#EList#0" />
-                <element signature="method#count#0;class#EList#0" />
-                <element signature="method#select#0;class#EList#0" />
-                <element signature="e#5133#5134#0" expanded="true" />
-                <element signature="e#5170#5171#0" expanded="true" />
-                <element signature="e#5383#5384#0" expanded="true" />
-                <element signature="e#5445#5446#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -144,6 +35,9 @@
     <findStrings>
       <find>StringUtil</find>
       <find>as(</find>
+      <find>tryCo</find>
+      <find>tryConve</find>
+      <find>airpro</find>
     </findStrings>
     <replaceStrings>
       <replace>String</replace>
@@ -170,7 +64,6 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/JFrameUtils.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/ParseUtil.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/StringUtil.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/Selector.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/EStringBuilder.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/NoSuchKeyException.java" />
@@ -185,7 +78,6 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlySet.java" />
         <option value="$PROJECT_DIR$/test/eng/eSystem/collections/EListTest.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IList.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/ESet.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java" />
@@ -200,6 +92,8 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtils.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" />
       </list>
     </option>
   </component>
@@ -221,7 +115,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -263,6 +156,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -412,7 +306,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1554" height="916" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -424,7 +317,8 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30522087" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30923694" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24966533" />
       <window_info id="UI Designer" order="4" />
@@ -435,7 +329,6 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -446,13 +339,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/JFrameUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -625,13 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="53" selection-start-line="23" selection-start-column="53" selection-end-line="23" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ISet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -664,13 +543,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="77" column="7" selection-start-line="77" selection-start-column="7" selection-end-line="77" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -730,6 +602,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="23" column="61" lean-forward="true" selection-start-line="23" selection-start-column="61" selection-end-line="23" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/ConversionUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="63" column="3" lean-forward="true" selection-start-line="63" selection-start-column="3" selection-end-line="63" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IDistinctItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EDistinctList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+          <folding>
+            <element signature="class#Behavior#0;class#EDistinctList#0" />
+            <element signature="method#EDistinctList#0;class#EDistinctList#0" />
+            <element signature="method#add#0;class#EDistinctList#0" />
+            <element signature="method#add#1;class#EDistinctList#0" />
+            <element signature="method#add#2;class#EDistinctList#0" />
+            <element signature="method#insert#0;class#EDistinctList#0" />
+            <element signature="method#set#0;class#EDistinctList#0" />
+            <element signature="method#throwIfRequired#0;class#EDistinctList#0" />
+            <element signature="method#existsDistinctValue#0;class#EDistinctList#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/CollectionUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -764,7 +682,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2220">
+        <state relative-caret-position="700">
           <caret line="294" column="4" selection-start-line="294" selection-start-column="4" selection-end-line="294" selection-end-column="4" />
           <folding>
             <element signature="method#EList#4;class#EList#0" />
@@ -793,35 +711,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EDistinctList.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_60/javafx-src.zip!/com/sun/javafx/iio/png/PNGImageLoader2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-          <folding>
-            <element signature="class#Behavior#0;class#EDistinctList#0" />
-            <element signature="method#EDistinctList#0;class#EDistinctList#0" />
-            <element signature="method#add#0;class#EDistinctList#0" />
-            <element signature="method#add#1;class#EDistinctList#0" />
-            <element signature="method#add#2;class#EDistinctList#0" />
-            <element signature="method#insert#0;class#EDistinctList#0" />
-            <element signature="method#set#0;class#EDistinctList#0" />
-            <element signature="method#throwIfRequired#0;class#EDistinctList#0" />
-            <element signature="method#existsDistinctValue#0;class#EDistinctList#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IDistinctItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/ArrayUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+        <state relative-caret-position="234">
+          <caret line="65" column="23" selection-start-line="65" selection-start-column="23" selection-end-line="65" selection-end-column="23" />
         </state>
       </provider>
     </entry>

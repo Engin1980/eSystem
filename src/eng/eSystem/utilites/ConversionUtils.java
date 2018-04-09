@@ -52,17 +52,14 @@ public class ConversionUtils {
     return ret;
   }
 
-  public static <T> T tryConvert(Object o) {
+  public static <T> T tryConvert(Object o, Class<T> type) {
     T ret;
-    if (o == null)
+
+    if (type.isAssignableFrom(o.getClass()))
+      ret = (T) o;
+    else
       ret = null;
-    else {
-      try {
-        ret = (T) o;
-      } catch (Throwable t) {
-        ret = null;
-      }
-    }
+
     return ret;
   }
 
