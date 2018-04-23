@@ -23,11 +23,11 @@ public interface IReadOnlyMap<K,V> {
 
   V tryGet(K key);
 
-  ISet<K> keySet();
+  ISet<K> getKeys();
 
-  ICollection<V> values();
+  ICollection<V> getValues();
 
-  ISet<Map.Entry<K, V>> entrySet();
+  ISet<Map.Entry<K, V>> getEntries();
 
   int hashCode();
 

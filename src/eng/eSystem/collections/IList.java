@@ -1,5 +1,7 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.utilites.Selector;
+
 import java.util.function.Predicate;
 
 public interface IList<T> extends IReadOnlyList<T> {
@@ -19,4 +21,6 @@ public interface IList<T> extends IReadOnlyList<T> {
   void remove(Predicate<T> predicate);
   void retain(Predicate<T> predicate);
   void clear();
+
+  <K extends Comparable<K>> void sort(Selector<T, K> selector);
 }

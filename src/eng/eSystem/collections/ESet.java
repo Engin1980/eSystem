@@ -232,4 +232,10 @@ public class ESet<T> implements ISet<T> {
   public boolean equals(Object o) {
     return inner.equals(o);
   }
+
+  @Override
+  public IList<T> toList() {
+    EList<T> ret = new EList<>(this.inner);
+    return ret;
+  }
 }

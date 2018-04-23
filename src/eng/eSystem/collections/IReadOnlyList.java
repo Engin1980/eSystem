@@ -37,4 +37,14 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   void toList(List<T> target);
 
   T getRandom();
+
+  T tryGetRandom();
+
+  int getIndexOf(T item);
+
+  Integer tryGetIndexOf(T item);
+
+  int getIndexOf(Predicate<T> predicate);
+
+  Integer tryGetIndexOf(Predicate<T> predicate);
 }

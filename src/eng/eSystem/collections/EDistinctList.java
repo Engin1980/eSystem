@@ -6,29 +6,32 @@ import eng.eSystem.utilites.Selector;
 public class EDistinctList<T> extends EList<T> {
 
   public enum Behavior {
+    ignore,
     exception,
     skip
   }
 
   private Selector<T, Object> selector;
-  private Behavior onDuplicitBehavior;
+  private Behavior onDuplicateBehavior;
 
-  public EDistinctList(Selector<T, Object> selector, Behavior onDuplicitBehavior) {
+  public EDistinctList(Selector<T, Object> selector, Behavior onDuplicateBehavior) {
     this.selector = selector;
-    this.onDuplicitBehavior = onDuplicitBehavior;
+    this.onDuplicateBehavior = onDuplicateBehavior;
   }
 
   public EDistinctList() {
     this(q -> q, Behavior.skip);
   }
 
-  public EDistinctList(Behavior onDuplicitBehavior) {
-    this(q -> q, onDuplicitBehavior);
+  public EDistinctList(Behavior onDuplicateBehavior) {
+    this(q -> q, onDuplicateBehavior);
   }
 
   @Override
   public void add(T item) {
-    boolean exists = existsDistinctValue(this.selector.getValue(item));
+    boolean exists = false;
+    if (onDuplicateBehavior != Behavior.ignore)
+      exists = existsDistinctValue(this.selector.getValue(item));
     if (exists)
       throwIfRequired(item);
     else
@@ -51,28 +54,82 @@ public class EDistinctList<T> extends EList<T> {
 
   @Override
   public void insert(int index, T item) {
-    boolean exists = existsDistinctValue(this.selector.getValue(item));
+    boolean exists = false;
+    if (onDuplicateBehavior != Behavior.ignore)
+      exists = existsDistinctValue(this.selector.getValue(item));
     if (exists)
       throwIfRequired(item);
-    else super.insert(index,item);
+    else super.insert(index, item);
   }
 
   @Override
   public void set(int index, T item) {
-    boolean exists = existsDistinctValue(this.selector.getValue(item));
+    boolean exists = false;
+    if (onDuplicateBehavior != Behavior.ignore)
+      exists = existsDistinctValue(this.selector.getValue(item));
     if (exists)
       throwIfRequired(item);
     else
       super.set(index, item);
   }
 
+  public Behavior getOnDuplicateBehavior() {
+    return onDuplicateBehavior;
+  }
+
+  public void setOnDuplicitBehavior(Behavior onDuplicitBehavior, boolean reCheckDuplicits) {
+    this.onDuplicateBehavior = onDuplicitBehavior;
+    if (reCheckDuplicits)
+      recheckDuplicates();
+  }
+
+  /**
+   * Check for duplicit data and behave accordingly to {@link #getOnDuplicateBehavior()} property value.
+   * If {@link #getOnDuplicateBehavior()} is "ignore", then nothing is done.
+   */
+  public void recheckDuplicates() {
+    if (onDuplicateBehavior == Behavior.ignore) return;
+
+    for (int i = this.size() - 1; i >= 0; i--) {
+      Object tmA;
+      if (this.get(i) == null)
+        tmA = null;
+      else
+        tmA = this.selector.getValue(this.get(i));
+
+      for (int j = 0; j < i; j++) {
+        Object tmB;
+        if (this.get(j) == null)
+          tmB = null;
+        else
+          tmB = this.selector.getValue(this.get(j));
+
+        boolean isDuplicity;
+        if (tmA == null) {
+          if (tmB == null) isDuplicity = true;
+          else isDuplicity = false;
+        } else {
+          isDuplicity = tmA.equals(tmB);
+        }
+        if (isDuplicity){
+          if (onDuplicateBehavior == Behavior.skip) {
+            this.removeAt(i);
+            continue;
+          } else {
+            throwIfRequired(this.get(i));
+          }
+        }
+      }
+    }
+  }
+
   private void throwIfRequired(T item) {
-    if (onDuplicitBehavior == Behavior.exception)
-      throw new DuplicitItemException("The item " +item + " represents value " + this.selector.getValue(item) + " which already exists in the list.");
+    if (onDuplicateBehavior == Behavior.exception)
+      throw new DuplicitItemException("The item " + item + " represents value " + this.selector.getValue(item) + " which already exists in the list.");
   }
 
   private boolean existsDistinctValue(Object d) {
-    boolean ret = this.isAny(q -> this.selector.getValue(q).equals(d));
+    boolean ret = this.isAny(q -> q != null && this.selector.getValue(q).equals(d));
     return ret;
   }
 }

@@ -1,9 +1,11 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.utilites.ObjectUtils;
 import eng.eSystem.utilites.Selector;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -36,7 +38,7 @@ public class EList<T> implements IList<T> {
     try {
       this.inner = (List) innerType.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
-      throw new RuntimeException("Unable to create a new instance.");
+      throw new RuntimeException("Unable to create a new instance.", e);
     }
     if (content != null)
       for (T t : content) {
@@ -65,7 +67,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void insert(int index, T item) {
-    this.inner.add(index,item);
+    this.inner.add(index, item);
   }
 
   @Override
@@ -113,6 +115,32 @@ public class EList<T> implements IList<T> {
   @Override
   public void clear() {
     this.inner.clear();
+  }
+
+  @Override
+  public <K extends Comparable<K>> void sort(Selector<T, K> selector) {
+
+    int nullCount = 0;
+    EMap<K, T> tmp = new EMap<>();
+    for (T t : inner) {
+      if (t == null)
+        nullCount++;
+      else
+        tmp.set(selector.getValue(t), t);
+    }
+
+    List<K> lst = tmp.getKeys().toList().toList();
+    Collections.sort(lst);
+
+    this.inner.clear();
+    for (int i = 0; i < nullCount; i++) {
+      this.inner.add(null);
+    }
+
+    for (K k : lst) {
+      T val = tmp.get(k);
+      this.inner.add(val);
+    }
   }
 
   @Override
@@ -183,12 +211,20 @@ public class EList<T> implements IList<T> {
 
   @Override
   public boolean isAny(Predicate<T> predicate) {
+    if (predicate == null) {
+      throw new IllegalArgumentException("Value of {predicate} cannot not be null.");
+    }
+
     boolean ret = this.inner.stream().anyMatch(predicate);
     return ret;
   }
 
   @Override
   public boolean isAll(Predicate<T> predicate) {
+    if (predicate == null) {
+      throw new IllegalArgumentException("Value of {predicate} cannot not be null.");
+    }
+
     boolean ret = this.inner.stream().allMatch(predicate);
     return ret;
   }
@@ -253,6 +289,68 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public T getRandom() {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    int index = (int) (Math.random() * this.size());
+    T ret = this.get(index);
+    return ret;
+  }
+
+  @Override
+  public T tryGetRandom() {
+    T ret;
+    if (this.isEmpty())
+      ret = null;
+    else
+      ret = this.getRandom();
+    return ret;
+  }
+
+  @Override
+  public int getIndexOf(T item) {
+    Integer ret = tryGetIndexOf(item);
+    if (ret == null)
+      throw new ElementNotFoundException();
+    else
+      return ret;
+  }
+
+  @Override
+  public Integer tryGetIndexOf(T item) {
+    Integer ret = null;
+    for (int i = 0; i < this.inner.size(); i++) {
+      if (ObjectUtils.equals(this.inner.get(i), item)) {
+        ret = i;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  @Override
+  public int getIndexOf(Predicate<T> predicate) {
+    Integer ret = tryGetIndexOf(predicate);
+    if (ret == null)
+      throw new ElementNotFoundException();
+    else
+      return ret;
+  }
+
+  @Override
+  public Integer tryGetIndexOf(Predicate<T> predicate) {
+    Integer ret = null;
+    for (int i = 0; i < this.inner.size(); i++) {
+      if (predicate.test(this.inner.get(i))) {
+        ret = i;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  @Override
   public int size() {
     return inner.size();
   }
@@ -273,11 +371,6 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public String toString() {
-    return String.format("EList{%d items}", this.size());
-  }
-
-  @Override
   public int hashCode() {
     return inner.hashCode();
   }
@@ -288,12 +381,8 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public T getRandom(){
-    if (this.isEmpty())
-      throw new ElementNotFoundException();
-
-    int index = (int) (Math.random() * this.size());
-    T ret = this.get(index);
-    return ret;
+  public String toString() {
+    return String.format("EList{%d items}", this.size());
   }
+
 }

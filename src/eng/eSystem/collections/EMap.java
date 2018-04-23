@@ -42,7 +42,7 @@ public class EMap<K, V> implements IMap<K, V> {
   @Override
   public IMap<K, V> whereKey(Predicate<K> predicate) {
     EMap<K, V> ret;
-    ISet<Map.Entry<K, V>> entries = this.entrySet();
+    ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getKey()));
     ret = new EMap<>(entries);
     return ret;
@@ -51,7 +51,7 @@ public class EMap<K, V> implements IMap<K, V> {
   @Override
   public IMap<K, V> whereValue(Predicate<V> predicate) {
     EMap<K, V> ret;
-    ISet<Map.Entry<K, V>> entries = this.entrySet();
+    ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getValue()));
     ret = new EMap<>(entries);
     return ret;
@@ -71,15 +71,18 @@ public class EMap<K, V> implements IMap<K, V> {
       return inner.get(key);
   }
 
-  public ISet<K> keySet() {
+  @Override
+  public ISet<K> getKeys() {
     return new ESet(inner.keySet());
   }
 
-  public ICollection<V> values() {
+  @Override
+  public ICollection<V> getValues() {
     return new EList<>(inner.values());
   }
 
-  public ISet<Map.Entry<K, V>> entrySet() {
+  @Override
+  public ISet<Map.Entry<K, V>> getEntries() {
     return new ESet<Map.Entry<K, V>>(inner.entrySet());
   }
 

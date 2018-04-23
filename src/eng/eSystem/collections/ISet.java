@@ -16,4 +16,5 @@ public interface ISet<T> extends  IReadOnlySet<T> {
   void retain(Predicate<T> predicate);
   void clear();
 
+  IList<T> toList();
 }
