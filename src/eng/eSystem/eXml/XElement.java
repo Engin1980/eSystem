@@ -1,19 +1,17 @@
 package eng.eSystem.eXml;
 
-import eng.eSystem.collections.EList;
-import eng.eSystem.collections.EMap;
-import eng.eSystem.collections.IList;
-import eng.eSystem.collections.IMap;
+import eng.eSystem.EStringBuilder;
+import eng.eSystem.collections.*;
+import eng.eSystem.exceptions.EXmlRuntimeException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class XElement {
   private final String name;
   private final IList<XElement> children = new EList<>();
   private final IMap<String, String> attributes = new EMap<>();
+  private XElement parent;
   private String content;
 
   public static XElement fromElement(Element el) {
@@ -24,7 +22,7 @@ public class XElement {
       Node n = el.getAttributes().item(i);
       String name = n.getNodeName();
       String value = n.getNodeValue();
-      ret.getAttributes().set(name, value);
+      ret.setAttribute(name, value);
     }
 
     // children
@@ -32,11 +30,11 @@ public class XElement {
       Node n = el.getChildNodes().item(i);
       if (n.getNodeType() != Node.ELEMENT_NODE) continue;
       XElement tmp = XElement.fromElement((Element) n);
-      ret.getChildren().add(tmp);
+      ret.addElement(tmp);
     }
 
     // direct content
-    if (ret.getChildren().isEmpty()){
+    if (ret.getChildren().isEmpty()) {
       String value = el.getTextContent();
       ret.setContent(value);
     } else {
@@ -55,15 +53,43 @@ public class XElement {
     this.content = content;
   }
 
+  public XElement getParent() {
+    return parent;
+  }
+
+  private void setParent(XElement parent) {
+    this.parent = parent;
+  }
+
   public String getName() {
     return name;
   }
 
-  public IList<XElement> getChildren() {
+  public void addElement(XElement childElement) {
+    if (childElement.getParent() != null)
+      throw new EXmlRuntimeException("Element " + childElement + " has already a parent " + childElement.getParent() + ".");
+    childElement.setParent(this);
+    this.children.add(childElement);
+  }
+
+  public void setAttribute(String attributeName, String attributeValue) {
+    this.attributes.set(attributeName, attributeValue);
+  }
+
+  public void removeElement(XElement childElement) {
+    this.children.remove(childElement);
+    childElement.setParent(null);
+  }
+
+  public void removeAttribute(String attributeName) {
+    this.attributes.remove(attributeName);
+  }
+
+  public IReadOnlyList<XElement> getChildren() {
     return children;
   }
 
-  public IMap<String, String> getAttributes() {
+  public IReadOnlyMap<String, String> getAttributes() {
     return attributes;
   }
 
@@ -77,7 +103,7 @@ public class XElement {
 
   @Override
   public String toString() {
-    return sf("<%s>", this.name);
+    return toString(false);
   }
 
   public Element toElement(Document doc) {
@@ -90,7 +116,7 @@ public class XElement {
 
     if (this.children.isEmpty())
       ret.setTextContent(this.getContent());
-     else {
+    else {
       for (XElement child : this.children) {
         Element tmp = child.toElement(doc);
         ret.appendChild(tmp);
@@ -98,5 +124,45 @@ public class XElement {
     }
 
     return ret;
+  }
+
+  public String toXPath() {
+    EStringBuilder sb = new EStringBuilder();
+
+    XElement el = this;
+    while (el != null) {
+      sb.insert(0, "/" + el.getName());
+      el = el.getParent();
+    }
+
+    return sb.toString();
+  }
+
+  public String toXmlPath(boolean withAttributes) {
+    EStringBuilder sb = new EStringBuilder();
+    boolean isFirst = true;
+
+    XElement el = this;
+    while (el != null) {
+      if (isFirst)
+        isFirst = false;
+      else
+        sb.insert(0, "/");
+      sb.insert(0, el.toString(withAttributes));
+      el = el.getParent();
+    }
+
+    return sb.toString();
+  }
+
+  public String toString(boolean withAttributes) {
+    EStringBuilder ret = new EStringBuilder();
+    ret.append("<").append(this.getName());
+    if (withAttributes)
+      for (String key : attributes.getKeys()) {
+        ret.append(" ").append(key).append(this.attributes.get(key));
+      }
+    ret.append(">");
+    return ret.toString();
   }
 }

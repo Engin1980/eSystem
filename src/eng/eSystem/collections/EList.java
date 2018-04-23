@@ -81,11 +81,23 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public void remove(T item) {
+  public void tryRemove(T item) {
     if (item.getClass().equals(int.class)) {
       inner.remove((Integer) item);
     } else {
       inner.remove(item);
+    }
+  }
+
+  @Override
+  public void remove(T item) {
+    if (item.getClass().equals(int.class)) {
+      inner.remove((Integer) item);
+    } else {
+      if (inner.contains(item) == false)
+        throw new ElementNotFoundException(item);
+      else
+        inner.remove(item);
     }
   }
 
