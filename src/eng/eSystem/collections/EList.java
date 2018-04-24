@@ -1,5 +1,6 @@
 package eng.eSystem.collections;
 
+import com.sun.corba.se.impl.ior.IORTemplateListImpl;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.ObjectUtils;
 import eng.eSystem.utilites.Selector;
@@ -133,12 +134,16 @@ public class EList<T> implements IList<T> {
   public <K extends Comparable<K>> void sort(Selector<T, K> selector) {
 
     int nullCount = 0;
-    EMap<K, T> tmp = new EMap<>();
+    EMap<K, IList<T>> tmp = new EMap<>();
     for (T t : inner) {
       if (t == null)
         nullCount++;
-      else
-        tmp.set(selector.getValue(t), t);
+      else{
+        K key = selector.getValue(t);
+        if (tmp.containsKey(key) == false)
+          tmp.set(key, new EList<>());
+        tmp.get(key).add(t);
+      }
     }
 
     List<K> lst = tmp.getKeys().toList().toList();
@@ -150,8 +155,10 @@ public class EList<T> implements IList<T> {
     }
 
     for (K k : lst) {
-      T val = tmp.get(k);
-      this.inner.add(val);
+      IList<T> val = tmp.get(k);
+      for (T t : val) {
+        this.inner.add(t);
+      }
     }
   }
 

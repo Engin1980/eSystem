@@ -160,7 +160,7 @@ public class XElement {
     ret.append("<").append(this.getName());
     if (withAttributes)
       for (String key : attributes.getKeys()) {
-        ret.append(" ").append(key).append(this.attributes.get(key));
+        ret.append(" ").append(key).append("=\"").append(this.attributes.get(key)).append("\"");
       }
     ret.append(">");
     return ret.toString();
