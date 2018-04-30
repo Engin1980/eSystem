@@ -34,6 +34,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   <V> IList<V> select(Selector<T, V> selector);
 
   List<T> toList();
+
   void toList(List<T> target);
 
   T getRandom();
@@ -47,4 +48,6 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   int getIndexOf(Predicate<T> predicate);
 
   Integer tryGetIndexOf(Predicate<T> predicate);
+
+  IList<T> whereItemClassIs(Class clazz, boolean includeInheritance);
 }

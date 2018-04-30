@@ -7,6 +7,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import static eng.eSystem.utilites.FunctionShortcuts.sf;
+
 public class XElement {
   private final String name;
   private final IList<XElement> children = new EList<>();
@@ -76,6 +78,11 @@ public class XElement {
     this.attributes.set(attributeName, attributeValue);
   }
 
+  public String getAttribute(String name){
+    String ret = getAttributes().get(name);
+    return ret;
+  }
+
   public void removeElement(XElement childElement) {
     this.children.remove(childElement);
     childElement.setParent(null);
@@ -87,6 +94,23 @@ public class XElement {
 
   public IReadOnlyList<XElement> getChildren() {
     return children;
+  }
+
+  public IReadOnlyList<XElement> getChildren(String name) {
+    return children.where(q -> q.getName().equals(name));
+  }
+
+  public XElement getChild(String name) {
+    XElement ret;
+    IReadOnlyList<XElement> tmp = this.getChildren(name);
+    if (tmp.size() == 0) {
+      throw new EXmlRuntimeException("Element with name " + name + " not found.");
+    } else if (tmp.size() > 1) {
+      throw new EXmlRuntimeException("Element with name " + name + " has multiple occurrences.");
+    } else {
+      ret = tmp.get(0);
+    }
+    return ret;
   }
 
   public IReadOnlyMap<String, String> getAttributes() {
@@ -107,11 +131,20 @@ public class XElement {
   }
 
   public Element toElement(Document doc) {
-    Element ret = doc.createElement(this.name);
+    Element ret;
+    try {
+      ret = doc.createElement(this.name);
+    } catch (Exception ex) {
+      throw new EXmlRuntimeException("Failed to create an element of name " + this.name + ".", ex);
+    }
 
     for (String key : this.attributes.getKeys()) {
       String val = this.attributes.get(key);
-      ret.setAttribute(key, val);
+      try {
+        ret.setAttribute(key, val);
+      } catch (Exception ex) {
+        throw new EXmlRuntimeException(sf("Failed to set attribute %s=\"%s\" to element %s.", key, val, this.name));
+      }
     }
 
     if (this.children.isEmpty())

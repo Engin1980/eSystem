@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.NoSuchKeyException;
+import eng.eSystem.utilites.Selector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +85,21 @@ public class EMap<K, V> implements IMap<K, V> {
   @Override
   public ISet<Map.Entry<K, V>> getEntries() {
     return new ESet<Map.Entry<K, V>>(inner.entrySet());
+  }
+
+  @Override
+  public <Knew, Vnew> IMap<Knew, Vnew> select(Selector<K, Knew> keySelector, Selector<V, Vnew> valueSelector) {
+    IMap<Knew, Vnew> ret = new EMap<>();
+
+    for (K key : this.getKeys()) {
+      Knew newKey;
+      Vnew newValue;
+      newKey = keySelector.getValue(key);
+      newValue = valueSelector.getValue(this.get(key));
+      ret.set(newKey, newValue);
+    }
+
+    return ret;
   }
 
   @Override

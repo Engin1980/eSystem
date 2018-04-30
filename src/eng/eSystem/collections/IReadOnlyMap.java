@@ -1,5 +1,7 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.utilites.Selector;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +30,8 @@ public interface IReadOnlyMap<K,V> {
   ICollection<V> getValues();
 
   ISet<Map.Entry<K, V>> getEntries();
+
+  <Knew, Vnew> IMap<Knew, Vnew> select(Selector<K, Knew> keySelector, Selector<V, Vnew> valueSelector);
 
   int hashCode();
 

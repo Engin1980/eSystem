@@ -1,6 +1,5 @@
 package eng.eSystem.collections;
 
-import com.sun.corba.se.impl.ior.IORTemplateListImpl;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.ObjectUtils;
 import eng.eSystem.utilites.Selector;
@@ -138,7 +137,7 @@ public class EList<T> implements IList<T> {
     for (T t : inner) {
       if (t == null)
         nullCount++;
-      else{
+      else {
         K key = selector.getValue(t);
         if (tmp.containsKey(key) == false)
           tmp.set(key, new EList<>());
@@ -366,6 +365,16 @@ public class EList<T> implements IList<T> {
         break;
       }
     }
+    return ret;
+  }
+
+  @Override
+  public IList<T> whereItemClassIs(Class clazz, boolean includeInheritance) {
+    IList<T> ret;
+    if (includeInheritance)
+      ret = this.where(q -> clazz.isAssignableFrom(q.getClass()));
+    else
+      ret = this.where(q -> q.getClass().equals(clazz));
     return ret;
   }
 
