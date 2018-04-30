@@ -4,6 +4,7 @@ import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.ObjectUtils;
 import eng.eSystem.utilites.Selector;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -298,6 +299,15 @@ public class EList<T> implements IList<T> {
   public List<T> toList() {
     List<T> ret = new ArrayList<>();
     ret.addAll(this.inner);
+    return ret;
+  }
+
+  @Override
+  public T[] toArray(Class<T> clazz) {
+    T[] ret = (T[]) Array.newInstance(clazz, this.size());
+    for (int i = 0; i < this.size(); i++) {
+      ret[i] = get(i);
+    }
     return ret;
   }
 
