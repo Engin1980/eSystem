@@ -129,7 +129,20 @@ public class EDistinctList<T> extends EList<T> {
   }
 
   private boolean existsDistinctValue(Object d) {
-    boolean ret = this.isAny(q -> q != null && this.selector.getValue(q).equals(d));
+    boolean ret = this.isAny(q -> {
+      boolean rr;
+      if (q == null)
+        rr = false;
+      else {
+        Object a = this.selector.getValue(q);
+        if (a == null){
+          throw new IllegalArgumentException("Distinct list selector cannot return null. Selector returned null for object " + q);
+        } else {
+          rr = a.equals(d);
+        }
+      }
+      return rr;
+    } );
     return ret;
   }
 }

@@ -23,7 +23,7 @@ public class EventAnonymous<TEventArgs>{
    * Registers a new liIEventListenerAnonymousevent.
    * @param listener An instance of listener if type {@linkplain IEventListenerAnonymous}.
    */
-  public void add(IEventListenerAnonymous listener){
+  public void add(IEventListenerAnonymous<TEventArgs> listener){
     inner.add(listener);
   }
 
@@ -31,7 +31,7 @@ public class EventAnonymous<TEventArgs>{
    * Unregisters a listener of the event. If the listener has not been registered, nothing happens.
    * @param listener An instance of listener previously registered.
    */
-  public void remove(IEventListenerAnonymous listener){
+  public void remove(IEventListenerAnonymous<TEventArgs> listener){
     if (inner.contains(listener))
       inner.remove(listener);
   }
