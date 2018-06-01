@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.exceptions.EIllegalArgumentException;
 import eng.eSystem.utilites.Action;
 import eng.eSystem.utilites.Selector;
 
@@ -93,6 +94,12 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public IList<T> toList() {
+    EList<T> ret = new EList<>(this.inner);
+    return ret;
+  }
+
+  @Override
   public ISet<T> where(Predicate<T> predicate) {
     ESet<T> ret = new ESet<>();
     ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
@@ -147,6 +154,18 @@ public class ESet<T> implements ISet<T> {
   @Override
   public void toSet(Set<T> target) {
     target.addAll(this.inner);
+  }
+
+  @Override
+  public ISet<T> first(int count) {
+    if (count < 0)
+      throw new EIllegalArgumentException("count", count, "Value must be greater or equal 0.");
+    ISet<T> ret = new ESet<>();
+    for (T t : this) {
+      if (ret.size() == count) break;
+      ret.add(t);
+    }
+    return ret;
   }
 
   @Override
@@ -219,11 +238,6 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public String toString() {
-    return String.format("ESet{%d items}", this.size());
-  }
-
-  @Override
   public int hashCode() {
     return inner.hashCode();
   }
@@ -234,8 +248,7 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public IList<T> toList() {
-    EList<T> ret = new EList<>(this.inner);
-    return ret;
+  public String toString() {
+    return String.format("ESet{%d items}", this.size());
   }
 }

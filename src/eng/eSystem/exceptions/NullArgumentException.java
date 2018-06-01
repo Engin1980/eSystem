@@ -2,13 +2,13 @@ package eng.eSystem.exceptions;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
-public class NulArgumentException extends IllegalArgumentException {
+public class NullArgumentException extends IllegalArgumentException {
 
-  public NulArgumentException(String argumentName) {
+  public NullArgumentException(String argumentName) {
     super(sf("Argument '%s' is null.", argumentName));
   }
 
-  public NulArgumentException(String argumentName, Throwable cause) {
+  public NullArgumentException(String argumentName, Throwable cause) {
     super(sf("Argument '%s' is null.", argumentName), cause);
   }
 }

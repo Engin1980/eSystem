@@ -18,4 +18,6 @@ public interface IReadOnlySet<T> extends ICollection<T> {
   Set<T> toSet();
 
   void toSet(Set<T> target);
+
+  ISet<T> first(int count);
 }

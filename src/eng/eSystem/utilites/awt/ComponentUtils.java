@@ -22,7 +22,7 @@ public class ComponentUtils {
     Container container = ConversionUtils.tryConvert(top, Container.class);
     if (container != null) {
       for (Component component : container.getComponents()) {
-        adjustComponentTree(component, adjuster);
+        adjustComponentTree(component, selector, adjuster);
       }
     }
   }

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public interface IReadOnlyMap<K,V> {
+public interface IReadOnlyMap<K,V> extends Iterable<Map.Entry<K, V>> {
 
   int size();
 

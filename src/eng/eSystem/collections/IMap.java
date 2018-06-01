@@ -14,7 +14,11 @@ public interface IMap<K,V> extends IReadOnlyMap<K,V> {
 
   void set(Map<? extends K, ? extends V> m);
 
+  void set(IMap<K, ? extends V> m);
+
   void set(Map.Entry<? extends K, ? extends V> m);
+
+  void set(IList<Map.Entry<? extends K, ? extends V>> m);
 
   void clear();
 

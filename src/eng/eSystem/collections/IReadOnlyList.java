@@ -52,4 +52,10 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   Integer tryGetIndexOf(Predicate<T> predicate);
 
   IList<T> whereItemClassIs(Class clazz, boolean includeInheritance);
+
+  IList<T> distinct();
+
+  <K> IList<T> distinct(Selector<T,K> selector);
+
+  <K> ISet<T> getDuplicateItems(Selector<T,K> selector);
 }

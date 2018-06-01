@@ -4,6 +4,7 @@ import eng.eSystem.collections.exceptions.NoSuchKeyException;
 import eng.eSystem.utilites.Selector;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -126,11 +127,24 @@ public class EMap<K, V> implements IMap<K, V> {
 
   @Override
   public void set(Map.Entry<? extends K, ? extends V> m) {
+    this.set(m.getKey(), m.getValue());
+  }
 
+  @Override
+  public void set(IList<Map.Entry<? extends K, ? extends V>> m) {
+    m.forEach(q -> this.set(q));
   }
 
   public void clear() {
     inner.clear();
+  }
+
+  @Override
+  public void set(IMap<K, ? extends V> m) {
+    for (K k : m.getKeys()) {
+      V v = m.get(k);
+      this.set(k, v);
+    }
   }
 
   @Override
@@ -146,5 +160,11 @@ public class EMap<K, V> implements IMap<K, V> {
   @Override
   public String toString() {
     return String.format("EMap{%d items}", this.size());
+  }
+
+  @Override
+  public Iterator<Map.Entry<K, V>> iterator() {
+    ISet<Map.Entry<K,V>> entries = this.getEntries();
+    return entries.iterator();
   }
 }

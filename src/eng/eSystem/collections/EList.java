@@ -389,6 +389,41 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public IList<T> distinct() {
+    return distinct(q -> q);
+  }
+
+  @Override
+  public <K> IList<T> distinct(Selector<T, K> selector) {
+    ISet<K> known = new ESet<>();
+    IList<T> ret = new EList<>();
+    for (T t : this) {
+      K v = selector.getValue(t);
+      if (known.contains(v)) continue;
+      else {
+        known.add(v);
+        ret.add(t);
+      }
+    }
+    return ret;
+  }
+
+  @Override
+  public <K> ISet<T> getDuplicateItems(Selector<T, K> selector) {
+    ISet<K> known = new ESet<>();
+    ISet<T> ret = new ESet<>();
+    for (T t : this) {
+      K v = selector.getValue(t);
+      if (!known.contains(v)){
+        known.add(v);
+      } else if (!ret.contains(t)){
+        ret.add(t);
+      }
+    }
+    return ret;
+  }
+
+  @Override
   public int size() {
     return inner.size();
   }
