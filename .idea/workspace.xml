@@ -7,16 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f240e1ed-8dae-46a8-aee4-3146d38663da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/eng/eSystem/exceptions/EIllegalArgumentException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/ESet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/ESet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlySet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlySet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/exceptions/NulArgumentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/exceptions/NullArgumentException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/events/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -29,60 +23,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
+      <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/events/Event.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="421" selection-start-line="421" selection-end-line="421" />
+            <state relative-caret-position="240">
+              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
               <folding>
-                <element signature="e#8150#8151#0" expanded="true" />
-                <element signature="e#8183#8184#0" expanded="true" />
+                <element signature="docComment;class#Event#0" />
+                <element signature="docComment;method#Event#0;class#Event#0" />
+                <element signature="docComment;method#add#0;class#Event#0" />
+                <element signature="docComment;method#remove#0;class#Event#0" />
+                <element signature="method#remove#0;class#Event#0" />
+                <element signature="method#removeAsync#0;class#Event#0" />
+                <element signature="docComment;method#raise#0;class#Event#0" />
+                <element signature="method#raise#0;class#Event#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IReadOnlyMap.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IReadOnlyMap.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+              <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ComponentUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
+      <file leaf-file-name="IMap.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IReadOnlyList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="59" column="56" lean-forward="true" selection-start-line="59" selection-start-column="56" selection-end-line="59" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IReadOnlySet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlySet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ESet.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ESet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="162" column="31" lean-forward="true" selection-start-line="162" selection-start-column="31" selection-end-line="162" selection-end-column="31" />
+            <state relative-caret-position="60">
+              <caret line="6" column="40" lean-forward="true" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -90,20 +63,8 @@
       <file leaf-file-name="EMap.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1950">
-              <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="209">
+              <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -143,7 +104,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EReadOnlyList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EArrayList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/NumberUtil.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/Action.java" />
@@ -184,9 +144,6 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EDistinctList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/events/EventAnonymous.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlySet.java" />
@@ -194,6 +151,10 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/exceptions/NullArgumentException.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/exceptions/EIllegalArgumentException.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/ESet.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/events/Event.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java" />
       </list>
     </option>
   </component>
@@ -214,6 +175,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -237,7 +200,14 @@
               <item name="eng.eSystem" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="eSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="exceptions" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="eng.eSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eng.eSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="eSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="utilites" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="eng.eSystem" type="b2602c69:ProjectViewProjectNode" />
@@ -268,8 +238,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -453,7 +421,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966533" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25635877" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24966533" />
       <window_info id="UI Designer" order="4" />
@@ -480,13 +448,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/exceptions/DuplicitItemException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -729,47 +690,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1950">
-          <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
+        <state relative-caret-position="5835">
           <caret line="421" selection-start-line="421" selection-end-line="421" />
           <folding>
             <element signature="e#8150#8151#0" expanded="true" />
@@ -780,7 +710,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
+        <state relative-caret-position="840">
           <caret line="59" column="56" lean-forward="true" selection-start-line="59" selection-start-column="56" selection-end-line="59" selection-end-column="56" />
         </state>
       </provider>
@@ -810,6 +740,55 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
           <caret line="162" column="31" lean-forward="true" selection-start-line="162" selection-start-column="31" selection-end-line="162" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/events/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding>
+            <element signature="docComment;class#Event#0" />
+            <element signature="docComment;method#Event#0;class#Event#0" />
+            <element signature="docComment;method#add#0;class#Event#0" />
+            <element signature="docComment;method#remove#0;class#Event#0" />
+            <element signature="method#remove#0;class#Event#0" />
+            <element signature="method#removeAsync#0;class#Event#0" />
+            <element signature="docComment;method#raise#0;class#Event#0" />
+            <element signature="method#raise#0;class#Event#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="40" lean-forward="true" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/utilites/awt/ComponentUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
+          <folding>
+            <element signature="e#922#923#0" expanded="true" />
+            <element signature="e#968#969#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
         </state>
       </provider>
     </entry>

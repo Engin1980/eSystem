@@ -25,6 +25,8 @@ public interface IReadOnlyMap<K,V> extends Iterable<Map.Entry<K, V>> {
 
   V tryGet(K key);
 
+  V tryGet(K key, V defaultValue);
+
   ISet<K> getKeys();
 
   ICollection<V> getValues();

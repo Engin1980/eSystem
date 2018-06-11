@@ -74,6 +74,14 @@ public class EMap<K, V> implements IMap<K, V> {
   }
 
   @Override
+  public V tryGet(K key, V defaultValue) {
+    V ret = this.tryGet(key);
+    if (ret == null)
+      ret = defaultValue;
+    return ret;
+  }
+
+  @Override
   public ISet<K> getKeys() {
     return new ESet(inner.keySet());
   }
