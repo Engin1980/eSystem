@@ -7,42 +7,64 @@ import java.util.List;
  * Represents simple event without argument.
  * @param <TSource> A source - sender of the event.
  */
-public class EventSimple<TSource>{
+public class EventSimple<TSource> extends  EventBase<IEventListenerSimple<TSource>>{
 
   private final TSource source;
-  private List<IEventListenerSimple<TSource>> inner = new ArrayList();
 
   /**
    * Creates new instance of event.
-   * @param source Parent object which defines this event. Used as a sender of the event. Typically "this
+   *
+   * @param source Parent object which defines this event. Used as a sender of the event. Typically "this".
    */
   public EventSimple(TSource source) {
+    super();
     this.source = source;
   }
 
   /**
    * Registers a new listener ot the event.
-   * @param listener An instance of listener if type {@linkplain IEventListenerSimple}.
+   *
+   * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public void add(IEventListenerSimple listener){
-    inner.add(listener);
+  public int add(IEventListenerSimple<TSource> listener) {
+    return super.add(listener);
+  }
+
+  /* Registers a new listener ot the event.
+   * @param listener An instance of listener if type {@linkplain IEventListener}.
+   */
+  public int addAsync(IEventListenerSimple<TSource> listener) {
+    return super.addAsync(listener);
   }
 
   /**
    * Unregisters a listener of the event. If the listener has not been registered, nothing happens.
+   *
    * @param listener An instance of listener previously registered.
    */
-  public void remove(IEventListenerSimple listener){
-    if (inner.contains(listener))
-      inner.remove(listener);
+  public void remove(IEventListenerSimple<TSource> listener) {
+    super.remove(listener);
+  }
+
+  /**
+   * Unregisters a listener of the event. If the listener has not been registered, nothing happens.
+   *
+   * @param listener An instance of listener previously registered.
+   */
+  public void removeAsync(IEventListenerSimple<TSource> listener) {
+    super.removeAsync(listener);
+  }
+
+  @Override
+  protected void raiseListener(IEventListenerSimple<TSource> listener, Object[] data) {
+    listener.raise(source);
   }
 
   /**
    * This method invokes an event and notifies all listeners.
+   *
    */
-  public void raise(){
-    for (IEventListenerSimple<TSource> eventListener : inner) {
-      eventListener.raise(this.source);
-    }
+  public void raise() {
+    super.raise(null);
   }
 }

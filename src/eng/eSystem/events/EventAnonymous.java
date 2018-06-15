@@ -8,42 +8,54 @@ import java.util.List;
  * Represents simple event with argument without source.
  * @param <TEventArgs> Class-type of argument passed when event is invoked.
  */
-public class EventAnonymous<TEventArgs>{
-
-  private List<IEventListenerAnonymous<TEventArgs>> inner = new ArrayList();
+public class EventAnonymous<TEventArgs> extends EventBase<IEventListenerAnonymous<TEventArgs>>{
 
   /**
-   * Creates new instance of event.
+   * Registers a new listener ot the event.
+   *
+   * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public EventAnonymous() {
-
+  public int add(IEventListenerAnonymous<TEventArgs> listener) {
+    return super.add(listener);
   }
 
-  /**
-   * Registers a new liIEventListenerAnonymousevent.
-   * @param listener An instance of listener if type {@linkplain IEventListenerAnonymous}.
+  /* Registers a new listener ot the event.
+   * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public void add(IEventListenerAnonymous<TEventArgs> listener){
-    inner.add(listener);
+  public int addAsync(IEventListenerAnonymous<TEventArgs> listener) {
+    return super.addAsync(listener);
   }
 
   /**
    * Unregisters a listener of the event. If the listener has not been registered, nothing happens.
+   *
    * @param listener An instance of listener previously registered.
    */
-  public void remove(IEventListenerAnonymous<TEventArgs> listener){
-    if (inner.contains(listener))
-      inner.remove(listener);
+  public void remove(IEventListenerAnonymous<TEventArgs> listener) {
+    super.remove(listener);
+  }
+
+  /**
+   * Unregisters a listener of the event. If the listener has not been registered, nothing happens.
+   *
+   * @param listener An instance of listener previously registered.
+   */
+  public void removeAsync(IEventListenerAnonymous<TEventArgs> listener) {
+    super.removeAsync(listener);
+  }
+
+  @Override
+  protected void raiseListener(IEventListenerAnonymous<TEventArgs> listener, Object[] data) {
+    listener.raise((TEventArgs) data[0]);
   }
 
   /**
    * This method invokes an event and notifies all listeners.
-   * @param args Argument object sended to all listeners as a parameter during event invocation.
+   *
+   * @param args Argument object sent to all listeners as a parameter during an event invocation.
    */
-  public void raise(TEventArgs args){
-    for (IEventListenerAnonymous<TEventArgs> eventListener : inner) {
-      eventListener.raise(args);
-    }
+  public void raise(TEventArgs args) {
+    super.raise(new Object[]{args});
   }
 }
 

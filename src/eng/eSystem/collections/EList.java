@@ -91,6 +91,11 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public void tryRemove(Iterable<? extends T> items) {
+    items.forEach(q->this.tryRemove(q));
+  }
+
+  @Override
   public void remove(T item) {
     if (item.getClass().equals(int.class)) {
       inner.remove((Integer) item);

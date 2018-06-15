@@ -14,18 +14,37 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.nio.file.Path;
 
 public class XDocument {
   private final XDocumentProperties properties;
   private final XElement root;
 
+  public static XDocument load(Path path) throws EXmlException {
+    if (path == null) {
+      throw new IllegalArgumentException("Value of {path} cannot not be null.");
+    }
+    return XDocument.load(path.toAbsolutePath().toString());
+  }
+
+  public static XDocument load(File file) throws EXmlException {
+    if (file == null) {
+      throw new IllegalArgumentException("Value of {file} cannot not be null.");
+    }
+    return XDocument.load(file.getAbsolutePath());
+  }
+
   public static XDocument load(String xmlFileName) throws EXmlException {
-    InputStream is = openFileForReading(xmlFileName);
-    XDocument ret = XDocument.load(is);
+    XDocument ret;
+    try(InputStream is = openFileForReading(xmlFileName)){
+      ret = XDocument.load(is);
+    } catch (IOException ex){
+      throw new EXmlException("Failed to open stream to read from " + xmlFileName, ex);
+    }
     return ret;
   }
 
-  public static XDocument load(InputStream inputStream) throws EXmlException{
+  public static XDocument load(InputStream inputStream) throws EXmlException {
     org.w3c.dom.Document doc = readXmlDocument(inputStream);
     org.w3c.dom.Element el = doc.getDocumentElement();
 
@@ -33,38 +52,6 @@ public class XDocument {
     XDocumentProperties prp = XDocumentProperties.create(doc);
     XDocument ret = new XDocument(prp, xel);
     return ret;
-  }
-
-  public void save(OutputStream outputStream) throws EXmlException{
-    Document doc;
-    DocumentBuilderFactory dbFactory;
-    DocumentBuilder dBuilder;
-    Element el;
-    try {
-      dbFactory = DocumentBuilderFactory.newInstance();
-      dBuilder = dbFactory.newDocumentBuilder();
-      doc = dBuilder.newDocument();
-
-      el = this.root.toElement(doc);
-      doc.appendChild(el);
-
-      doc.setXmlStandalone(this.properties.isStandalone());
-      doc.setXmlVersion(this.properties.getVersion());
-
-      saveXmlDocument(outputStream, doc);
-
-    } catch (ParserConfigurationException ex) {
-      throw new EXmlException("Failed to create w3c document. Internal error.", ex);
-    }
-  }
-
-  public void save(String xmlFileName) throws EXmlException{
-    OutputStream os = openFileForWriting(xmlFileName);
-    try{
-      this.save(os);
-    } catch (Exception ex){
-      throw new EXmlException("Failed to save XDocument to file " + xmlFileName + ".", ex);
-    }
   }
 
   private static org.w3c.dom.Document readXmlDocument(InputStream inputStream) throws EXmlException {
@@ -118,6 +105,51 @@ public class XDocument {
     this.root = root;
   }
 
+  public void save(OutputStream outputStream) throws EXmlException {
+    Document doc;
+    DocumentBuilderFactory dbFactory;
+    DocumentBuilder dBuilder;
+    Element el;
+    try {
+      dbFactory = DocumentBuilderFactory.newInstance();
+      dBuilder = dbFactory.newDocumentBuilder();
+      doc = dBuilder.newDocument();
+
+      el = this.root.toElement(doc);
+      doc.appendChild(el);
+
+      doc.setXmlStandalone(this.properties.isStandalone());
+      doc.setXmlVersion(this.properties.getVersion());
+
+      saveXmlDocument(outputStream, doc);
+
+    } catch (ParserConfigurationException ex) {
+      throw new EXmlException("Failed to create w3c document. Internal error.", ex);
+    }
+  }
+
+  public void save(String xmlFileName) throws EXmlException {
+    try (OutputStream os = openFileForWriting(xmlFileName)){
+      this.save(os);
+    } catch (Exception ex) {
+      throw new EXmlException("Failed to save XDocument to file " + xmlFileName + ".", ex);
+    }
+  }
+
+  public void save(Path path) throws EXmlException {
+    if (path == null) {
+      throw new IllegalArgumentException("Value of {path} cannot not be null.");
+    }
+    this.save(path.toAbsolutePath().toString());
+  }
+
+  public void save(File file) throws EXmlException {
+    if (file == null) {
+      throw new IllegalArgumentException("Value of {file} cannot not be null.");
+    }
+    this.save(file.getAbsolutePath());
+  }
+
   public XElement getRoot() {
     return root;
   }
@@ -126,7 +158,7 @@ public class XDocument {
     return properties;
   }
 
-  private void saveXmlDocument(OutputStream os, Document doc) throws EXmlException{
+  private void saveXmlDocument(OutputStream os, Document doc) throws EXmlException {
     try {
 
       TransformerFactory tFactory =

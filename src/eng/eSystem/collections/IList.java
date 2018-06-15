@@ -17,6 +17,7 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void removeAt(int index);
   void tryRemove(T item);
+  void tryRemove(Iterable<? extends T> items);
   void remove(T item);
   void remove(Iterable<? extends T> items);
   void remove(Predicate<T> predicate);

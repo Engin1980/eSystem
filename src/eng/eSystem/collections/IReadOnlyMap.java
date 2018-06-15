@@ -21,6 +21,8 @@ public interface IReadOnlyMap<K,V> extends Iterable<Map.Entry<K, V>> {
 
   IMap<K,V> whereValue(Predicate<V> predicate);
 
+  IMap<K,V> where(Predicate<Map.Entry<K,V>> predicate);
+
   V get(K key);
 
   V tryGet(K key);

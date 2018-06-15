@@ -15,6 +15,10 @@ public class EMap<K, V> implements IMap<K, V> {
     this.inner = inner;
   }
 
+  public EMap(IMap<K, V> map) {
+    this(map.getEntries());
+  }
+
   public EMap(ISet<Map.Entry<K, V>> entries) {
     this.inner = new HashMap<>();
     entries.forEach(q -> inner.put(q.getKey(), q.getValue()));
@@ -59,6 +63,15 @@ public class EMap<K, V> implements IMap<K, V> {
     return ret;
   }
 
+  @Override
+  public IMap<K, V> where(Predicate<Map.Entry<K, V>> predicate) {
+    EMap<K, V> ret;
+    ISet<Map.Entry<K, V>> entries = this.getEntries();
+    entries = entries.where(q -> predicate.test(q));
+    ret = new EMap<>(entries);
+    return ret;
+  }
+
   public V get(K key) {
     if (inner.containsKey(key) == false)
       throw new NoSuchKeyException(key);
@@ -93,7 +106,7 @@ public class EMap<K, V> implements IMap<K, V> {
 
   @Override
   public ISet<Map.Entry<K, V>> getEntries() {
-    return new ESet<Map.Entry<K, V>>(inner.entrySet());
+    return new ESet<>(inner.entrySet());
   }
 
   @Override
@@ -116,14 +129,27 @@ public class EMap<K, V> implements IMap<K, V> {
     inner.put(key, value);
   }
 
-  public void remove(Object key) {
+  @Override
+  public void remove(Predicate<Map.Entry<K, V>> predicate) {
+    ISet<K> tmp = new ESet<>();
+    tmp = this.where(predicate).getKeys();
+    this.remove(tmp);
+  }
+
+  public void remove(ISet<K> keys){
+    for (K key : keys) {
+      this.remove(key);
+    }
+  }
+
+  public void remove(K key) {
     if (inner.containsKey(key) == false)
       throw new NoSuchKeyException(key);
     else
       inner.remove(key);
   }
 
-  public void tryRemove(Object key) {
+  public void tryRemove(K key) {
     if (inner.containsKey(key))
       inner.remove(key);
   }

@@ -9,12 +9,9 @@ import java.util.List;
  * @param <TSource>    Class-type of the object invoking event
  * @param <TEventArgs> Class-type of argument passed when event is invoked.
  */
-public class Event<TSource, TEventArgs> {
+public class Event<TSource, TEventArgs> extends EventBase<IEventListener<TSource, TEventArgs>> {
 
   private final TSource source;
-
-  private List<IEventListener<TSource, TEventArgs>> innerSync = new ArrayList();
-  private List<IEventListener<TSource, TEventArgs>> innerAsync = new ArrayList();
 
   /**
    * Creates new instance of event.
@@ -22,6 +19,7 @@ public class Event<TSource, TEventArgs> {
    * @param source Parent object which defines this event. Used as a sender of the event. Typically "this".
    */
   public Event(TSource source) {
+    super();
     this.source = source;
   }
 
@@ -30,16 +28,15 @@ public class Event<TSource, TEventArgs> {
    *
    * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public void add(IEventListener listener) {
-    innerSync.add(listener);
+  public int add(IEventListener listener) {
+    return super.add(listener);
   }
-
 
   /* Registers a new listener ot the event.
    * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public void addAsync(IEventListener listener) {
-    innerAsync.add(listener);
+  public int addAsync(IEventListener listener) {
+    return super.addAsync(listener);
   }
 
   /**
@@ -48,8 +45,7 @@ public class Event<TSource, TEventArgs> {
    * @param listener An instance of listener previously registered.
    */
   public void remove(IEventListener listener) {
-    if (innerSync.contains(listener))
-      innerSync.remove(listener);
+    super.remove(listener);
   }
 
   /**
@@ -58,22 +54,21 @@ public class Event<TSource, TEventArgs> {
    * @param listener An instance of listener previously registered.
    */
   public void removeAsync(IEventListener listener) {
-    if (innerAsync.contains(listener))
-      innerAsync.remove(listener);
+    super.removeAsync(listener);
   }
 
-  /**
+  @Override
+  protected void raiseListener(IEventListener<TSource, TEventArgs> listener, Object[] data) {
+    listener.raise(source, (TEventArgs) data[0]);
+  }
+
+    /**
    * This method invokes an event and notifies all listeners.
    *
    * @param args Argument object sent to all listeners as a parameter during an event invocation.
    */
   public void raise(TEventArgs args) {
-    for (IEventListener<TSource, TEventArgs> eventListener : innerSync) {
-      eventListener.raise(this.source, args);
-    }
-    for (IEventListener<TSource, TEventArgs> eventListener : innerAsync) {
-      eventListener.raise(this.source, args);
-    }
+    super.raise(new Object[]{args});
   }
 }
 
