@@ -7,6 +7,8 @@ package eng.eSystem.utilites;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -17,7 +19,15 @@ import java.lang.String;
  *
  * @author Marek Vajgl
  */
-public class ReflectionUtil {
+public class ReflectionUtils {
+
+  public static Type[] getParameterizedTypes(Object object) {
+    Type superclassType = object.getClass().getGenericSuperclass();
+    if (!ParameterizedType.class.isAssignableFrom(superclassType.getClass())) {
+      return null;
+    }
+    return ((ParameterizedType)superclassType).getActualTypeArguments();
+  }
 
   /**
    * 
@@ -25,7 +35,7 @@ public class ReflectionUtil {
    * @return 
    */
   public static List<Class> tryGetAllTypes(String packageName) {
-    ClassLoader cls = ReflectionUtil.class.getClassLoader();
+    ClassLoader cls = ReflectionUtils.class.getClassLoader();
     packageName = packageName.replace('.', '/');
     Enumeration<URL> urls;
 

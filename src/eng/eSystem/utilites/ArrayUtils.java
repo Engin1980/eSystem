@@ -5,6 +5,8 @@
  */
 package eng.eSystem.utilites;
 
+import java.util.function.Predicate;
+
 /**
  *
  * @author Marek Vajgl
@@ -36,6 +38,17 @@ public class ArrayUtils {
     boolean ret = false;
     for (T t : array) {
       if (t.equals(element)){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static <T> boolean contains(T[] array, Predicate<T> predicate){
+    boolean ret = false;
+    for (T t : array) {
+      if (predicate.test(t)){
         ret = true;
         break;
       }

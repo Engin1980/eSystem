@@ -1,7 +1,7 @@
 package eng.eSystem.eXml;
 
 import eng.eSystem.exceptions.EXmlException;
-import eng.eSystem.utilites.ExceptionUtil;
+import eng.eSystem.utilites.ExceptionUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
@@ -15,13 +15,13 @@ public class Tests {
     try {
       doc = XDocument.load(src);
     } catch (EXmlException e) {
-      fail(ExceptionUtil.toFullString(e));
+      fail(ExceptionUtils.toFullString(e));
     }
 
     try {
       doc.save("R:\\simTest2.xml");
     } catch (EXmlException e) {
-      fail(ExceptionUtil.toFullString(e));
+      fail(ExceptionUtils.toFullString(e));
     }
 
   }

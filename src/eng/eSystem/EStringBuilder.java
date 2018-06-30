@@ -53,6 +53,10 @@ public class EStringBuilder {
     this.insert(index, String.format(format, args));
   }
 
+  public <T> EStringBuilder appendItems(Iterable<T> items, String separator) {
+    return this.appendItems(items, q -> (q == null) ? "(null)" : q.toString(), separator);
+  }
+
   public <T> EStringBuilder appendItems(Iterable<T> items, Selector<T, String> selector, String separator) {
     boolean isFirst = true;
     for (T item : items) {

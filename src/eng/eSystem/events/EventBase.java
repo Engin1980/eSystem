@@ -5,7 +5,6 @@ import eng.eSystem.collections.EMap;
 import eng.eSystem.collections.IList;
 import eng.eSystem.collections.IMap;
 import eng.eSystem.exceptions.EApplicationException;
-import eng.eSystem.utilites.ExceptionUtil;
 
 abstract class EventBase<TListener> {
   private static int nextId = 1;

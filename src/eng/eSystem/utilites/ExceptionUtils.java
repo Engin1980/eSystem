@@ -12,7 +12,7 @@ import com.sun.istack.internal.NotNull;
  *
  * @author Marek Vajgl
  */
-public class ExceptionUtil {
+public class ExceptionUtils {
   /**
    * Prints long exception string including type and all exception causes.
    *
