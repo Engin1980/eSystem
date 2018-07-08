@@ -15,6 +15,22 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   T getFirst(Predicate<T> predicate);
 
+  default T getFirst(){
+    return getFirst(q->true);
+  }
+
+  default T getLast(){
+    return getLast(q->true);
+  }
+
+  default T tryGetFirst(){
+    return tryGetFirst(q->true);
+  }
+
+  default T tryGetLast(){
+    return tryGetLast(q->true);
+  }
+
   T tryGetLast(Predicate<T> predicate);
 
   T getLast(Predicate<T> predicate);
