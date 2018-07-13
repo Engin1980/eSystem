@@ -74,4 +74,10 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   <K> IList<T> distinct(Selector<T,K> selector);
 
   <K> ISet<T> getDuplicateItems(Selector<T,K> selector);
+
+  <K extends Comparable<K>> IList<T> orderBy(Selector<T,K> selector, boolean reverse);
+
+  default <K extends Comparable<K>> IList<T> orderBy(Selector<T,K> selector){
+    return this.orderBy(selector, false);
+  }
 }

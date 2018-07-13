@@ -5,10 +5,7 @@ import eng.eSystem.utilites.ObjectUtils;
 import eng.eSystem.utilites.Selector;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -92,7 +89,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void tryRemove(Iterable<? extends T> items) {
-    items.forEach(q->this.tryRemove(q));
+    items.forEach(q -> this.tryRemove(q));
   }
 
   @Override
@@ -133,6 +130,11 @@ public class EList<T> implements IList<T> {
   @Override
   public void clear() {
     this.inner.clear();
+  }
+
+  @Override
+  public void reverse() {
+    Collections.reverse(this.inner);
   }
 
   @Override
@@ -419,12 +421,21 @@ public class EList<T> implements IList<T> {
     ISet<T> ret = new ESet<>();
     for (T t : this) {
       K v = selector.getValue(t);
-      if (!known.contains(v)){
+      if (!known.contains(v)) {
         known.add(v);
-      } else if (!ret.contains(t)){
+      } else if (!ret.contains(t)) {
         ret.add(t);
       }
     }
+    return ret;
+  }
+
+  @Override
+  public <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse) {
+    EList<T> ret = new EList<>(this);
+    ret.sort(selector);
+    if (reverse)
+      ret.reverse();
     return ret;
   }
 

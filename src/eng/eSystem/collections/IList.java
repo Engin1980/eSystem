@@ -23,6 +23,7 @@ public interface IList<T> extends IReadOnlyList<T> {
   void remove(Predicate<T> predicate);
   void retain(Predicate<T> predicate);
   void clear();
+  void reverse();
 
   <K extends Comparable<K>> void sort(Selector<T, K> selector);
 }
