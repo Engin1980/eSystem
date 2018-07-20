@@ -83,6 +83,18 @@ public class XElement {
     return ret;
   }
 
+  public String tryGetAttribute(String name){
+    String ret = getAttributes().tryGet(name);
+    return ret;
+  }
+
+  public String tryGetAttribute(String name, String defaultValue){
+    String ret = getAttributes().tryGet(name);
+    if (ret == null)
+      ret = defaultValue;
+    return ret;
+  }
+
   public void removeElement(XElement childElement) {
     this.children.remove(childElement);
     childElement.setParent(null);
