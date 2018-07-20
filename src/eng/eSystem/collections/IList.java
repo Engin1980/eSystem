@@ -2,6 +2,7 @@ package eng.eSystem.collections;
 
 import eng.eSystem.utilites.Selector;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 public interface IList<T> extends IReadOnlyList<T> {
@@ -26,4 +27,5 @@ public interface IList<T> extends IReadOnlyList<T> {
   void reverse();
 
   <K extends Comparable<K>> void sort(Selector<T, K> selector);
+  void sort(Comparator<T> comparator);
 }

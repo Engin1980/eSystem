@@ -170,6 +170,11 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public void sort(Comparator<T> comparator) {
+    java.util.Collections.sort(this.inner, comparator);
+  }
+
+  @Override
   public T get(int index) {
     return inner.get(index);
   }
@@ -466,7 +471,10 @@ public class EList<T> implements IList<T> {
 
   @Override
   public boolean equals(Object o) {
-    return inner.equals(o);
+    if (o instanceof EList)
+      return inner.equals(((EList) o).inner);
+    else
+      return false;
   }
 
   @Override
