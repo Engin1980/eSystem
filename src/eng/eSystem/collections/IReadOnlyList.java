@@ -80,4 +80,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   default <K extends Comparable<K>> IList<T> orderBy(Selector<T,K> selector){
     return this.orderBy(selector, false);
   }
+
+  IList<T> union(IReadOnlyList<T> otherList);
+  IList<T> intersection(IReadOnlyList<T> otherList);
 }

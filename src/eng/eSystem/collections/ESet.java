@@ -157,13 +157,49 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public ISet<T> first(int count) {
+  public T getFirst() {
+    T ret;
+    Iterator<T> it = this.inner.iterator();
+    ret = it.next();
+    return ret;
+  }
+
+  @Override
+  public T tryGetFirst() {
+    if (this.isEmpty())
+      return null;
+    else
+      return getFirst();
+  }
+
+  @Override
+  public ISet<T> selectCount(int count) {
     if (count < 0)
       throw new EIllegalArgumentException("count", count, "Value must be greater or equal 0.");
     ISet<T> ret = new ESet<>();
     for (T t : this) {
       if (ret.size() == count) break;
       ret.add(t);
+    }
+    return ret;
+  }
+
+  @Override
+  public ISet<T> union(IReadOnlySet<T> otherSet) {
+    ISet<T> ret = new ESet<>(this);
+    for (T t : otherSet) {
+      if (ret.contains(t) == false)
+        ret.add(t);
+    }
+    return ret;
+  }
+
+  @Override
+  public ISet<T> intersection(IReadOnlySet<T> otherSet) {
+    ISet<T> ret = new ESet<>();
+    for (T t : this) {
+      if (otherSet.contains(t))
+        ret.add(t);
     }
     return ret;
   }

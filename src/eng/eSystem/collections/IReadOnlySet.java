@@ -19,5 +19,12 @@ public interface IReadOnlySet<T> extends ICollection<T> {
 
   void toSet(Set<T> target);
 
-  ISet<T> first(int count);
+  T getFirst();
+
+  T tryGetFirst();
+
+  ISet<T> selectCount(int count);
+
+  ISet<T> union(IReadOnlySet<T> otherSet);
+  ISet<T> intersection(IReadOnlySet<T> otherSet);
 }

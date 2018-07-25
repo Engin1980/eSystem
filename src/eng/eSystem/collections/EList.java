@@ -482,4 +482,23 @@ public class EList<T> implements IList<T> {
     return String.format("EList{%d items}", this.size());
   }
 
+  @Override
+  public IList<T> union(IReadOnlyList<T> otherList) {
+    IList<T> ret = new EList<>(this);
+    for (T t : otherList) {
+      if (ret.contains(t) == false)
+        ret.add(t);
+    }
+    return ret;
+  }
+
+  @Override
+  public IList<T> intersection(IReadOnlyList<T> otherList) {
+    IList<T> ret = new EList<>();
+    for (T t : this) {
+      if (otherList.contains(t))
+        ret.add(t);
+    }
+    return ret;
+  }
 }
