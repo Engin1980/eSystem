@@ -16,7 +16,11 @@ public interface ICollection<T> extends Iterable<T> {
 
   double min(Selector<T, Double> selector);
 
+  <V extends Comparable<V>> V min2 (Selector<T, V> selector, V minimalValue);
+
   double max(Selector<T, Double> selector);
+
+  <V extends Comparable<V>> V max2 (Selector<T, V> selector, V maximalValue);
 
   int count(Predicate<T> predicate);
 

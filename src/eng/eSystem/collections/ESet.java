@@ -240,10 +240,32 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public <V extends Comparable<V>> V min2(Selector<T, V> selector, V minimalValue) {
+    V ret = minimalValue;
+    for (T t : inner) {
+      V cur = selector.getValue(t);
+      if (cur.compareTo(ret) < 0)
+        ret = cur;
+    }
+    return ret;
+  }
+
+  @Override
   public double max(Selector<T, Double> selector) {
     double ret = Double.MIN_VALUE;
     for (T t : inner) {
       ret = Math.max(ret, selector.getValue(t));
+    }
+    return ret;
+  }
+
+  @Override
+  public <V extends Comparable<V>> V max2(Selector<T, V> selector, V maximalValue) {
+    V ret = maximalValue;
+    for (T t : inner) {
+      V cur = selector.getValue(t);
+      if (cur.compareTo(ret) > 0)
+        ret = cur;
     }
     return ret;
   }
