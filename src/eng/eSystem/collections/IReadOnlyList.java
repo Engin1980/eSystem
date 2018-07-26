@@ -9,6 +9,8 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   T get(int index);
 
+  T tryGet(int index);
+
   IList<T> where(Predicate<T> predicate);
 
   T tryGetFirst(Predicate<T> predicate);

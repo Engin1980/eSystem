@@ -180,6 +180,14 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public T tryGet(int index) {
+    if (index < 0 || index >= this.size())
+      return null;
+    else
+      return this.get(index);
+  }
+
+  @Override
   public IList<T> where(Predicate<T> predicate) {
     EList<T> ret = new EList<>();
     ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toList());
