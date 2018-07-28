@@ -1,5 +1,6 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
 
 import java.util.List;
@@ -9,45 +10,18 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   T get(int index);
 
-  T tryGet(int index);
+  default T tryGet(int index) {
+    return tryGet(index, null);
+  }
+
+  default T tryGet(int index, T defaultValue) {
+    if (index < 0 || index >= this.size())
+      return defaultValue;
+    else
+      return this.get(index);
+  }
 
   IList<T> where(Predicate<T> predicate);
-
-  T tryGetFirst(Predicate<T> predicate);
-
-  T getFirst(Predicate<T> predicate);
-
-  default T getFirst(){
-    return getFirst(q->true);
-  }
-
-  default T getLast(){
-    return getLast(q->true);
-  }
-
-  default T tryGetFirst(){
-    return tryGetFirst(q->true);
-  }
-
-  default T tryGetLast(){
-    return tryGetLast(q->true);
-  }
-
-  T tryGetLast(Predicate<T> predicate);
-
-  T getLast(Predicate<T> predicate);
-
-  boolean isAny(Predicate<T> predicate);
-
-  boolean isAll(Predicate<T> predicate);
-
-  double sum(Selector<T, Double> selector);
-
-  double min(Selector<T, Double> selector);
-
-  double max(Selector<T, Double> selector);
-
-  int count(Predicate<T> predicate);
 
   <V> IList<V> select(Selector<T, V> selector);
 
@@ -57,32 +31,62 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   void toList(List<T> target);
 
-  T getRandom();
+  default T getRandom() {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
 
-  T tryGetRandom();
+    int index = (int) (Math.random() * this.size());
+    T ret = this.get(index);
+    return ret;
+  }
 
-  int getIndexOf(T item);
+  default T tryGetRandom() {
+    T ret;
+    if (this.isEmpty())
+      ret = null;
+    else
+      ret = this.getRandom();
+    return ret;
+  }
+
+  default int getIndexOf(T item) {
+    Integer ret = tryGetIndexOf(item);
+    if (ret == null)
+      throw new ElementNotFoundException();
+    else
+      return ret;
+  }
 
   Integer tryGetIndexOf(T item);
 
-  int getIndexOf(Predicate<T> predicate);
+  default int getIndexOf(Predicate<T> predicate) {
+    Integer ret = tryGetIndexOf(predicate);
+    if (ret == null)
+      throw new ElementNotFoundException();
+    else
+      return ret;
+  }
 
   Integer tryGetIndexOf(Predicate<T> predicate);
 
   IList<T> whereItemClassIs(Class clazz, boolean includeInheritance);
 
-  IList<T> distinct();
+  default IList<T> distinct() {
+    return distinct(q -> q);
+  }
 
-  <K> IList<T> distinct(Selector<T,K> selector);
+  <K> IList<T> distinct(Selector<T, K> selector);
 
-  <K> ISet<T> getDuplicateItems(Selector<T,K> selector);
+  <K> ISet<T> getDuplicateItems(Selector<T, K> selector);
 
-  <K extends Comparable<K>> IList<T> orderBy(Selector<T,K> selector, boolean reverse);
+  <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse);
 
-  default <K extends Comparable<K>> IList<T> orderBy(Selector<T,K> selector){
+  default <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector) {
     return this.orderBy(selector, false);
   }
 
   IList<T> union(IReadOnlyList<T> otherList);
+
   IList<T> intersection(IReadOnlyList<T> otherList);
+
 }

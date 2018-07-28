@@ -9,22 +9,16 @@ public interface IReadOnlySet<T> extends ICollection<T> {
 
   ISet<T> where(Predicate<T> predicate);
 
-  T tryGet(Predicate<T> predicate);
-
-  T get(Predicate<T> predicate);
-
-  <V> ISet<V> select(Selector<T, V> selector);
-
   Set<T> toSet();
 
   void toSet(Set<T> target);
 
-  T getFirst();
-
-  T tryGetFirst();
+  <V> ISet<V> select(Selector<T, V> selector);
 
   ISet<T> selectCount(int count);
 
   ISet<T> union(IReadOnlySet<T> otherSet);
+
   ISet<T> intersection(IReadOnlySet<T> otherSet);
+
 }

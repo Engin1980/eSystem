@@ -1,8 +1,6 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.exceptions.EIllegalArgumentException;
-import eng.eSystem.utilites.Action;
 import eng.eSystem.utilites.Selector;
 
 import java.util.HashSet;
@@ -47,45 +45,8 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public void add(Iterable<? extends T> items) {
-    for (T item : items) {
-      inner.add(item);
-    }
-  }
-
-  @Override
-  public void add(T[] items) {
-    for (T item : items) {
-      inner.add(item);
-    }
-  }
-
-  @Override
   public void remove(T item) {
     inner.remove(item);
-  }
-
-  @Override
-  public void remove(Iterable<? extends T> items) {
-    for (T item : items) {
-      this.remove(item);
-    }
-  }
-
-  @Override
-  public void remove(Predicate<T> predicate) {
-    ISet<T> tmp = this.where(predicate);
-    for (T t : tmp) {
-      this.remove(tmp);
-    }
-  }
-
-  @Override
-  public void retain(Predicate<T> predicate) {
-    ISet<T> tmp = this.where(predicate.negate());
-    for (T t : tmp) {
-      this.remove(tmp);
-    }
   }
 
   @Override
@@ -103,34 +64,6 @@ public class ESet<T> implements ISet<T> {
   public ISet<T> where(Predicate<T> predicate) {
     ESet<T> ret = new ESet<>();
     ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
-    return ret;
-  }
-
-  @Override
-  public T tryGet(Predicate<T> predicate) {
-    T ret = null;
-    for (T t : inner) {
-      if (predicate.test(t)) {
-        ret = t;
-        break;
-      }
-    }
-    return ret;
-  }
-
-  @Override
-  public T get(Predicate<T> predicate) {
-    T ret = null;
-    boolean isFound = false;
-    for (T t : inner) {
-      if (predicate.test(t)) {
-        isFound = true;
-        ret = t;
-        break;
-      }
-    }
-    if (!isFound)
-      throw new ElementNotFoundException();
     return ret;
   }
 
@@ -154,22 +87,6 @@ public class ESet<T> implements ISet<T> {
   @Override
   public void toSet(Set<T> target) {
     target.addAll(this.inner);
-  }
-
-  @Override
-  public T getFirst() {
-    T ret;
-    Iterator<T> it = this.inner.iterator();
-    ret = it.next();
-    return ret;
-  }
-
-  @Override
-  public T tryGetFirst() {
-    if (this.isEmpty())
-      return null;
-    else
-      return getFirst();
   }
 
   @Override
@@ -207,82 +124,6 @@ public class ESet<T> implements ISet<T> {
   @Override
   public int size() {
     return this.inner.size();
-  }
-
-  @Override
-  public boolean isAny(Predicate<T> predicate) {
-    boolean ret = this.inner.stream().anyMatch(predicate);
-    return ret;
-  }
-
-  @Override
-  public boolean isAll(Predicate<T> predicate) {
-    boolean ret = this.inner.stream().allMatch(predicate);
-    return ret;
-  }
-
-  @Override
-  public double sum(Selector<T, Double> selector) {
-    double ret = 0;
-    for (T t : inner) {
-      ret += selector.getValue(t);
-    }
-    return ret;
-  }
-
-  @Override
-  public double min(Selector<T, Double> selector) {
-    double ret = Double.MAX_VALUE;
-    for (T t : inner) {
-      ret = Math.min(ret, selector.getValue(t));
-    }
-    return ret;
-  }
-
-  @Override
-  public <V extends Comparable<V>> V min2(Selector<T, V> selector, V minimalValue) {
-    V ret = minimalValue;
-    for (T t : inner) {
-      V cur = selector.getValue(t);
-      if (cur.compareTo(ret) < 0)
-        ret = cur;
-    }
-    return ret;
-  }
-
-  @Override
-  public double max(Selector<T, Double> selector) {
-    double ret = Double.MIN_VALUE;
-    for (T t : inner) {
-      ret = Math.max(ret, selector.getValue(t));
-    }
-    return ret;
-  }
-
-  @Override
-  public <V extends Comparable<V>> V max2(Selector<T, V> selector, V maximalValue) {
-    V ret = maximalValue;
-    for (T t : inner) {
-      V cur = selector.getValue(t);
-      if (cur.compareTo(ret) > 0)
-        ret = cur;
-    }
-    return ret;
-  }
-
-  @Override
-  public int count(Predicate<T> predicate) {
-    int ret = 0;
-    for (T t : inner) {
-      if (predicate.test(t))
-        ret++;
-    }
-    return ret;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return this.inner.isEmpty();
   }
 
   @Override

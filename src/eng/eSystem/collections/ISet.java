@@ -6,14 +6,40 @@ public interface ISet<T> extends  IReadOnlySet<T> {
 
   void add(T item);
 
-  void add(Iterable<? extends T> items);
+  default void add(Iterable<? extends T> items) {
+    for (T item : items) {
+      this.add(item);
+    }
+  }
 
-  void add(T[] items);
+  default void add(T[] items) {
+    for (T item : items) {
+      this.add(item);
+    }
+  }
 
   void remove(T item);
-  void remove(Iterable<? extends T> items);
-  void remove(Predicate<T> predicate);
-  void retain(Predicate<T> predicate);
+
+  default void remove(Iterable<? extends T> items) {
+    for (T item : items) {
+      this.remove(item);
+    }
+  }
+
+  default void remove(Predicate<T> predicate) {
+    ISet<T> tmp = this.where(predicate);
+    for (T t : tmp) {
+      this.remove(tmp);
+    }
+  }
+
+  default void retain(Predicate<T> predicate) {
+    ISet<T> tmp = this.where(predicate.negate());
+    for (T t : tmp) {
+      this.remove(tmp);
+    }
+  }
+
   void clear();
 
   IList<T> toList();

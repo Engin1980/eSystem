@@ -79,21 +79,6 @@ public class EMap<K, V> implements IMap<K, V> {
       return inner.get(key);
   }
 
-  public V tryGet(K key) {
-    if (inner.containsKey(key) == false)
-      return null;
-    else
-      return inner.get(key);
-  }
-
-  @Override
-  public V tryGet(K key, V defaultValue) {
-    V ret = this.tryGet(key);
-    if (ret == null)
-      ret = defaultValue;
-    return ret;
-  }
-
   @Override
   public ISet<K> getKeys() {
     return new ESet(inner.keySet());
@@ -129,18 +114,6 @@ public class EMap<K, V> implements IMap<K, V> {
     inner.put(key, value);
   }
 
-  @Override
-  public void remove(Predicate<Map.Entry<K, V>> predicate) {
-    ISet<K> tmp = new ESet<>();
-    tmp = this.where(predicate).getKeys();
-    this.remove(tmp);
-  }
-
-  public void remove(ISet<K> keys){
-    for (K key : keys) {
-      this.remove(key);
-    }
-  }
 
   public void remove(K key) {
     if (inner.containsKey(key) == false)
@@ -157,16 +130,6 @@ public class EMap<K, V> implements IMap<K, V> {
   @Override
   public void set(Map<? extends K, ? extends V> m) {
     inner.putAll(m);
-  }
-
-  @Override
-  public void set(Map.Entry<? extends K, ? extends V> m) {
-    this.set(m.getKey(), m.getValue());
-  }
-
-  @Override
-  public void set(IList<Map.Entry<? extends K, ? extends V>> m) {
-    m.forEach(q -> this.set(q));
   }
 
   public void clear() {

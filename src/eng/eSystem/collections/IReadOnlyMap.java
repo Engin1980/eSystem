@@ -2,9 +2,7 @@ package eng.eSystem.collections;
 
 import eng.eSystem.utilites.Selector;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 
 public interface IReadOnlyMap<K,V> extends Iterable<Map.Entry<K, V>> {
@@ -25,9 +23,19 @@ public interface IReadOnlyMap<K,V> extends Iterable<Map.Entry<K, V>> {
 
   V get(K key);
 
-  V tryGet(K key);
+  default V tryGet(K key){
+    V ret = tryGet(key, null);
+    return ret;
+  }
 
-  V tryGet(K key, V defaultValue);
+  default V tryGet(K key, V defaultValue) {
+    V ret;
+    if (this.containsKey(key))
+      ret = this.get(key);
+    else
+      ret = defaultValue;
+    return ret;
+  }
 
   ISet<K> getKeys();
 

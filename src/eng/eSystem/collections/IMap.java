@@ -1,19 +1,24 @@
 package eng.eSystem.collections;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 
-public interface IMap<K,V> extends IReadOnlyMap<K,V> {
+public interface IMap<K, V> extends IReadOnlyMap<K, V> {
 
   void set(K key, V value);
 
   void remove(K key);
 
-  void remove(Predicate<Map.Entry<K, V>> predicate);
+  default void remove(Predicate<Map.Entry<K, V>> predicate) {
+    ISet<K> tmp = this.where(predicate).getKeys();
+    this.remove(tmp);
+  }
 
-  void remove(ISet<K> keys);
+  default void remove(ISet<K> keys) {
+    for (K key : keys) {
+      this.remove(key);
+    }
+  }
 
   void tryRemove(K key);
 
@@ -21,9 +26,13 @@ public interface IMap<K,V> extends IReadOnlyMap<K,V> {
 
   void set(IMap<K, ? extends V> m);
 
-  void set(Map.Entry<? extends K, ? extends V> m);
+  default void set(Map.Entry<? extends K, ? extends V> m) {
+    this.set(m.getKey(), m.getValue());
+  }
 
-  void set(IList<Map.Entry<? extends K, ? extends V>> m);
+  default void set(IList<Map.Entry<? extends K, ? extends V>> m) {
+    m.forEach(q -> this.set(q));
+  }
 
   void clear();
 
