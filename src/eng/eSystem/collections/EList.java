@@ -318,7 +318,7 @@ public class EList<T> implements IList<T> {
       }
       return defaultValue;
     } else if (inner instanceof ArrayList){
-      for (int i = this.size() - 1; i <= 0; i--) {
+      for (int i = this.size() - 1; i >= 0; i--) {
         ret = this.get(i);
         if (predicate.test(ret))
           return ret;

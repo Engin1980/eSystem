@@ -20,20 +20,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ICollection.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ICollection.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="135" column="15" lean-forward="true" selection-start-line="130" selection-end-line="135" selection-end-column="15" />
+            <state relative-caret-position="436">
+              <caret line="60" column="57" lean-forward="true" selection-start-line="60" selection-start-column="57" selection-end-line="60" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#isAny#0;class#ICollection#0" />
                 <element signature="method#isAll#0;class#ICollection#0" />
                 <element signature="method#sumDouble#0;class#ICollection#0" />
                 <element signature="method#aggregate#0;class#ICollection#0" />
-                <element signature="method#minDouble#0;class#ICollection#0" />
                 <element signature="method#min#0;class#ICollection#0" />
-                <element signature="method#maxDouble#0;class#ICollection#0" />
                 <element signature="method#max#0;class#ICollection#0" />
                 <element signature="method#count#0;class#ICollection#0" />
                 <element signature="method#tryGetFirst#1;class#ICollection#0" />
@@ -44,25 +42,6 @@
                 <element signature="e#3140#3141#0" expanded="true" />
                 <element signature="e#4071#4072#0" expanded="true" />
                 <element signature="e#4108#4109#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EList.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="325" column="26" selection-start-line="325" selection-start-column="26" selection-end-line="325" selection-end-column="26" />
-              <folding>
-                <element signature="method#EList#2;class#EList#0" />
-                <element signature="e#705#706#0" expanded="true" />
-                <element signature="e#740#741#0" expanded="true" />
-                <element signature="method#select#0;class#EList#0" />
-                <element signature="method#distinct#0;class#EList#0" />
-                <element signature="method#orderBy#0;class#EList#0" />
-                <element signature="method#union#0;class#EList#0" />
-                <element signature="method#intersection#0;class#EList#0" />
               </folding>
             </state>
           </provider>
@@ -158,8 +137,8 @@
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EMap.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IMap.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/IReadOnlyList.java" />
-        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java" />
         <option value="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" />
+        <option value="$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java" />
       </list>
     </option>
   </component>
@@ -420,6 +399,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32948717" />
       <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16713405" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24966533" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39974293" />
@@ -431,7 +411,6 @@
       <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -793,19 +772,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="321" column="26" lean-forward="true" selection-start-line="321" selection-start-column="26" selection-end-line="321" selection-end-column="26" />
+          <folding>
+            <element signature="method#EList#2;class#EList#0" />
+            <element signature="e#705#706#0" expanded="true" />
+            <element signature="e#740#741#0" expanded="true" />
+            <element signature="method#select#0;class#EList#0" />
+            <element signature="method#distinct#0;class#EList#0" />
+            <element signature="method#orderBy#0;class#EList#0" />
+            <element signature="method#union#0;class#EList#0" />
+            <element signature="method#intersection#0;class#EList#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="135" column="15" lean-forward="true" selection-start-line="130" selection-end-line="135" selection-end-column="15" />
+        <state relative-caret-position="436">
+          <caret line="60" column="57" lean-forward="true" selection-start-line="60" selection-start-column="57" selection-end-line="60" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#isAny#0;class#ICollection#0" />
             <element signature="method#isAll#0;class#ICollection#0" />
             <element signature="method#sumDouble#0;class#ICollection#0" />
             <element signature="method#aggregate#0;class#ICollection#0" />
-            <element signature="method#minDouble#0;class#ICollection#0" />
             <element signature="method#min#0;class#ICollection#0" />
-            <element signature="method#maxDouble#0;class#ICollection#0" />
             <element signature="method#max#0;class#ICollection#0" />
             <element signature="method#count#0;class#ICollection#0" />
             <element signature="method#tryGetFirst#1;class#ICollection#0" />
@@ -816,23 +810,6 @@
             <element signature="e#3140#3141#0" expanded="true" />
             <element signature="e#4071#4072#0" expanded="true" />
             <element signature="e#4108#4109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="325" column="26" selection-start-line="325" selection-start-column="26" selection-end-line="325" selection-end-column="26" />
-          <folding>
-            <element signature="method#EList#2;class#EList#0" />
-            <element signature="e#705#706#0" expanded="true" />
-            <element signature="e#740#741#0" expanded="true" />
-            <element signature="method#select#0;class#EList#0" />
-            <element signature="method#distinct#0;class#EList#0" />
-            <element signature="method#orderBy#0;class#EList#0" />
-            <element signature="method#union#0;class#EList#0" />
-            <element signature="method#intersection#0;class#EList#0" />
           </folding>
         </state>
       </provider>

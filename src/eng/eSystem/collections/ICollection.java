@@ -44,7 +44,7 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default double minDouble(Selector<T, Double> selector) {
-    double ret = min(selector, Double.MIN_VALUE);
+    double ret = min(selector, Double.MAX_VALUE);
     return ret;
   }
 
