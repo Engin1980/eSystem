@@ -100,29 +100,23 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default T getFirst(Predicate<T> predicate) {
-    for (T t : this) {
-      if (predicate.test(t))
-        return t;
-    }
-    throw new ElementNotFoundException("No element fulfilling predicate was found.");
+    T ret = tryGetFirst(predicate);
+    if (ret == null)
+      throw new ElementNotFoundException("No element fulfilling predicate was found.");
+    else
+      return ret;
   }
 
   default T getFirst() {
-    if (isEmpty())
+    T ret = tryGetFirst();
+    if (ret == null)
       throw new ElementNotFoundException("Collection is empty.");
-    Iterator<T> iter = this.iterator();
-    T ret = iter.next();
     return ret;
   }
 
   default T tryGetFirst(T defaultValue) {
-    if (isEmpty())
-      return defaultValue;
-    else {
-      Iterator<T> iter = this.iterator();
-      T ret = iter.next();
-      return ret;
-    }
+    T ret = tryGetFirst(q->true, defaultValue);
+    return ret;
   }
 
   default T tryGetFirst() {
@@ -143,37 +137,23 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default T getLast(Predicate<T> predicate) {
-    boolean found = false;
-    T ret = null;
-    for (T t : this) {
-      if (predicate.test(t)) {
-        ret = t;
-        if (!found) found = true;
-      }
-    }
-    if (!found)
+    T ret = tryGetLast(predicate);
+    if (ret == null)
       throw new ElementNotFoundException("No element fulfilling predicate was found.");
     else
       return ret;
   }
 
   default T getLast() {
-    if (isEmpty())
+    T ret = tryGetLast();
+    if (ret == null)
       throw new ElementNotFoundException("Collection is empty.");
-    T ret = null;
-    for (T t : this) {
-      ret = t;
-    }
-    return ret;
+    else
+      return ret;
   }
 
   default T tryGetLast(T defaultValue) {
-    if (isEmpty())
-      return defaultValue;
-    T ret = defaultValue;
-    for (T t : this) {
-      ret = t;
-    }
+    T ret = tryGetLast(q->true, defaultValue);
     return ret;
   }
 

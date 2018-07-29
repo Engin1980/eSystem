@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f240e1ed-8dae-46a8-aee4-3146d38663da" name="Default" comment="Added sort() using Comparer interface for IList.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/EList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +23,8 @@
       <file leaf-file-name="ICollection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="159" column="1" selection-start-line="159" selection-start-column="1" selection-end-line="177" selection-end-column="3" />
+            <state relative-caret-position="321">
+              <caret line="135" column="15" lean-forward="true" selection-start-line="130" selection-end-line="135" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#isAny#0;class#ICollection#0" />
@@ -36,9 +36,8 @@
                 <element signature="method#maxDouble#0;class#ICollection#0" />
                 <element signature="method#max#0;class#ICollection#0" />
                 <element signature="method#count#0;class#ICollection#0" />
+                <element signature="method#tryGetFirst#1;class#ICollection#0" />
                 <element signature="method#getFirst#0;class#ICollection#0" />
-                <element signature="method#getFirst#1;class#ICollection#0" />
-                <element signature="method#tryGetFirst#2;class#ICollection#0" />
                 <element signature="e#3008#3009#0" expanded="true" />
                 <element signature="e#3046#3047#0" expanded="true" />
                 <element signature="e#3096#3097#0" expanded="true" />
@@ -53,8 +52,8 @@
       <file leaf-file-name="EList.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="815">
-              <caret line="359" column="8" selection-start-line="359" selection-start-column="8" selection-end-line="359" selection-end-column="8" />
+            <state relative-caret-position="587">
+              <caret line="325" column="26" selection-start-line="325" selection-start-column="26" selection-end-line="325" selection-end-column="26" />
               <folding>
                 <element signature="method#EList#2;class#EList#0" />
                 <element signature="e#705#706#0" expanded="true" />
@@ -412,6 +411,7 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32776618" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="4" weight="0.3299866" />
@@ -432,7 +432,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32776618" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -445,7 +444,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -796,8 +795,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/ICollection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="159" column="1" selection-start-line="159" selection-start-column="1" selection-end-line="177" selection-end-column="3" />
+        <state relative-caret-position="321">
+          <caret line="135" column="15" lean-forward="true" selection-start-line="130" selection-end-line="135" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#isAny#0;class#ICollection#0" />
@@ -809,9 +808,8 @@
             <element signature="method#maxDouble#0;class#ICollection#0" />
             <element signature="method#max#0;class#ICollection#0" />
             <element signature="method#count#0;class#ICollection#0" />
+            <element signature="method#tryGetFirst#1;class#ICollection#0" />
             <element signature="method#getFirst#0;class#ICollection#0" />
-            <element signature="method#getFirst#1;class#ICollection#0" />
-            <element signature="method#tryGetFirst#2;class#ICollection#0" />
             <element signature="e#3008#3009#0" expanded="true" />
             <element signature="e#3046#3047#0" expanded="true" />
             <element signature="e#3096#3097#0" expanded="true" />
@@ -824,8 +822,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/eng/eSystem/collections/EList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="815">
-          <caret line="359" column="8" selection-start-line="359" selection-start-column="8" selection-end-line="359" selection-end-column="8" />
+        <state relative-caret-position="587">
+          <caret line="325" column="26" selection-start-line="325" selection-start-column="26" selection-end-line="325" selection-end-column="26" />
           <folding>
             <element signature="method#EList#2;class#EList#0" />
             <element signature="e#705#706#0" expanded="true" />

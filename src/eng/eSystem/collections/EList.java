@@ -309,57 +309,28 @@ public class EList<T> implements IList<T> {
    */
   public T tryGetLast(Predicate<T> predicate, T defaultValue) {
     T ret;
-    for (int i = this.size() - 1; i <= 0; i--) {
-      ret = this.get(i);
-      if (predicate.test(ret))
-        return ret;
-    }
-    ret = defaultValue;
-    return ret;
-  }
-
-  /**
-   *
-   * @param predicate
-   * @return
-   * Overridden due to performance
-   */
-  @Override
-  public T getLast(Predicate<T> predicate) {
-    T ret;
-    for (int i = this.size() - 1; i <= 0; i--) {
-      ret = this.get(i);
-      if (predicate.test(ret)) {
-        return ret;
+    if (inner instanceof LinkedList){
+      Iterator<T> iter = ((LinkedList<T>) inner).descendingIterator();
+      while (iter.hasNext()){
+        ret = iter.next();
+        if (predicate.test(ret))
+          return ret;
       }
-    }
-    throw new ElementNotFoundException("No element fulfilling predicate was found.");
-  }
-
-  /**
-   *
-   * @return
-   * Overridden due to performance
-   */
-  @Override
-  public T getLast() {
-    if (isEmpty())
-      throw new ElementNotFoundException("Collection is empty.");
-    T ret = this.get(this.size()-1);
-    return ret;
-  }
-
-  /**
-   *
-   * @param defaultValue
-   * @return
-   * Overridden due to performance
-   */
-  @Override
-  public T tryGetLast(T defaultValue) {
-    if (isEmpty())
       return defaultValue;
-    T ret = this.get(this.size()-1);
-    return ret;
+    } else if (inner instanceof ArrayList){
+      for (int i = this.size() - 1; i <= 0; i--) {
+        ret = this.get(i);
+        if (predicate.test(ret))
+          return ret;
+      }
+      return defaultValue;
+    } else {
+      ret = defaultValue;
+      for (T t : this) {
+        if (predicate.test(t))
+          ret = t;
+      }
+      return ret;
+    }
   }
 }
