@@ -3,7 +3,6 @@ package eng.eSystem.collections;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
 
-import java.util.Iterator;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
