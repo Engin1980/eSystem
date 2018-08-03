@@ -3,6 +3,7 @@ package eng.eSystem.collections;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
 
+import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -114,7 +115,7 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default T tryGetFirst(T defaultValue) {
-    T ret = tryGetFirst(q->true, defaultValue);
+    T ret = tryGetFirst(q -> true, defaultValue);
     return ret;
   }
 
@@ -152,7 +153,7 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default T tryGetLast(T defaultValue) {
-    T ret = tryGetLast(q->true, defaultValue);
+    T ret = tryGetLast(q -> true, defaultValue);
     return ret;
   }
 
@@ -160,4 +161,75 @@ public interface ICollection<T> extends Iterable<T> {
     return tryGetLast((T) null);
   }
 
+  default <V extends Comparable<V>> T getSmallest(Selector<T, V> selector) {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    T ret = null;
+    V min = null;
+    for (T t : this) {
+      if (ret == null) {
+        ret = t;
+        min = selector.getValue(t);
+      } else {
+        V v = selector.getValue(t);
+        if (v.compareTo(min) < 0) {
+          ret = t;
+          min = v;
+        }
+      }
+    }
+    return ret;
+  }
+
+  default <V extends Comparable<V>> T getGreatest(Selector<T, V> selector) {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    T ret = null;
+    V min = null;
+    for (T t : this) {
+      if (ret == null) {
+        ret = t;
+        min = selector.getValue(t);
+      } else {
+        V v = selector.getValue(t);
+        if (v.compareTo(min) > 0) {
+          ret = t;
+          min = v;
+        }
+      }
+    }
+    return ret;
+  }
+
+  default T getRandomByWeights(Selector<T, Double> weightSelector) {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    T ret = null;
+    double sum = this.sumDouble(q -> weightSelector.getValue(q));
+    double val = Math.random() * sum;
+    for (T t : this) {
+      ret = t;
+      val -= weightSelector.getValue(t);
+      if (val < 0) break;
+    }
+    return ret;
+  }
+
+  default T getRandomByWeights(Selector<T, Double> weightSelector, Random rnd) {
+    if (this.isEmpty())
+      throw new ElementNotFoundException();
+
+    T ret = null;
+    double sum = this.sumDouble(q -> weightSelector.getValue(q));
+    double val = rnd.nextDouble() * sum;
+    for (T t : this) {
+      ret = t;
+      val -= weightSelector.getValue(t);
+      if (val < 0) break;
+    }
+    return ret;
+  }
 }
