@@ -45,6 +45,94 @@ public class ArrayUtils {
     return ret;
   }
 
+  public static boolean contains(char[] array, char element){
+    boolean ret = false;
+    for (char t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(boolean[] array, boolean element){
+    boolean ret = false;
+    for (boolean t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(byte[] array, byte element){
+    boolean ret = false;
+    for (byte t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(short[] array, short element){
+    boolean ret = false;
+    for (short t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(int[] array, int element){
+    boolean ret = false;
+    for (int t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(long[] array, long element){
+    boolean ret = false;
+    for (long t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(float[] array, float element){
+    boolean ret = false;
+    for (float t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  public static boolean contains(double[] array, double element){
+    boolean ret = false;
+    for (double t : array) {
+      if (t == element){
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
   public static <T> boolean contains(T[] array, Predicate<T> predicate){
     boolean ret = false;
     for (T t : array) {
