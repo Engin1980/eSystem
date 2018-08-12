@@ -11,8 +11,8 @@ import javax.swing.event.ListSelectionEvent;
 
 public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> {
 
-  private final JList control;
-  private final DefaultListModel<BoxItem<T>> model = new DefaultListModel<>();
+  protected final JList control;
+  protected final DefaultListModel<BoxItem<T>> model = new DefaultListModel<>();
   private final EventSimple<ListBoxExtender> onSelectionChanged = new EventSimple<>(this);
 
   public EventSimple<ListBoxExtender> getOnSelectionChanged() {
@@ -113,7 +113,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     this.control.setSelectedIndices(arr);
   }
 
-  private int getIndexOfItem(T item) {
+  protected int getIndexOfItem(T item) {
     int ret = -1;
     for (int i = 0; i < model.size(); i++) {
       BoxItem<T> t = model.get(i);
@@ -125,7 +125,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     return ret;
   }
 
-  private int getIndexOfLabel(String label) {
+  protected int getIndexOfLabel(String label) {
     int ret = -1;
     for (int i = 0; i < model.size(); i++) {
       BoxItem<T> t = model.get(i);
