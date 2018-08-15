@@ -18,6 +18,10 @@ public interface ICollection<T> extends Iterable<T> {
     return false;
   }
 
+  default boolean isNone(Predicate<T> predicate){
+    return !isAny(predicate);
+  }
+
   default boolean isAll(Predicate<T> predicate) {
     for (T t : this) {
       if (predicate.test(t) == false)
