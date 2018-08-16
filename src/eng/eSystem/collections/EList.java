@@ -66,7 +66,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void tryRemove(T item) {
-    if (item.getClass().equals(int.class)) {
+    if (item != null && item.getClass().equals(int.class)) {
       inner.remove((Integer) item);
     } else {
       inner.remove(item);
@@ -75,7 +75,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void remove(T item) {
-    if (item.getClass().equals(int.class)) {
+    if (item != null && item.getClass().equals(int.class)) {
       inner.remove((Integer) item);
     } else {
       if (inner.contains(item) == false)
