@@ -1,17 +1,18 @@
 package eng.eSystem.swing.extenders;
 
-import eng.eSystem.collections.EList;
-import eng.eSystem.collections.IList;
-import eng.eSystem.collections.IReadOnlyList;
+import eng.eSystem.collections.*;
 import eng.eSystem.events.EventSimple;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.utilites.StringUtil;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> {
 
   protected final JList control;
+  protected final ISet<BoxItem<T>> items = new ESet<BoxItem<T>>();
   protected final DefaultListModel<BoxItem<T>> model = new DefaultListModel<>();
   private final EventSimple<ListBoxExtender> onSelectionChanged = new EventSimple<>(this);
 
@@ -41,11 +42,47 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
 
   @Override
   public void addItem(BoxItem<T> item) {
-    model.addElement(item);
+    items.add(item);
+    updateByFilter(null);
   }
 
-  public IReadOnlyList<T> getSelectedItems() {
-    IList<T> ret = new EList<>();
+  public void setFilter(String regex) {
+    if (StringUtil.isEmpty(regex))
+      updateByFilter(null);
+    else
+      updateByFilter(Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
+  }
+
+  public void clearFilter(){
+    this.setFilter(null);
+  }
+
+  private void updateByFilter(Pattern p) {
+    IReadOnlySet<T> currentSelected = this.getSelectedItems();
+    model.clear();
+    Predicate<String> testPredicate;
+    if (p != null)
+      testPredicate = p.asPredicate();
+    else
+      testPredicate = q -> true;
+    ISet<BoxItem<T>> shownItems = items
+        .where(q -> testPredicate.test(q.label));
+    shownItems.forEach(q -> model.addElement(q));
+    this.setSelectedItems(currentSelected);
+  }
+
+  @Override
+  public IReadOnlySet<T> getItems() {
+    ISet<T> ret = new ESet<>();
+    for (int i = 0; i < model.size(); i++) {
+      BoxItem<T> item = model.get(i);
+      ret.add(item.value);
+    }
+    return ret;
+  }
+
+  public IReadOnlySet<T> getSelectedItems() {
+    ISet<T> ret = new ESet<>();
     for (int selectedIndex : control.getSelectedIndices()) {
       BoxItem<T> t = model.get(selectedIndex);
       ret.add(t.value);
@@ -57,12 +94,12 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     control.setSelectedIndex(index);
   }
 
-  public void setSelectedLabels(String ... label) {
-    IList<String> lst = new EList<>(label);
+  public void setSelectedLabels(String... label) {
+    ISet<String> lst = new ESet<>(label);
     this.setSelectedLabels(lst);
   }
 
-  public void setSelectedLabels(Iterable<String> labels){
+  public void setSelectedLabels(Iterable<String> labels) {
     IList<Integer> tmp = new EList<>();
 
     for (String label : labels) {
@@ -91,8 +128,8 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     return ret;
   }
 
-  public void setSelectedItems(T ... item) {
-    IList<T> lst = new EList<>(item);
+  public void setSelectedItems(T... item) {
+    ISet<T> lst = new ESet<>(item);
     this.setSelectedItems(lst);
   }
 
@@ -137,15 +174,15 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     return ret;
   }
 
-  public void selectAll(){
-    int [] arr = new int[this.model.size()];
+  public void selectAll() {
+    int[] arr = new int[this.model.size()];
     for (int i = 0; i < arr.length; i++) {
       arr[i] = i;
     }
     this.control.setSelectedIndices(arr);
   }
 
-  public void selectNone(){
+  public void selectNone() {
     this.control.setSelectedIndices(new int[0]);
   }
 }

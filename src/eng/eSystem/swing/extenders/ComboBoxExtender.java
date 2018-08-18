@@ -1,7 +1,9 @@
 package eng.eSystem.swing.extenders;
 
+import eng.eSystem.collections.ESet;
+import eng.eSystem.collections.IReadOnlySet;
+import eng.eSystem.collections.ISet;
 import eng.eSystem.events.EventSimple;
-import eng.eSystem.utilites.Selector;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -37,6 +39,16 @@ public class ComboBoxExtender<T> extends WithModelExtender<T, JComboBox<BoxItem<
   @Override
   public void addItem(BoxItem<T> item) {
     model.addElement(item);
+  }
+
+  @Override
+  public IReadOnlySet<T> getItems() {
+    ISet<T> ret = new ESet<>();
+    for (int i = 0; i < model.getSize(); i++) {
+      BoxItem<T> item = model.getElementAt(i);
+      ret.add(item.value);
+    }
+    return ret;
   }
 
   public T getSelectedItem() {

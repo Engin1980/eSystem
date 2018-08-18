@@ -1,5 +1,8 @@
 package eng.eSystem.swing.extenders;
 
+import eng.eSystem.collections.ESet;
+import eng.eSystem.collections.IReadOnlySet;
+import eng.eSystem.collections.ISet;
 import eng.eSystem.utilites.Selector;
 
 abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {
@@ -59,5 +62,7 @@ abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {
     BoxItem<T> bi = new BoxItem<>(value, label);
     this.addItem(bi);
   }
+
+  public abstract IReadOnlySet<T> getItems();
 
 }

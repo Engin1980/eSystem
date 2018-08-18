@@ -23,6 +23,11 @@ public class ESet<T> implements ISet<T> {
     this(DEFAULT_CLASS, elements);
   }
 
+  public ESet(T[] elements) {
+    this(DEFAULT_CLASS, null);
+    this.add(elements);
+  }
+
   public ESet() {
     this(DEFAULT_CLASS, null);
   }
