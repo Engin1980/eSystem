@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> {
 
   protected final JList control;
-  protected final ISet<BoxItem<T>> items = new ESet<BoxItem<T>>();
+  protected final IList<BoxItem<T>> items = new EDistinctList<>(EDistinctList.Behavior.skip);
   protected final DefaultListModel<BoxItem<T>> model = new DefaultListModel<>();
   private final EventSimple<ListBoxExtender> onSelectionChanged = new EventSimple<>(this);
 
@@ -92,7 +92,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
       testPredicate = p.asPredicate();
     else
       testPredicate = q -> true;
-    ISet<BoxItem<T>> shownItems = items
+    IList<BoxItem<T>> shownItems = items
         .where(q -> testPredicate.test(q.label));
     shownItems.forEach(q -> model.addElement(q));
     this.setSelectedItems(currentSelected);
