@@ -57,6 +57,22 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     this.setFilter(null);
   }
 
+  public void ensureVisible(int index){
+    this.getControl().ensureIndexIsVisible(index);
+  }
+
+  public void ensureItemVisible(T item){
+    int index = getIndexOfItem(item);
+    if (index > -1)
+    this.getControl().ensureIndexIsVisible(index);
+  }
+
+  public void ensureLabelVisible(String label){
+    int index = getIndexOfLabel(label);
+    if (index > -1)
+      this.getControl().ensureIndexIsVisible(index);
+  }
+
   private void updateByFilter(Pattern p) {
     IReadOnlySet<T> currentSelected = this.getSelectedItems();
     model.clear();
