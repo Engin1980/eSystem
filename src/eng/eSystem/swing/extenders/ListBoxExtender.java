@@ -57,6 +57,17 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     this.setFilter(null);
   }
 
+  public void ensureFirstVisible(){
+    if (model.getSize() > 0)
+    this.ensureVisible(0);
+  }
+
+  public void ensureLastVisible(){
+    int index = model.getSize()-1;
+    if (index > -1)
+      this.ensureVisible(index);
+  }
+
   public void ensureVisible(int index){
     this.getControl().ensureIndexIsVisible(index);
   }
