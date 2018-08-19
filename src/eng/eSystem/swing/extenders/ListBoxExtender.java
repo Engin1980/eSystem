@@ -2,7 +2,7 @@ package eng.eSystem.swing.extenders;
 
 import eng.eSystem.collections.*;
 import eng.eSystem.events.EventSimple;
-import eng.eSystem.utilites.StringUtil;
+import eng.eSystem.utilites.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -47,7 +47,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
   }
 
   public void setFilter(String regex) {
-    if (StringUtil.isEmpty(regex))
+    if (StringUtils.isNullOrEmpty(regex))
       updateByFilter(null);
     else
       updateByFilter(Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
