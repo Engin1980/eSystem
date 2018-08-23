@@ -48,4 +48,17 @@ public class EMath {
     }
     return ret;
   }
+
+  /**
+   * Rounds the double value to zero. If the number is greater than 0, its floor is taken. If the number is lower than 0, its ceil is taken.
+   * @param value
+   * @return
+   */
+  public static int roundToZero(double value) {
+    if (value > 0) {
+      return (int) Math.floor(value);
+    } else {
+      return (int) Math.ceil(value);
+    }
+  }
 }
