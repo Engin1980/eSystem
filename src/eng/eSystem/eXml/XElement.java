@@ -3,6 +3,7 @@ package eng.eSystem.eXml;
 import eng.eSystem.EStringBuilder;
 import eng.eSystem.collections.*;
 import eng.eSystem.exceptions.EXmlRuntimeException;
+import eng.eSystem.utilites.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -78,17 +79,17 @@ public class XElement {
     this.attributes.set(attributeName, attributeValue);
   }
 
-  public String getAttribute(String name){
+  public String getAttribute(String name) {
     String ret = getAttributes().get(name);
     return ret;
   }
 
-  public String tryGetAttribute(String name){
+  public String tryGetAttribute(String name) {
     String ret = getAttributes().tryGet(name);
     return ret;
   }
 
-  public String tryGetAttribute(String name, String defaultValue){
+  public String tryGetAttribute(String name, String defaultValue) {
     String ret = getAttributes().tryGet(name);
     if (ret == null)
       ret = defaultValue;
@@ -208,6 +209,41 @@ public class XElement {
         ret.append(" ").append(key).append("=\"").append(this.attributes.get(key)).append("\"");
       }
     ret.append(">");
+    return ret.toString();
+  }
+
+  public String toFullString() {
+    String ret = toFullString(0);
+    return ret;
+  }
+
+  private String toFullString(int indentLevel) {
+    EStringBuilder ret = new EStringBuilder();
+    String indent = "";
+    for (int i = 0; i < indentLevel; i++) {
+      indent += "  ";
+    }
+    ret.append(indent);
+    ret.append("<").append(this.getName());
+    for (String key : attributes.getKeys()) {
+      ret.append(" ").append(key).append("=\"").append(this.attributes.get(key)).append("\"");
+    }
+    if (!StringUtils.isNullOrEmpty(this.content)) {
+      ret.append(">");
+      ret.appendLine();
+      ret.append(indent).append("  ").append(this.content);
+      ret.appendLine();
+      ret.append(indent).appendFormat("</%s>", this.getName());
+    } else if (!this.getChildren().isEmpty()) {
+      ret.append(">").appendLine();
+      for (XElement child : children) {
+        ret.append(child.toFullString(indentLevel+1));
+      }
+      ret.append(indent).appendFormat("</%s>", this.getName());
+    } else {
+      ret.append("/>");
+    }
+    ret.appendLine();
     return ret.toString();
   }
 }
