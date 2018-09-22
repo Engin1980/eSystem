@@ -3,6 +3,7 @@ package eng.eSystem.collections;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -233,6 +234,26 @@ public interface ICollection<T> extends Iterable<T> {
       ret = t;
       val -= weightSelector.getValue(t);
       if (val < 0) break;
+    }
+    return ret;
+  }
+
+  default T[] toArray(Class<T> arrayItemType){
+    T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
+    int index = 0;
+    for (T item : this) {
+      ret[index] = item;
+      index++;
+    }
+    return ret;
+  }
+
+  default <K> K[] toArrayUnchecked(Class<K> arrayItemType){
+    K[] ret = (K[]) Array.newInstance(arrayItemType, this.size());
+    int index = 0;
+    for (T item : this) {
+      ret[index] = (K) item;
+      index++;
     }
     return ret;
   }

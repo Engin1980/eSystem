@@ -143,4 +143,69 @@ public class ArrayUtils {
     }
     return ret;
   }
+
+  public static double[] toPrimitive(Double[] data){
+    if (data == null) return null;
+    double[] ret = new double[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static int[] toPrimitive(Integer[] data){
+    if (data == null) return null;
+    int[] ret = new int[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static long[] toPrimitive(Long[] data){
+    if (data == null) return null;
+    long[] ret = new long[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static byte[] toPrimitive(Byte[] data){
+    if (data == null) return null;
+    byte[] ret = new byte[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static short[] toPrimitive(Short[] data){
+    if (data == null) return null;
+    short[] ret = new short[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static float[] toPrimitive(Float[] data){
+    if (data == null) return null;
+    float[] ret = new float[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static boolean[] toPrimitive(Boolean[] data){
+    if (data == null) return null;
+    boolean[] ret = new boolean[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
+  public static char[] toPrimitive(Character[] data){
+    if (data == null) return null;
+    char[] ret = new char[data.length];
+    for (int i = 0; i < data.length; i++) {
+      ret[i] = data[i];
+    }
+    return ret;
+  }
 }

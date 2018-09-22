@@ -162,15 +162,6 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public T[] toArray(Class<T> clazz) {
-    T[] ret = (T[]) Array.newInstance(clazz, this.size());
-    for (int i = 0; i < this.size(); i++) {
-      ret[i] = get(i);
-    }
-    return ret;
-  }
-
-  @Override
   public void toList(List<T> target) {
     target.addAll(this.inner);
   }

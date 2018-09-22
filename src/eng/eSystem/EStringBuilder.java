@@ -9,6 +9,10 @@ public class EStringBuilder {
     sb = new StringBuilder();
   }
 
+  public EStringBuilder(String text){
+    sb = new StringBuilder(text);
+  }
+
   public EStringBuilder(int initialCapacity) {
     sb = new StringBuilder(initialCapacity);
   }
@@ -73,6 +77,13 @@ public class EStringBuilder {
   @Override
   public String toString() {
     return sb.toString();
+  }
+
+  public boolean isEmpty(){
+    return sb.length() == 0;
+  }
+  public int length(){
+    return sb.length();
   }
 
 }
