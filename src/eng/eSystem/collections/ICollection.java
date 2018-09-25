@@ -39,6 +39,22 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  default int sumInt(Selector<T, Integer> selector) {
+    int ret = 0;
+    for (T t : this) {
+      ret += selector.getValue(t);
+    }
+    return ret;
+  }
+
+  default long sumLong(Selector<T, Long> selector) {
+    long ret = 0;
+    for (T t : this) {
+      ret += selector.getValue(t);
+    }
+    return ret;
+  }
+
   default <V> V aggregate(Selector<T, V> selector, BiFunction<V, V, V> aggregator, V initialAgregatorValue) {
     V ret = initialAgregatorValue;
     for (T t : this) {
