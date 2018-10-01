@@ -1,10 +1,7 @@
 package eng.eSystem.validation;
 
-import eng.eSystem.Action;
 import eng.eSystem.Producer;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +9,12 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class Validator {
   public static void isNotNull(Object value){
+    Validator.isNotNull(value, "");
+  }
+
+  public static void isNotNull(Object value, String message){
     if (value == null)
-      throw new ValidationException("Validation: Value is null.");
+      throw new ValidationException("Validation: Value is null. " + message);
   }
 
   public static void matchPattern(String text, String pattern){
