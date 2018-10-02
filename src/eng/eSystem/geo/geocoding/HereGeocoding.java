@@ -22,6 +22,7 @@ public class HereGeocoding implements IGeocoding {
   }
 
   public Coordinate geocode(String address) {
+    address = address.replace(' ','+');
     String requestUrl = String.format("" +
             "https://geocoder.api.here.com/6.2/geocode.json?app_id=%s&app_code=%s&searchtext=%s",
         id,
@@ -40,8 +41,9 @@ public class HereGeocoding implements IGeocoding {
   private static final double EMPTY = -1;
 
   private Coordinate decodeCoordinate(String response) {
-    Pattern latPattern = Pattern.compile("\"Latitude\": ?(\\d+\\.+\\d+)");
-    Pattern lngPattern = Pattern.compile("\"Longitude\": ?(\\d+\\.+\\d+)");
+    System.out.println("GEOCODING:: RESP_II :: " + response);
+    Pattern latPattern = Pattern.compile("\"Latitude\": ?(-?\\d+\\.+\\d+)");
+    Pattern lngPattern = Pattern.compile("\"Longitude\": ?(-?\\d+\\.+\\d+)");
     double lat = EMPTY;
     double lng = EMPTY;
     Matcher m;
