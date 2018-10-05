@@ -89,6 +89,12 @@ public class XElement {
     return ret;
   }
 
+  public void detachFromParent(){
+    if (this.parent != null)
+      this.parent.children.tryRemove(this);
+    this.parent = null;
+  }
+
   public String tryGetAttribute(String name, String defaultValue) {
     String ret = getAttributes().tryGet(name);
     if (ret == null)
