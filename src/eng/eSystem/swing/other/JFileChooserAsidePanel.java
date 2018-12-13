@@ -11,7 +11,7 @@ public abstract class JFileChooserAsidePanel extends JComponent implements Prope
   /**
    * Used to define layout of aside panels.
    */
-  public class LayoutDefinition {
+  public static class LayoutDefinition {
     private eOrientation orientation = eOrientation.horizontal;
     private int totalWidth;
     private int totalHeight;
