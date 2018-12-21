@@ -145,6 +145,17 @@ public class EMap<K, V> implements IMap<K, V> {
   }
 
   @Override
+  public V getOrSet(K key, V valueIfKeyNotFound) {
+    V ret = this.tryGet(key);
+    if (ret == null)
+    {
+      ret = valueIfKeyNotFound;
+      this.set(key, ret);
+    }
+    return ret;
+  }
+
+  @Override
   public int hashCode() {
     return inner.hashCode();
   }

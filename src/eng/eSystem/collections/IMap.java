@@ -26,6 +26,8 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
 
   void set(IMap<K, ? extends V> m);
 
+  V getOrSet(K key, V valueIfKeyNotFound);
+
   default void set(Map.Entry<? extends K, ? extends V> m) {
     this.set(m.getKey(), m.getValue());
   }
