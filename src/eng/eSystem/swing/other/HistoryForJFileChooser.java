@@ -12,64 +12,21 @@ import java.nio.file.Path;
 
 public class HistoryForJFileChooser extends JFileChooserAsidePanel {
 
-  public static class HistoryItem {
-    public final Path path;
-
-    public HistoryItem(Path path) {
-      this.path = path;
-    }
-
-    public Path getPath(){
-      return this.path;
-    }
-
-    public String getLabelString() {
-      String name;
-      String parent;
-
-      if (path.getNameCount() < 2)
-      {
-        name = path.toString();
-        parent = null;
-      } else {
-        name = path.getName(path.getNameCount()-1).toString();
-        parent = path.getParent().toString();
-      }
-
-      String ret;
-      if (parent == null)
-        ret = name;
-      else
-        ret = name + " (" + parent + ")";
-      return ret;
-    }
-
-    public String getFullPath() {
-      return path.toString();
-    }
-
-    public String getFullPathAbsolute() {
-      return path.toAbsolutePath().toString();
-    }
-  }
-
   private JScrollPane pnlScroll;
-  private JList<HistoryItem> lst;
-  private ListBoxExtender<HistoryItem> lste;
+  private JList<Path> lst;
+  private ListBoxExtender<Path> lste;
 
   public HistoryForJFileChooser(Dimension d) {
     initContext();
     initLayout(d);
-
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("evt!" + evt.getPropertyName());
-
+    // nothing to do here
   }
 
-  public void setHistory(EList<HistoryItem> items) {
+  public void setHistory(EList<Path> items) {
     lste.addItems(items);
   }
 
@@ -77,14 +34,14 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     lst = new JList<>();
     lste = new ListBoxExtender<>(lst);
     pnlScroll = new JScrollPane(lst);
-    this.lste.setDefaultLabelSelector(q -> q.getLabelString());
+    this.lste.setDefaultLabelSelector(q -> HistoryForJFileChooser.getLabelString(q));
     lst.addListSelectionListener(this::lst_ListSelectionListener);
   }
 
   private void lst_ListSelectionListener(ListSelectionEvent e) {
     if (e.getValueIsAdjusting()) return;
-    HistoryItem hi = lste.getSelectedItems().getFirst();
-    java.io.File file = hi.getPath().toFile();
+    Path path = lste.getSelectedItems().getFirst();
+    java.io.File file = path.toFile();
     if (file.isDirectory())
       super.getJFileChooser().setCurrentDirectory(file);
     else
@@ -96,5 +53,25 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     this.setLayout(new BorderLayout(8, 8));
     this.setBorder(BorderFactory.createTitledBorder("History:"));
     this.add(pnlScroll);
+  }
+
+  private static String getLabelString(Path path) {
+    String name;
+    String parent;
+
+    if (path.getNameCount() < 2) {
+      name = path.toString();
+      parent = null;
+    } else {
+      name = path.getName(path.getNameCount() - 1).toString();
+      parent = path.getParent().toString();
+    }
+
+    String ret;
+    if (parent == null)
+      ret = name;
+    else
+      ret = name + " (" + parent + ")";
+    return ret;
   }
 }
