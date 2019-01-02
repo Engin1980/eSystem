@@ -23,11 +23,14 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("evt!" + evt.getPropertyName());
-
+    // nothing to do here
   }
 
+<<<<<<< HEAD
+  public void setHistory(EList<Path> items) {
+=======
   public void setHistory(IList<Path> items) {
+>>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
     lste.addItems(items);
   }
 
@@ -35,7 +38,11 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     lst = new JList<>();
     lste = new ListBoxExtender<>(lst);
     pnlScroll = new JScrollPane(lst);
+<<<<<<< HEAD
+    this.lste.setDefaultLabelSelector(q -> HistoryForJFileChooser.getLabelString(q));
+=======
     this.lste.setDefaultLabelSelector(q -> this.getLabelString(q));
+>>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
     lst.addListSelectionListener(this::lst_ListSelectionListener);
   }
 
@@ -56,7 +63,11 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     this.add(pnlScroll);
   }
 
+<<<<<<< HEAD
+  private static String getLabelString(Path path) {
+=======
   private String getLabelString(Path path) {
+>>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
     String name;
     String parent;
 
