@@ -16,6 +16,26 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
   private JList<Path> lst;
   private ListBoxExtender<Path> lste;
 
+  private static String getLabelString(Path path) {
+    String name;
+    String parent;
+
+    if (path.getNameCount() < 2) {
+      name = path.toString();
+      parent = null;
+    } else {
+      name = path.getName(path.getNameCount() - 1).toString();
+      parent = path.getParent().toString();
+    }
+
+    String ret;
+    if (parent == null)
+      ret = name;
+    else
+      ret = name + " (" + parent + ")";
+    return ret;
+  }
+
   public HistoryForJFileChooser(Dimension d) {
     initContext();
     initLayout(d);
@@ -26,11 +46,7 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     // nothing to do here
   }
 
-<<<<<<< HEAD
-  public void setHistory(EList<Path> items) {
-=======
   public void setHistory(IList<Path> items) {
->>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
     lste.addItems(items);
   }
 
@@ -38,11 +54,7 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     lst = new JList<>();
     lste = new ListBoxExtender<>(lst);
     pnlScroll = new JScrollPane(lst);
-<<<<<<< HEAD
     this.lste.setDefaultLabelSelector(q -> HistoryForJFileChooser.getLabelString(q));
-=======
-    this.lste.setDefaultLabelSelector(q -> this.getLabelString(q));
->>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
     lst.addListSelectionListener(this::lst_ListSelectionListener);
   }
 
@@ -61,29 +73,5 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
     this.setLayout(new BorderLayout(8, 8));
     this.setBorder(BorderFactory.createTitledBorder("History:"));
     this.add(pnlScroll);
-  }
-
-<<<<<<< HEAD
-  private static String getLabelString(Path path) {
-=======
-  private String getLabelString(Path path) {
->>>>>>> 58d093d0eadba87eb50b16b61e50d237a255bc4c
-    String name;
-    String parent;
-
-    if (path.getNameCount() < 2) {
-      name = path.toString();
-      parent = null;
-    } else {
-      name = path.getName(path.getNameCount() - 1).toString();
-      parent = path.getParent().toString();
-    }
-
-    String ret;
-    if (parent == null)
-      ret = name;
-    else
-      ret = name + " (" + parent + ")";
-    return ret;
   }
 }
