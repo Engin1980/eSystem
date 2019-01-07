@@ -4,6 +4,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexUtils {
+
+  public static boolean isMatch(String text, String regex){
+    Pattern pattern = Pattern.compile(regex);
+    Matcher m = pattern.matcher(text);
+    boolean ret = m.find();
+    return ret;
+  }
+
   public static String extractGroupContent(String text, String regex, int groupIndex) {
     String ret;
     try {
@@ -24,7 +32,7 @@ public class RegexUtils {
       Pattern p = Pattern.compile(regex);
       Matcher m = p.matcher(text);
       m.find();
-      ret = new String[m.groupCount()];
+      ret = new String[m.groupCount()+1];
       for (int i = 0; i < ret.length; i++) {
         ret[i] = m.group(i);
       }
