@@ -19,7 +19,7 @@ public interface ICollection<T> extends Iterable<T> {
     return false;
   }
 
-  default boolean isNone(Predicate<T> predicate){
+  default boolean isNone(Predicate<T> predicate) {
     return !isAny(predicate);
   }
 
@@ -69,6 +69,21 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  default int minInt(Selector<T, Integer> selector) {
+    int ret = min(selector, Integer.MAX_VALUE);
+    return ret;
+  }
+
+  default double mean(Selector<T, Double> selector) {
+    double ret;
+    if (this.isEmpty())
+      ret = Double.NaN;
+    else {
+      ret = this.sumDouble(selector) / this.size();
+    }
+    return ret;
+  }
+
   default <V extends Comparable<V>> V min(Selector<T, V> selector, V minimalValue) {
     V ret = minimalValue;
     for (T t : this) {
@@ -81,6 +96,11 @@ public interface ICollection<T> extends Iterable<T> {
 
   default double maxDouble(Selector<T, Double> selector) {
     double ret = max(selector, Double.MIN_VALUE);
+    return ret;
+  }
+
+  default int maxInt(Selector<T, Integer> selector) {
+    int ret = max(selector, Integer.MIN_VALUE);
     return ret;
   }
 
@@ -254,7 +274,7 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  default T[] toArray(Class<T> arrayItemType){
+  default T[] toArray(Class<T> arrayItemType) {
     T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
     for (T item : this) {
@@ -264,7 +284,7 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  default <K> K[] toArrayUnchecked(Class<K> arrayItemType){
+  default <K> K[] toArrayUnchecked(Class<K> arrayItemType) {
     K[] ret = (K[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
     for (T item : this) {
