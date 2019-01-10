@@ -84,13 +84,18 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  default double mean(Selector<T, Double> selector) {
+  default double mean(Selector<T, Double> selector, double defaultValueIfEmptyList) {
     double ret;
     if (this.isEmpty())
-      ret = Double.NaN;
+      ret = defaultValueIfEmptyList;
     else {
       ret = this.sumDouble(selector) / this.size();
     }
+    return ret;
+  }
+
+  default double mean(Selector<T, Double> selector) {
+    double ret = this.mean(selector, Double.NaN);
     return ret;
   }
 
