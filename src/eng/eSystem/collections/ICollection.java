@@ -65,14 +65,25 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default double minDouble(Selector<T, Double> selector) {
-    double ret = min(selector, Double.MAX_VALUE);
+    double ret = minDouble(selector, Double.MAX_VALUE);
+    return ret;
+  }
+
+  default double minDouble(Selector<T, Double> selector, double defaultValueIfEmptyList) {
+    double ret = min(selector, defaultValueIfEmptyList);
     return ret;
   }
 
   default int minInt(Selector<T, Integer> selector) {
-    int ret = min(selector, Integer.MAX_VALUE);
+    int ret = minInt(selector, Integer.MAX_VALUE);
     return ret;
   }
+
+  default int minInt(Selector<T, Integer> selector, int defaultValueIfEmptyList) {
+    int ret = min(selector, defaultValueIfEmptyList);
+    return ret;
+  }
+
 
   default double mean(Selector<T, Double> selector) {
     double ret;
@@ -95,12 +106,21 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default double maxDouble(Selector<T, Double> selector) {
-    double ret = max(selector, Double.MIN_VALUE);
+    double ret = maxDouble(selector, Double.MIN_VALUE);
+    return ret;
+  }
+
+  default double maxDouble(Selector<T, Double> selector, double defaultValueIfEmptyList) {
+    double ret = max(selector, defaultValueIfEmptyList);
     return ret;
   }
 
   default int maxInt(Selector<T, Integer> selector) {
-    int ret = max(selector, Integer.MIN_VALUE);
+    return maxInt(selector, Integer.MIN_VALUE);
+  }
+
+  default int maxInt(Selector<T, Integer> selector, int defaultValueIfEmptyList) {
+    int ret = max(selector, defaultValueIfEmptyList);
     return ret;
   }
 
