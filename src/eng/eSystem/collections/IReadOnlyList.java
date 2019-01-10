@@ -25,8 +25,15 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   default IReadOnlyList<T> get(int fromIndex, int toIndex){
     Validator.check(fromIndex >= 0,
         new IllegalArgumentException("{fromIndex} must be greater or equal zero (is " + fromIndex + ")."));
+    Validator.check(fromIndex < toIndex,
+        new IllegalArgumentException("{fromIndex} must be smaller than {toIndex} (" + fromIndex + " < " + toIndex + ")."));
+    Validator.check(toIndex <= this.size(),
+        new IllegalArgumentException("{toIndex} must be smaller than {size} (" + fromIndex + " < " + this.size() + ")."));
     IList<T> ret = new EList<>();
 
+    for (int i = fromIndex; i < toIndex; i++) {
+      ret.add(this.get(i));
+    }
 
     return ret;
   }
