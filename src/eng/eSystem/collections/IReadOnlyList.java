@@ -2,6 +2,7 @@ package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
+import eng.eSystem.validation.Validator;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -19,6 +20,15 @@ public interface IReadOnlyList<T> extends ICollection<T> {
       return defaultValue;
     else
       return this.get(index);
+  }
+
+  default IReadOnlyList<T> get(int fromIndex, int toIndex){
+    Validator.check(fromIndex >= 0,
+        new IllegalArgumentException("{fromIndex} must be greater or equal zero (is " + fromIndex + ")."));
+    IList<T> ret = new EList<>();
+
+
+    return ret;
   }
 
   IList<T> where(Predicate<T> predicate);

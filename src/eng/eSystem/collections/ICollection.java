@@ -84,7 +84,6 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-
   default double mean(Selector<T, Double> selector) {
     double ret;
     if (this.isEmpty())

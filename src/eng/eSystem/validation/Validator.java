@@ -29,12 +29,22 @@ public class Validator {
   }
 
   public static <T> void check(Producer<Boolean> check){
+    Validator.check(check, new ValidationException("Validation: Value check failed."));
+  }
+
+  public static <T> void check(Producer<Boolean> check, RuntimeException exceptionOnFail){
+    if (exceptionOnFail == null) throw new IllegalArgumentException("Fail exception cannot be null.");
     if (check.produce() == false)
-      throw new ValidationException("Validation: Value check failed.");
+      throw exceptionOnFail;
   }
 
   public static void check(boolean value){
+    Validator.check(value, new ValidationException("Validation: Value check failed."));
+  }
+
+  public static void check(boolean value, RuntimeException exceptionOnFail){
+    if (exceptionOnFail == null) throw new IllegalArgumentException("Fail exception cannot be null.");
     if (value == false)
-      throw new ValidationException("Validation: Value check failed.");
+      throw exceptionOnFail;
   }
 }
