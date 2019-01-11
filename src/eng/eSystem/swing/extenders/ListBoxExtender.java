@@ -254,5 +254,9 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     }
     return ret;
   }
+
+  protected void clearItems() {
+    this.items.clear();
+  }
 }
 

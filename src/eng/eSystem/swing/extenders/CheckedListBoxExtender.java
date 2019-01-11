@@ -107,6 +107,12 @@ public class CheckedListBoxExtender<T> extends ListBoxExtender<T>{
     setCheckedItems(new ESet<>());
   }
 
+  @Override
+  public void clearItems(){
+    super.clearItems();
+    this.checkedItems.clear();
+  }
+
 }
 
 class StringCheckListCellRenderer<T> extends JCheckBox implements ListCellRenderer<BoxItem<T>> {
