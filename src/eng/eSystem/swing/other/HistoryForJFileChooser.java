@@ -52,9 +52,8 @@ public class HistoryForJFileChooser extends JFileChooserAsidePanel {
 
   private void initContext() {
     lst = new JList<>();
-    lste = new ListBoxExtender<>(lst);
+    lste = new ListBoxExtender<>(lst, q -> HistoryForJFileChooser.getLabelString(q));
     pnlScroll = new JScrollPane(lst);
-    this.lste.setDefaultLabelSelector(q -> HistoryForJFileChooser.getLabelString(q));
     lst.addListSelectionListener(this::lst_ListSelectionListener);
   }
 

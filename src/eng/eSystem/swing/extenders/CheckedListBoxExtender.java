@@ -21,11 +21,11 @@ public class CheckedListBoxExtender<T> extends ListBoxExtender<T>{
   }
 
   public CheckedListBoxExtender() {
-    this(new JList());
+    this(new JList(), q->q.toString());
   }
 
-  public CheckedListBoxExtender(JList control) {
-    super(control);
+  public CheckedListBoxExtender(JList control, Selector<T,String> labelSelector) {
+    super(control, labelSelector);
     this.control.setCellRenderer(new StringCheckListCellRenderer(checkedItems));
     this.control.addMouseListener(new MouseAdapter() {
       @Override

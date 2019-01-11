@@ -3,6 +3,7 @@ package eng.eSystem.swing.extenders;
 import eng.eSystem.collections.*;
 import eng.eSystem.events.Event;
 import eng.eSystem.events.EventSimple;
+import eng.eSystem.utilites.Selector;
 import eng.eSystem.utilites.StringUtils;
 
 import javax.swing.*;
@@ -32,13 +33,15 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
       return count;
     }
   }
+
   protected final JList control;
   protected final IList<BoxItem<T>> items = new EDistinctList<>(EDistinctList.Behavior.skip);
   protected final DefaultListModel<BoxItem<T>> model = new DefaultListModel<>();
   private final EventSimple<ListBoxExtender> onSelectionChanged = new EventSimple<>(this);
   private final Event<ListBoxExtender, MouseClickEventArgs<T>> getItemClick = new Event<>(this);
 
-  public ListBoxExtender(JList control) {
+  public ListBoxExtender(JList control, Selector<T, String> labelSelector) {
+    super(labelSelector);
     this.control = control;
     this.control.setModel(this.model);
     this.control.addListSelectionListener(this::control_selectionChanged);
@@ -58,7 +61,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
   }
 
   public ListBoxExtender() {
-    this(new JList());
+    this(new JList(), q -> q.toString());
   }
 
   public EventSimple<ListBoxExtender> getOnSelectionChanged() {
@@ -75,7 +78,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
   }
 
   @Override
-  public void addItem(BoxItem<T> item) {
+  protected void addItem(BoxItem<T> item) {
     items.add(item);
     updateByFilter(null);
   }
@@ -154,6 +157,11 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
     this.control.setSelectedIndices(arr);
   }
 
+  public void setSelectedItems(T... item) {
+    ISet<T> lst = new ESet<>(item);
+    this.setSelectedItems(lst);
+  }
+
   public void setSelectedIndex(int index) {
     control.setSelectedIndex(index);
   }
@@ -190,11 +198,6 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
       }
     }
     return ret;
-  }
-
-  public void setSelectedItems(T... item) {
-    ISet<T> lst = new ESet<>(item);
-    this.setSelectedItems(lst);
   }
 
   public void selectAll() {

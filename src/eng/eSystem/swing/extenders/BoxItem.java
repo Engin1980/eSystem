@@ -1,6 +1,6 @@
 package eng.eSystem.swing.extenders;
 
-public class BoxItem<T> {
+class BoxItem<T> {
   public final T value;
   public final String label;
 

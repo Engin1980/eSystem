@@ -1,68 +1,46 @@
 package eng.eSystem.swing.extenders;
 
-import eng.eSystem.collections.ESet;
 import eng.eSystem.collections.IReadOnlySet;
-import eng.eSystem.collections.ISet;
 import eng.eSystem.utilites.Selector;
+import eng.eSystem.validation.Validator;
 
 abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {
 
-  private Selector<T, String> defaultLabelSelector = q->q.toString();
+  private Selector<T, String> labelSelector;
 
-  public WithModelExtender(Selector<T, String> defaultLabelSelector) {
-    this.defaultLabelSelector = defaultLabelSelector;
+  public WithModelExtender(Selector<T, String> labelSelector) {
+    Validator.isNotNull(labelSelector);
+    this.labelSelector = labelSelector;
   }
 
-  public WithModelExtender() {
-  }
-
-  public Selector<T, String> getDefaultLabelSelector() {
-    return defaultLabelSelector;
-  }
-
-  public void setDefaultLabelSelector(Selector<T, String> defaultLabelSelector) {
-    this.defaultLabelSelector = defaultLabelSelector;
-  }
-
-  public void addItems(Iterable<T> items, Selector<T, String> labelSelector) {
-    for (T item : items) {
-      addItem(item, labelSelector);
-    }
-  }
-
-  public void addItems(T[] items, Selector<T, String> labelSelector) {
-    for (T item : items) {
-      addItem(item, labelSelector);
-    }
+  public Selector<T, String> getLabelSelector() {
+    return labelSelector;
   }
 
   public void addItems(Iterable<T> items) {
     for (T item : items) {
-      addItem(item, this.defaultLabelSelector);
+      addItem(item);
     }
   }
 
   public void addItems(T[] items) {
     for (T item : items) {
-      addItem(item, this.defaultLabelSelector);
+      addItem(item);
     }
   }
 
-  public void addItem(T item, Selector<T, String> labelSelector) {
-    addItem(item, labelSelector.getValue(item));
-  }
+  protected abstract void addItem(BoxItem<T> item);
 
-  public void addItem(T item) {
-    addItem(item, this.defaultLabelSelector);
-  }
-
-  public abstract void addItem(BoxItem<T> item);
-
-  public void addItem(T value, String label) {
+  public void addItem(T value) {
+    String label;
+    try{
+      label = this.labelSelector.getValue(value);
+    } catch (Exception ex){
+      throw new IllegalArgumentException("Unable to get label for value " + value + " using predefined label selector.");
+    }
     BoxItem<T> bi = new BoxItem<>(value, label);
     this.addItem(bi);
   }
 
   public abstract IReadOnlySet<T> getItems();
-
 }
