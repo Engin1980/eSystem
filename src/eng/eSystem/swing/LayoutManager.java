@@ -218,9 +218,11 @@ public class LayoutManager {
     panel.setLayout(new GridLayout(rowCount, columnCount, distance, distance));
 
     for (Component component : components) {
-      panel.add(component);
+      if (component != null)
+        panel.add(component);
+      else
+        panel.add(new JLabel());
     }
-
   }
 
   public static void fillBorderedPanel(JComponent panel, int rowCount, int columnCount, int distance, Component... components) {
