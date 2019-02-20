@@ -123,9 +123,9 @@ public class XElement {
     XElement ret;
     IReadOnlyList<XElement> tmp = this.getChildren(name);
     if (tmp.size() == 0) {
-      throw new EXmlRuntimeException("Element with name " + name + " not found.");
+      throw new EXmlRuntimeException("Element '" + name + "' not found.");
     } else if (tmp.size() > 1) {
-      throw new EXmlRuntimeException("Element with name " + name + " has multiple occurrences.");
+      throw new EXmlRuntimeException("Element '" + name + "' has multiple occurrences.");
     } else {
       ret = tmp.get(0);
     }
@@ -154,7 +154,7 @@ public class XElement {
     try {
       ret = doc.createElement(this.name);
     } catch (Exception ex) {
-      throw new EXmlRuntimeException("Failed to create an element of name " + this.name + ".", ex);
+      throw new EXmlRuntimeException("Failed to create an element '" + this.name + "'.", ex);
     }
 
     for (String key : this.attributes.getKeys()) {
@@ -162,7 +162,7 @@ public class XElement {
       try {
         ret.setAttribute(key, val);
       } catch (Exception ex) {
-        throw new EXmlRuntimeException(sf("Failed to set attribute %s=\"%s\" to element %s.", key, val, this.name));
+        throw new EXmlRuntimeException(sf("Failed to set attribute '%s=\"%s\"' to element '%s'.", key, val, this.name));
       }
     }
 
