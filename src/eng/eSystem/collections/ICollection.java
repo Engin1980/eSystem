@@ -167,7 +167,7 @@ public interface ICollection<T> extends Iterable<T> {
   default T getFirst(Predicate<T> predicate) {
     T ret = tryGetFirst(predicate);
     if (ret == null)
-      throw new ElementNotFoundException("No element fulfilling predicate was found.");
+      throw new ElementNotFoundException("Element fulfilling predicate");
     else
       return ret;
   }
@@ -204,7 +204,7 @@ public interface ICollection<T> extends Iterable<T> {
   default T getLast(Predicate<T> predicate) {
     T ret = tryGetLast(predicate);
     if (ret == null)
-      throw new ElementNotFoundException("No element fulfilling predicate was found.");
+      throw new ElementNotFoundException("Element fulfilling predicate");
     else
       return ret;
   }
