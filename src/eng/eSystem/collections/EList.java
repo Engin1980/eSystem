@@ -36,7 +36,7 @@ public class EList<T> implements IList<T> {
     try {
       this.inner = (List) innerType.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
-      throw new RuntimeException("Unable to create a new instance.", e);
+      throw new RuntimeException("Unable to create a new instance of " + innerType.getName() + ".", e);
     }
     if (content != null)
       for (T t : content) {
