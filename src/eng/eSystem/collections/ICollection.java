@@ -298,6 +298,21 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  default T getMinimal(Selector<T, Double> minimizingCriterionSelector){
+    if (this.isEmpty())
+      throw new UnsupportedOperationException("This method cannot be invoked on an empty collection.");
+    Double minimalCriterionValue = Double.MAX_VALUE;
+    T ret = null;
+    for (T t : this) {
+      Double currentCriterionValue = minimizingCriterionSelector.getValue(t);
+      if (currentCriterionValue < minimalCriterionValue){
+        ret = t;
+        minimalCriterionValue = currentCriterionValue;
+      }
+    }
+    return ret;
+  }
+
   default T[] toArray(Class<T> arrayItemType) {
     T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;

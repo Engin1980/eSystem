@@ -5,6 +5,10 @@
  */
 package eng.eSystem.utilites;
 
+import eng.eSystem.collections.EList;
+import eng.eSystem.collections.IList;
+import eng.eSystem.collections.IReadOnlyList;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -15,8 +19,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.lang.String;
 
+import static eng.eSystem.utilites.FunctionShortcuts.sf;
+
 /**
- *
  * @author Marek Vajgl
  */
 public class ReflectionUtils {
@@ -26,13 +31,12 @@ public class ReflectionUtils {
     if (!ParameterizedType.class.isAssignableFrom(superclassType.getClass())) {
       return null;
     }
-    return ((ParameterizedType)superclassType).getActualTypeArguments();
+    return ((ParameterizedType) superclassType).getActualTypeArguments();
   }
 
   /**
-   * 
    * @param packageName
-   * @return 
+   * @return
    */
   public static List<Class> tryGetAllTypes(String packageName) {
     ClassLoader cls = ReflectionUtils.class.getClassLoader();
@@ -61,16 +65,49 @@ public class ReflectionUtils {
 
     return ret;
   }
-  
-  public static List<Class> filterByParent(List<Class> classes, Class requiredParent){
+
+  public static List<Class> filterByParent(List<Class> classes, Class requiredParent) {
     List<Class> ret = new ArrayList<>();
-    
-    for (Class c : classes){
-      if (requiredParent.isAssignableFrom(c)){
+
+    for (Class c : classes) {
+      if (requiredParent.isAssignableFrom(c)) {
         ret.add(c);
       }
     }
-    
+
+    return ret;
+  }
+
+  public static int getInheritanceDistance(Class ancestorType, Class descendantType) {
+    if (ancestorType.isAssignableFrom(descendantType) == false) {
+      throw new IllegalArgumentException(
+          sf("There is no inheritance relation between '%s' and '%s'.",
+              ancestorType.getName(),
+              descendantType.getName()));
+    }
+
+    int ret = tryTraceForParent(ancestorType, descendantType);
+    return ret;
+  }
+
+  private static int tryTraceForParent(Class targetAncestor, Class descendant) {
+    if (targetAncestor.equals(descendant))
+      return 0;
+
+    IReadOnlyList<Class> ancestors = getAllAncestors(descendant);
+    for (Class ancestor : ancestors) {
+      int tmp = tryTraceForParent(targetAncestor, ancestor);
+      if (tmp >= 0)
+        return tmp + 1;
+    }
+    return -1;
+  }
+
+  private static IList<Class> getAllAncestors(Class type) {
+    IList<Class> ret = new EList<>();
+    if (type.getSuperclass() != null)
+      ret.add(type.getSuperclass());
+    ret.add(type.getInterfaces());
     return ret;
   }
 
