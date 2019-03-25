@@ -6,11 +6,15 @@ public class Line {
   private final double c;
 
   public Line(Point a, Point b) {
-    double ux = a.x - b.x;
-    double uy = a.y - b.y;
+    this(a.x, a.y, b.x, b.y);
+  }
+
+  public Line(double ax, double ay, double bx, double by){
+    double ux = ax - bx;
+    double uy = ay - by;
     this.a = -uy;
     this.b = ux;
-    this.c = -this.a * a.x - this.b * a.y;
+    this.c = -this.a * ax - this.b * ay;
   }
 
 

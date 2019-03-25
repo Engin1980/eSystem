@@ -89,8 +89,7 @@ public class Coordinates {
     return ret;
   }
 
-  //  private static final double RADIAL_APPROACH_MULTIPLIER = 7;
-//  private static final double RADIAL_MAX_DIFF = 45; //30;
+  @Deprecated
   public static double getHeadingToRadial(Coordinate current, Coordinate target, double radialToTarget, eHeadingToRadialBehavior behavior) {
     double RADIAL_APPROACH_MULTIPLIER;
     double RADIAL_MAX_DIFF;
