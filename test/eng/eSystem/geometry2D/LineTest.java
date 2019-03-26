@@ -13,8 +13,6 @@ public class LineTest {
         new Point(3, 3));
     Point point = new Point(2, 2);
 
-    System.out.println(point);
-
     double exp = 0;
     double act = line.getDistance(point);
     assertEquals(exp, act, 0);
