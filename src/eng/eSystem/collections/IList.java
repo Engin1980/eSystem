@@ -21,16 +21,24 @@ public interface IList<T> extends IReadOnlyList<T> {
     }
   }
 
+  void clear();
+
   void insert(int index, T item);
 
-  void set(int index, T item);
+  default void insert(int index, T[] items) {
+    if (items == null) throw new IllegalArgumentException("Parameter 'items' cannot be null.");
+    for (int i = 0; i < items.length; i++) {
+      this.insert(index + i, items[i]);
+    }
+  }
 
-  void removeAt(int index);
-
-  void tryRemove(T item);
-
-  default void tryRemove(Iterable<? extends T> items) {
-    items.forEach(q -> this.tryRemove(q));
+  default void insert(int index, Iterable<? extends T> items) {
+    if (items == null) throw new IllegalArgumentException("Parameter 'items' cannot be null.");
+    int i = 0;
+    for (T item : items) {
+      this.insert(index + i, item);
+      i++;
+    }
   }
 
   void remove(T item);
@@ -48,6 +56,8 @@ public interface IList<T> extends IReadOnlyList<T> {
     }
   }
 
+  void removeAt(int index);
+
   default void retain(Predicate<T> predicate) {
     IList<T> tmp = this.where(predicate.negate());
     for (T t : tmp) {
@@ -55,11 +65,17 @@ public interface IList<T> extends IReadOnlyList<T> {
     }
   }
 
-  void clear();
-
   void reverse();
+
+  void set(int index, T item);
 
   <K extends Comparable<K>> void sort(Selector<T, K> selector);
 
   void sort(Comparator<T> comparator);
+
+  void tryRemove(T item);
+
+  default void tryRemove(Iterable<? extends T> items) {
+    items.forEach(q -> this.tryRemove(q));
+  }
 }
