@@ -172,6 +172,14 @@ public interface ICollection<T> extends Iterable<T> {
       return ret;
   }
 
+  default T getFirst(Predicate<T> predicate, RuntimeException exceptionToThrowIfNotFound){
+    T ret = tryGetFirst(predicate);
+    if (ret == null)
+      throw exceptionToThrowIfNotFound;
+    else
+      return ret;
+  }
+
   default T getFirst() {
     T ret = tryGetFirst();
     if (ret == null)
