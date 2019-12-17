@@ -1,21 +1,21 @@
 package eng.eSystem.validation;
 
 import eng.eSystem.Producer;
+import eng.eSystem.collections.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
-@Deprecated() // use Contract instead
-public class Validator {
+public class Contract {
   public static void isNotNull(Object value){
-    Validator.isNotNull(value, "");
+    Contract.isNotNull(value, "");
   }
 
   public static void isNotNull(Object value, String message){
     if (value == null)
-      throw new ValidationException("Validation: Value is null. " + message);
+      throw new ContractException("Validation: Value is null. " + message);
   }
 
   public static void matchPattern(String text, String pattern){
@@ -26,11 +26,11 @@ public class Validator {
   public static void matchPattern(String text, Pattern pattern){
     Matcher m = pattern.matcher(text);
     if (m.find() == false)
-      throw new ValidationException(sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
+      throw new ContractException(sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
   }
 
   public static <T> void check(Producer<Boolean> check){
-    Validator.check(check, new ValidationException("Validation: Value check failed."));
+    Contract.check(check, new ContractException("Validation: Value check failed."));
   }
 
   public static <T> void check(Producer<Boolean> check, RuntimeException exceptionOnFail){
@@ -40,7 +40,7 @@ public class Validator {
   }
 
   public static void check(boolean value){
-    Validator.check(value, new ValidationException("Validation: Value check failed."));
+    Contract.check(value, new ContractException("Validation: Value check failed."));
   }
 
   public static void check(boolean value, RuntimeException exceptionOnFail){
