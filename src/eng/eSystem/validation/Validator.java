@@ -1,5 +1,4 @@
 package eng.eSystem.validation;
-
 import eng.eSystem.Producer;
 
 import java.util.regex.Matcher;
@@ -7,7 +6,7 @@ import java.util.regex.Pattern;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
-@Deprecated() // use Contract instead
+@Deprecated() // use Assert instead
 public class Validator {
   public static void isNotNull(Object value){
     Validator.isNotNull(value, "");
