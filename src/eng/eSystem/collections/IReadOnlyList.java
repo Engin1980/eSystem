@@ -2,7 +2,7 @@ package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.Selector;
-import eng.eSystem.validation.Validator;
+import eng.eSystem.validation.EAssert;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -23,11 +23,11 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   }
 
   default IReadOnlyList<T> get(int fromIndex, int toIndex){
-    Validator.check(fromIndex >= 0,
+    EAssert.isTrue(fromIndex >= 0,
         new IllegalArgumentException("{fromIndex} must be greater or equal zero (is " + fromIndex + ")."));
-    Validator.check(fromIndex < toIndex,
+    EAssert.isTrue(fromIndex < toIndex,
         new IllegalArgumentException("{fromIndex} must be smaller than {toIndex} (" + fromIndex + " < " + toIndex + ")."));
-    Validator.check(toIndex <= this.size(),
+    EAssert.isTrue(toIndex <= this.size(),
         new IllegalArgumentException("{toIndex} must be smaller than {size} (" + fromIndex + " < " + this.size() + ")."));
     IList<T> ret = new EList<>();
 

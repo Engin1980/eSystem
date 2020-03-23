@@ -2,7 +2,7 @@ package eng.eSystem.geo.geocoding;
 
 import eng.eSystem.geo.Coordinate;
 import eng.eSystem.utilites.WebUtils;
-import eng.eSystem.validation.Validator;
+import eng.eSystem.validation.EAssert;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -15,8 +15,8 @@ public class HereGeocoding implements IGeocoding {
   private final String id;
 
   public HereGeocoding(String id, String code) {
-    Validator.isNotNull(id, "APP_ID cannot be null. Obtain some from developer.here.com");
-    Validator.isNotNull(code, "APP_CODE cannot be null. Obtain some from developer.here.com");
+    EAssert.isNotNull(id, "APP_ID cannot be null. Obtain some from developer.here.com");
+    EAssert.isNotNull(code, "APP_CODE cannot be null. Obtain some from developer.here.com");
     this.code = code;
     this.id = id;
   }

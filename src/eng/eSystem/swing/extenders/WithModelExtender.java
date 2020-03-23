@@ -2,14 +2,14 @@ package eng.eSystem.swing.extenders;
 
 import eng.eSystem.collections.IReadOnlySet;
 import eng.eSystem.utilites.Selector;
-import eng.eSystem.validation.Validator;
+import eng.eSystem.validation.EAssert;
 
 abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {
 
   private Selector<T, String> labelSelector;
 
   public WithModelExtender(Selector<T, String> labelSelector) {
-    Validator.isNotNull(labelSelector);
+    EAssert.isNotNull(labelSelector);
     this.labelSelector = labelSelector;
   }
 

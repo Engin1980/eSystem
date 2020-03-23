@@ -1,6 +1,6 @@
 package eng.eSystem.swing.other;
 
-import eng.eSystem.validation.Validator;
+import eng.eSystem.validation.EAssert;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ public abstract class JFileChooserAsidePanel extends JComponent implements Prope
    * Used to define layout of aside panels.
    */
   public static class LayoutDefinition {
-    private eOrientation orientation = eOrientation.horizontal;
+    private eOrientation orientation;
     private int totalWidth;
     private int totalHeight;
 
@@ -46,10 +46,10 @@ public abstract class JFileChooserAsidePanel extends JComponent implements Prope
   private JFileChooser jFileChooser;
 
   public static void bind(JFileChooser chooser, LayoutDefinition layoutDefinition, JFileChooserAsidePanel... panels) {
-    Validator.isNotNull(chooser);
-    Validator.isNotNull(layoutDefinition);
+    EAssert.isNotNull(chooser);
+    EAssert.isNotNull(layoutDefinition);
     for (JFileChooserAsidePanel panel : panels) {
-      Validator.isNotNull(panel);
+      EAssert.isNotNull(panel);
     }
 
     for (JFileChooserAsidePanel panel : panels) {
