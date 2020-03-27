@@ -5,10 +5,39 @@ import eng.eSystem.Producer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static eng.eSystem.utilites.FunctionShortcuts.coalesce;
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class EAssert {
 
+  public static class Argument {
+
+    public static void isNonEmptyString(String value){
+      EAssert.Argument.isNonEmptyString(value, null);
+    }
+
+    public static void isNonEmptyString(String value, String message){
+      EAssert.isNonemptyString(value, "Argument cannot be null or empty string. " + coalesce(message, ""));
+    }
+
+    public static void isNotNull(Object value) {
+      EAssert.Argument.isNotNull(value, null);
+    }
+
+    public static void isNotNull(Object value, String message) {
+      EAssert.isNotNull(value, "Argument cannot be null. " + coalesce(message, ""));
+    }
+
+    public static void isTrue(boolean value) {
+      EAssert.Argument.isTrue(value, null);
+    }
+
+    public static void isTrue(boolean value, String message) {
+      EAssert.isTrue(value, "Function argument does not fulfil requirement. " + coalesce(message, ""));
+    }
+
+
+  }
   private static final String TEXT_ERR = "E-Assert failed. ";
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
@@ -93,6 +122,20 @@ public class EAssert {
   public static void isTrue(boolean value, RuntimeException exceptionOnFail) {
     checkExceptionOnFail(exceptionOnFail);
     if (!value) throw exceptionOnFail;
+  }
+
+  public static void isXor(boolean... value) {
+    boolean isFound = false;
+    for (boolean b : value) {
+      if (b) {
+        if (!isFound)
+          isFound = true;
+        else
+          throw new EAssertException("Multiple of XOR boolean expressions is true.");
+      }
+    }
+    if (!isFound)
+      throw new EAssertException("Any of XOR boolean expressions is true.");
   }
 
   public static void matchPattern(String text, String pattern) {
