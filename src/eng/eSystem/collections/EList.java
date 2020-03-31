@@ -60,6 +60,17 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public void slice(Predicate<Integer> indexSelector) {
+    IList<Integer> indicesToRemove = new EList<>();
+    for (int i = this.inner.size()-1; i >= 0 ; i--) {
+      if (indexSelector.test(i)) indicesToRemove.add(i);
+    }
+    for (int i = 0; i < indicesToRemove.size(); i++) {
+      this.removeAt(indicesToRemove.get(i));
+    }
+  }
+
+  @Override
   public void removeAt(int index) {
     inner.remove((int) index);
   }

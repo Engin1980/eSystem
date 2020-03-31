@@ -13,28 +13,6 @@ public class EListTest {
   }
 
   @Test
-  public void where() {
-    IList<Integer> lst = new EList<>();
-    for (int i = 0; i < 10; i++) {
-      lst.add(i);
-    }
-
-    IList<Integer> exp = new EList<>();
-    exp.add(1);
-    exp.add(3);
-    exp.add(5);
-    exp.add(7);
-    exp.add(9);
-
-    IList<Integer> act = lst.where(q -> q % 2 == 1);
-
-    assertEquals(exp.size(), act.size());
-    for (int i = 0; i < exp.size(); i++) {
-      assertEquals(exp.get(i), act.get(i));
-    }
-  }
-
-  @Test
   public void remove_byPredicate() {
     IList<Integer> act = new EList<>();
     for (int i = 0; i < 10; i++) {
@@ -56,6 +34,22 @@ public class EListTest {
     }
   }
 
+  @Test
+  public void slice() {
+    IList<String> lst = new EList<>();
+    lst.add("1");
+    lst.add("2");
+    lst.add("3");
+    lst.add("4");
+    lst.add("5");
+    lst.add("6");
+    lst.add("7");
+
+    lst.slice(0, 2, 3, 5, 6, 7);
+    assertEquals(2, lst.size());
+    assertEquals("2", lst.get(0));
+    assertEquals("5", lst.get(1));
+  }
 
   @Test
   public void sort() {
@@ -78,6 +72,28 @@ public class EListTest {
         fail("Not sorted");
       else
         prev = cur;
+    }
+  }
+
+  @Test
+  public void where() {
+    IList<Integer> lst = new EList<>();
+    for (int i = 0; i < 10; i++) {
+      lst.add(i);
+    }
+
+    IList<Integer> exp = new EList<>();
+    exp.add(1);
+    exp.add(3);
+    exp.add(5);
+    exp.add(7);
+    exp.add(9);
+
+    IList<Integer> act = lst.where(q -> q % 2 == 1);
+
+    assertEquals(exp.size(), act.size());
+    for (int i = 0; i < exp.size(); i++) {
+      assertEquals(exp.get(i), act.get(i));
     }
   }
 
