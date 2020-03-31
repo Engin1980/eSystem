@@ -12,20 +12,20 @@ public class EAssert {
 
   public static class Argument {
 
-    public static void isNonEmptyString(String value){
-      EAssert.Argument.isNonEmptyString(value, null);
+    public static void isNonemptyString(String value) {
+      EAssert.isNonemptyString(value, "Argument cannot be null or empty string. ");
     }
 
-    public static void isNonEmptyString(String value, String message){
-      EAssert.isNonemptyString(value, "Argument cannot be null or empty string. " + coalesce(message, ""));
+    public static void isNonemptyString(String value, String argumentName) {
+      EAssert.isNonemptyString(value, sf("Argument '%s' cannot be null or empty string.", argumentName));
     }
 
     public static void isNotNull(Object value) {
-      EAssert.Argument.isNotNull(value, null);
+      EAssert.isNotNull(value, "Argument cannot be null.");
     }
 
-    public static void isNotNull(Object value, String message) {
-      EAssert.isNotNull(value, "Argument cannot be null. " + coalesce(message, ""));
+    public static void isNotNull(Object value, String argumentName) {
+      EAssert.isNotNull(value, sf("Argument '%s' cannot be null.", argumentName));
     }
 
     public static void isTrue(boolean value) {
@@ -33,11 +33,22 @@ public class EAssert {
     }
 
     public static void isTrue(boolean value, String message) {
-      EAssert.isTrue(value, "Function argument does not fulfil requirement. " + coalesce(message, ""));
+      EAssert.isTrue(value, "Argument does not fulfil requirement. " + coalesce(message, ""));
+    }
+
+    public static void matchPattern(String value, String pattern, String argumentName) {
+      EAssert.matchPattern(value, pattern,
+          sf("Argument '%s' with value '%s' does not match regex pattern '%s'.", argumentName, value, pattern));
+    }
+
+    public static void matchPattern(String value, String pattern) {
+      EAssert.matchPattern(value, pattern,
+          sf("Argument with value '%s' does not match regex pattern '%s'.", value, pattern));
     }
 
 
   }
+
   private static final String TEXT_ERR = "E-Assert failed. ";
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
@@ -143,10 +154,20 @@ public class EAssert {
     matchPattern(text, p);
   }
 
+  public static void matchPattern(String text, String pattern, String message) {
+    Pattern p = Pattern.compile(pattern);
+    matchPattern(text, p, message);
+  }
+
   public static void matchPattern(String text, Pattern pattern) {
+    matchPattern(text, pattern,
+        sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
+  }
+
+  public static void matchPattern(String text, Pattern pattern, String message) {
     Matcher m = pattern.matcher(text);
     if (!m.find())
-      throw new EAssertException(sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
+      throw new EAssertException(message);
   }
 
   private static void checkExceptionOnFail(RuntimeException value) {
