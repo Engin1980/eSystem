@@ -94,10 +94,32 @@ public class NumberUtils {
     return tmp;
   }
 
+  /**
+   * Returns the value, but bounded between maximum or minimum.
+   * @param min Minimal returned value.
+   * @param value Returned value if between min and max.
+   * @param max Maximal returned value.
+   * @return Returned value, if between min-max, or min/max.
+   * Function returns middle value, if it fits into min..max interval. If value is
+   * lower then minimum, minimum is returned. If value is higher than maximum,
+   * maximum is returned. Function does not check and expects that min<=max,
+   * otherwise unexpected behavior occurs.
+   */
   public static int boundBetween(int min, int value, int max){
     return value < min ? min : value > max ? max : value;
   }
 
+  /**
+   * Returns the value, but bounded between maximum or minimum.
+   * @param min Minimal returned value.
+   * @param value Returned value if between min and max.
+   * @param max Maximal returned value.
+   * @return Returned value, if between min-max, or min/max.
+   * Function returns middle value, if it fits into min..max interval. If value is
+   * lower then minimum, minimum is returned. If value is higher than maximum,
+   * maximum is returned. Function does not check and expects that min<=max,
+   * otherwise unexpected behavior occurs.
+   */
   public static double boundBetween(double min, double value, double max){
     return value < min ? min : value > max ? max : value;
   }
