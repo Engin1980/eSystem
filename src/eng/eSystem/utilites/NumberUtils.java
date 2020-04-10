@@ -93,4 +93,12 @@ public class NumberUtils {
     tmp = tmp * mult;
     return tmp;
   }
+
+  public static int boundBetween(int min, int value, int max){
+    return value < min ? min : value > max ? max : value;
+  }
+
+  public static double boundBetween(double min, double value, double max){
+    return value < min ? min : value > max ? max : value;
+  }
 }
