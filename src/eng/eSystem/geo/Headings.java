@@ -24,8 +24,7 @@ public class Headings {
       else
         b += 360;
     }
-    double ret = a - b;
-    return ret;
+    return a - b;
   }
 
   private static double getDifferenceShortestArc(double a, double b) {
