@@ -110,6 +110,5 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   IList<T> where(Predicate<T> predicate);
 
-  IList<T> whereItemClassIs(Class clazz, boolean includeInheritance);
-
+  <V> IList<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance);
 }

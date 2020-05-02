@@ -15,6 +15,7 @@ public class EList<T> implements IList<T> {
   public static <T> EList<T> of(T... elements) {
     return new EList<>(elements);
   }
+
   private List<T> inner;
 
   public EList(Class innerType) {
@@ -327,12 +328,12 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public IList<T> whereItemClassIs(Class clazz, boolean includeInheritance) {
-    IList<T> ret;
+  public <V> IList<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance) {
+    IList<V> ret;
     if (includeInheritance)
-      ret = this.where(q -> clazz.isAssignableFrom(q.getClass()));
+      ret = this.where(q -> clazz.isAssignableFrom(q.getClass())).select(q -> (V) q);
     else
-      ret = this.where(q -> q.getClass().equals(clazz));
+      ret = this.where(q -> q.getClass().equals(clazz)).select(q -> (V) q);
     return ret;
   }
 }
