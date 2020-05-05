@@ -2,7 +2,7 @@ package eng.eSystem.collections;
 
 import java.util.function.Predicate;
 
-public interface ISet<T> extends  IReadOnlySet<T> {
+public interface ISet<T> extends IReadOnlySet<T> {
 
   void add(T item);
 
@@ -18,7 +18,7 @@ public interface ISet<T> extends  IReadOnlySet<T> {
     }
   }
 
-  void remove(T item);
+  void clear();
 
   default void remove(Iterable<? extends T> items) {
     for (T item : items) {
@@ -33,14 +33,14 @@ public interface ISet<T> extends  IReadOnlySet<T> {
     }
   }
 
+  void remove(T item);
+
   default void retain(Predicate<T> predicate) {
     ISet<T> tmp = this.where(predicate.negate());
     for (T t : tmp) {
       this.remove(tmp);
     }
   }
-
-  void clear();
 
   IList<T> toList();
 }
