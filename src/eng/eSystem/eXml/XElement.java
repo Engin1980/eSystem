@@ -11,12 +11,6 @@ import org.w3c.dom.Node;
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class XElement {
-  private final String name;
-  private final IList<XElement> children = new EList<>();
-  private final IMap<String, String> attributes = new EMap<>();
-  private XElement parent;
-  private String content;
-
   public static XElement fromElement(Element el) {
     XElement ret = new XElement(el.getTagName());
 
@@ -46,6 +40,11 @@ public class XElement {
 
     return ret;
   }
+  private final IMap<String, String> attributes = new EMap<>();
+  private final IList<XElement> children = new EList<>();
+  private String content;
+  private final String name;
+  private XElement parent;
 
   public XElement(String name) {
     this.name = name;
@@ -56,18 +55,6 @@ public class XElement {
     this.content = content;
   }
 
-  public XElement getParent() {
-    return parent;
-  }
-
-  private void setParent(XElement parent) {
-    this.parent = parent;
-  }
-
-  public String getName() {
-    return name;
-  }
-
   public void addElement(XElement childElement) {
     if (childElement.getParent() != null)
       throw new EXmlRuntimeException("Element " + childElement + " has already a parent " + childElement.getParent() + ".");
@@ -75,8 +62,10 @@ public class XElement {
     this.children.add(childElement);
   }
 
-  public void setAttribute(String attributeName, String attributeValue) {
-    this.attributes.set(attributeName, attributeValue);
+  public void detachFromParent() {
+    if (this.parent != null)
+      this.parent.children.tryRemove(this);
+    this.parent = null;
   }
 
   public String getAttribute(String name) {
@@ -84,39 +73,8 @@ public class XElement {
     return ret;
   }
 
-  public String tryGetAttribute(String name) {
-    String ret = getAttributes().tryGet(name);
-    return ret;
-  }
-
-  public void detachFromParent(){
-    if (this.parent != null)
-      this.parent.children.tryRemove(this);
-    this.parent = null;
-  }
-
-  public String tryGetAttribute(String name, String defaultValue) {
-    String ret = getAttributes().tryGet(name);
-    if (ret == null)
-      ret = defaultValue;
-    return ret;
-  }
-
-  public void removeElement(XElement childElement) {
-    this.children.remove(childElement);
-    childElement.setParent(null);
-  }
-
-  public void removeAttribute(String attributeName) {
-    this.attributes.remove(attributeName);
-  }
-
-  public IReadOnlyList<XElement> getChildren() {
-    return children;
-  }
-
-  public IReadOnlyList<XElement> getChildren(String name) {
-    return children.where(q -> q.getName().equals(name));
+  public IReadOnlyMap<String, String> getAttributes() {
+    return attributes;
   }
 
   public XElement getChild(String name) {
@@ -132,8 +90,12 @@ public class XElement {
     return ret;
   }
 
-  public IReadOnlyMap<String, String> getAttributes() {
-    return attributes;
+  public IReadOnlyList<XElement> getChildren() {
+    return children;
+  }
+
+  public IReadOnlyList<XElement> getChildren(String name) {
+    return children.where(q -> q.getName().equals(name));
   }
 
   public String getContent() {
@@ -144,9 +106,33 @@ public class XElement {
     this.content = content;
   }
 
-  @Override
-  public String toString() {
-    return toString(false);
+  public String getName() {
+    return name;
+  }
+
+  public XElement getParent() {
+    return parent;
+  }
+
+  private void setParent(XElement parent) {
+    this.parent = parent;
+  }
+
+  public boolean hasAttribute(String name) {
+    return this.attributes.containsKey(name);
+  }
+
+  public void removeAttribute(String attributeName) {
+    this.attributes.remove(attributeName);
+  }
+
+  public void removeElement(XElement childElement) {
+    this.children.remove(childElement);
+    childElement.setParent(null);
+  }
+
+  public void setAttribute(String attributeName, String attributeValue) {
+    this.attributes.set(attributeName, attributeValue);
   }
 
   public Element toElement(Document doc) {
@@ -178,6 +164,27 @@ public class XElement {
     return ret;
   }
 
+  public String toFullString() {
+    String ret = toFullString(0);
+    return ret;
+  }
+
+  @Override
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean withAttributes) {
+    EStringBuilder ret = new EStringBuilder();
+    ret.append("<").append(this.getName());
+    if (withAttributes)
+      for (String key : attributes.getKeys()) {
+        ret.append(" ").append(key).append("=\"").append(this.attributes.get(key)).append("\"");
+      }
+    ret.append(">");
+    return ret.toString();
+  }
+
   public String toXPath() {
     EStringBuilder sb = new EStringBuilder();
 
@@ -207,19 +214,15 @@ public class XElement {
     return sb.toString();
   }
 
-  public String toString(boolean withAttributes) {
-    EStringBuilder ret = new EStringBuilder();
-    ret.append("<").append(this.getName());
-    if (withAttributes)
-      for (String key : attributes.getKeys()) {
-        ret.append(" ").append(key).append("=\"").append(this.attributes.get(key)).append("\"");
-      }
-    ret.append(">");
-    return ret.toString();
+  public String tryGetAttribute(String name) {
+    String ret = getAttributes().tryGet(name);
+    return ret;
   }
 
-  public String toFullString() {
-    String ret = toFullString(0);
+  public String tryGetAttribute(String name, String defaultValue) {
+    String ret = getAttributes().tryGet(name);
+    if (ret == null)
+      ret = defaultValue;
     return ret;
   }
 
@@ -243,7 +246,7 @@ public class XElement {
     } else if (!this.getChildren().isEmpty()) {
       ret.append(">").appendLine();
       for (XElement child : children) {
-        ret.append(child.toFullString(indentLevel+1));
+        ret.append(child.toFullString(indentLevel + 1));
       }
       ret.append(indent).appendFormat("</%s>", this.getName());
     } else {
