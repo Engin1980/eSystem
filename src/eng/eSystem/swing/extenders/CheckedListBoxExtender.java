@@ -2,7 +2,7 @@ package eng.eSystem.swing.extenders;
 
 import eng.eSystem.collections.*;
 import eng.eSystem.events.EventSimple;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import javax.swing.*;
 import java.awt.*;

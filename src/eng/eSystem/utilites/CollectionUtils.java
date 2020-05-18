@@ -2,6 +2,7 @@ package eng.eSystem.utilites;
 
 import com.sun.istack.internal.NotNull;
 import eng.eSystem.collections.IList;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 

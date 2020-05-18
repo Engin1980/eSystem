@@ -1,7 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
 import java.util.List;

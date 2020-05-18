@@ -2,7 +2,7 @@ package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.utilites.ObjectUtils;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.*;
 import java.util.function.Predicate;

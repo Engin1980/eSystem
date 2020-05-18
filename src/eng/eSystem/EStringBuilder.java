@@ -1,6 +1,6 @@
 package eng.eSystem;
 
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 public class EStringBuilder {
   private final StringBuilder sb;
