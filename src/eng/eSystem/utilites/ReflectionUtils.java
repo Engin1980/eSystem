@@ -11,13 +11,13 @@ import eng.eSystem.collections.IReadOnlyList;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.lang.String;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
@@ -25,6 +25,49 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
  * @author Marek Vajgl
  */
 public class ReflectionUtils {
+
+  public static class ClassUtils {
+    /**
+     * Returns all the fields of a class, including inherited.
+     * @param type Required class to get fields over
+     * @return A readonly IList of fields.
+     */
+    public static IReadOnlyList<Field> getFields(Class<?> type) {
+      IList<Field> ret = new EList<>();
+
+      Class<?> tmp = type;
+      while (tmp != null) {
+        Field[] fields = tmp.getDeclaredFields();
+        ret.add(fields);
+        tmp = tmp.getSuperclass();
+      }
+      return ret;
+    }
+  }
+
+  public static List<Class> filterByParent(List<Class> classes, Class requiredParent) {
+    List<Class> ret = new ArrayList<>();
+
+    for (Class c : classes) {
+      if (requiredParent.isAssignableFrom(c)) {
+        ret.add(c);
+      }
+    }
+
+    return ret;
+  }
+
+  public static int getInheritanceDistance(Class ancestorType, Class descendantType) {
+    if (ancestorType.isAssignableFrom(descendantType) == false) {
+      throw new IllegalArgumentException(
+          sf("There is no inheritance relation between '%s' and '%s'.",
+              ancestorType.getName(),
+              descendantType.getName()));
+    }
+
+    int ret = tryTraceForParent(ancestorType, descendantType);
+    return ret;
+  }
 
   public static Type[] getParameterizedTypes(Object object) {
     Type superclassType = object.getClass().getGenericSuperclass();
@@ -66,27 +109,11 @@ public class ReflectionUtils {
     return ret;
   }
 
-  public static List<Class> filterByParent(List<Class> classes, Class requiredParent) {
-    List<Class> ret = new ArrayList<>();
-
-    for (Class c : classes) {
-      if (requiredParent.isAssignableFrom(c)) {
-        ret.add(c);
-      }
-    }
-
-    return ret;
-  }
-
-  public static int getInheritanceDistance(Class ancestorType, Class descendantType) {
-    if (ancestorType.isAssignableFrom(descendantType) == false) {
-      throw new IllegalArgumentException(
-          sf("There is no inheritance relation between '%s' and '%s'.",
-              ancestorType.getName(),
-              descendantType.getName()));
-    }
-
-    int ret = tryTraceForParent(ancestorType, descendantType);
+  private static IList<Class> getAllAncestors(Class type) {
+    IList<Class> ret = new EList<>();
+    if (type.getSuperclass() != null)
+      ret.add(type.getSuperclass());
+    ret.add(type.getInterfaces());
     return ret;
   }
 
@@ -101,14 +128,6 @@ public class ReflectionUtils {
         return tmp + 1;
     }
     return -1;
-  }
-
-  private static IList<Class> getAllAncestors(Class type) {
-    IList<Class> ret = new EList<>();
-    if (type.getSuperclass() != null)
-      ret.add(type.getSuperclass());
-    ret.add(type.getInterfaces());
-    return ret;
   }
 
 }
