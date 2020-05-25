@@ -25,10 +25,44 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
  * @author Marek Vajgl
  */
 public class ReflectionUtils {
+  public static class Package {
+    /**
+     * Returns all classes declared in the package
+     * @param packageName Package name
+     * @return Readonly list of classes.
+     */
+    public static IReadOnlyList<Class<?>> tryGetAllTypes(String packageName) {
+      ClassLoader cls = ReflectionUtils.class.getClassLoader();
+      packageName = packageName.replace('.', '/');
+      Enumeration<URL> urls;
+
+      try {
+        urls = cls.getResources(packageName);
+      } catch (IOException ex) {
+        return null;
+      }
+
+      IList<Class<?>> ret = new EList<>();
+      while (urls.hasMoreElements()) {
+        URL url = urls.nextElement();
+        File f = new File(url.getFile());
+        if (f.getName().endsWith(".class")) {
+          try {
+            Class<?> c = cls.loadClass(packageName + "." + f.getName().substring(0, f.getName().length() - 6));
+            ret.add(c);
+          } catch (ClassNotFoundException ex) {
+            // intentionally blank
+          }
+        }
+      }
+      return ret;
+    }
+  }
 
   public static class ClassUtils {
     /**
      * Returns all the fields of a class, including inherited.
+     *
      * @param type Required class to get fields over
      * @return A readonly IList of fields.
      */
@@ -45,10 +79,10 @@ public class ReflectionUtils {
     }
   }
 
-  public static List<Class> filterByParent(List<Class> classes, Class requiredParent) {
-    List<Class> ret = new ArrayList<>();
+  public static List<Class<?>> filterByParent(List<Class<?>> classes, Class<?> requiredParent) {
+    List<Class<?>> ret = new ArrayList<>();
 
-    for (Class c : classes) {
+    for (Class<?> c : classes) {
       if (requiredParent.isAssignableFrom(c)) {
         ret.add(c);
       }
@@ -57,7 +91,7 @@ public class ReflectionUtils {
     return ret;
   }
 
-  public static int getInheritanceDistance(Class ancestorType, Class descendantType) {
+  public static int getInheritanceDistance(Class<?> ancestorType, Class<?> descendantType) {
     if (ancestorType.isAssignableFrom(descendantType) == false) {
       throw new IllegalArgumentException(
           sf("There is no inheritance relation between '%s' and '%s'.",
@@ -77,52 +111,20 @@ public class ReflectionUtils {
     return ((ParameterizedType) superclassType).getActualTypeArguments();
   }
 
-  /**
-   * @param packageName
-   * @return
-   */
-  public static List<Class> tryGetAllTypes(String packageName) {
-    ClassLoader cls = ReflectionUtils.class.getClassLoader();
-    packageName = packageName.replace('.', '/');
-    Enumeration<URL> urls;
-
-    try {
-      urls = cls.getResources(packageName);
-    } catch (IOException ex) {
-      return null;
-    }
-
-    List<Class> ret = new ArrayList<>();
-    while (urls.hasMoreElements()) {
-      URL url = urls.nextElement();
-      Class c;
-      File f = new File(url.getFile());
-      if (f.getName().endsWith(".class")) {
-        try {
-          c = cls.loadClass(packageName + "." + f.getName().substring(0, f.getName().length() - 6));
-          ret.add(c);
-        } catch (ClassNotFoundException ex) {
-        }
-      }
-    }
-
-    return ret;
-  }
-
-  private static IList<Class> getAllAncestors(Class type) {
-    IList<Class> ret = new EList<>();
+  private static IList<Class<?>> getAllAncestors(Class<?> type) {
+    IList<Class<?>> ret = new EList<>();
     if (type.getSuperclass() != null)
       ret.add(type.getSuperclass());
     ret.add(type.getInterfaces());
     return ret;
   }
 
-  private static int tryTraceForParent(Class targetAncestor, Class descendant) {
+  private static int tryTraceForParent(Class<?> targetAncestor, Class<?> descendant) {
     if (targetAncestor.equals(descendant))
       return 0;
 
-    IReadOnlyList<Class> ancestors = getAllAncestors(descendant);
-    for (Class ancestor : ancestors) {
+    IReadOnlyList<Class<?>> ancestors = getAllAncestors(descendant);
+    for (Class<?> ancestor : ancestors) {
       int tmp = tryTraceForParent(targetAncestor, ancestor);
       if (tmp >= 0)
         return tmp + 1;
