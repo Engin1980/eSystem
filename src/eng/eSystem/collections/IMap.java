@@ -1,5 +1,7 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.functionalInterfaces.Producer;
+
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -27,6 +29,8 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
   void set(IMap<K, ? extends V> m);
 
   V getOrSet(K key, V valueIfKeyNotFound);
+
+  V getOrSet(K key, Producer<V> valueProducerIfKeyNotFound);
 
   default void set(Map.Entry<? extends K, ? extends V> m) {
     this.set(m.getKey(), m.getValue());

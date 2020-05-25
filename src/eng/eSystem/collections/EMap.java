@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.NoSuchKeyException;
+import eng.eSystem.functionalInterfaces.Producer;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
@@ -122,11 +123,19 @@ public class EMap<K, V> implements IMap<K, V> {
 
   @Override
   public V getOrSet(K key, V valueIfKeyNotFound) {
-    V ret = this.tryGet(key);
-    if (ret == null) {
-      ret = valueIfKeyNotFound;
-      this.set(key, ret);
-    }
+    V ret;
+    if (!this.containsKey(key))
+      this.set(key, valueIfKeyNotFound);
+    ret = this.get(key);
+    return ret;
+  }
+
+  @Override
+  public V getOrSet(K key, Producer<V> valueProducerIfKeyNotFound) {
+    V ret;
+    if (!this.containsKey(key))
+      this.set(key, valueProducerIfKeyNotFound.produce());
+    ret = this.get(key);
     return ret;
   }
 
