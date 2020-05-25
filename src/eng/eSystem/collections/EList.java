@@ -336,4 +336,11 @@ public class EList<T> implements IList<T> {
       ret = this.where(q -> q.getClass().equals(clazz)).select(q -> (V) q);
     return ret;
   }
+
+  @Override
+  public IReadOnlyList<T> toReversed() {
+    IList<T> ret = new EList<>(this);
+    ret.reverse();
+    return ret;
+  }
 }
