@@ -1,6 +1,6 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.Map;
 import java.util.function.Predicate;

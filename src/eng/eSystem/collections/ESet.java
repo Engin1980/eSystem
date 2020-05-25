@@ -1,7 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.exceptions.EIllegalArgumentException;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.HashSet;
 import java.util.Iterator;

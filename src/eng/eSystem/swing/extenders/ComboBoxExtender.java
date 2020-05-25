@@ -5,7 +5,7 @@ import eng.eSystem.collections.IList;
 import eng.eSystem.collections.IReadOnlySet;
 import eng.eSystem.collections.ISet;
 import eng.eSystem.events.EventSimple;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;

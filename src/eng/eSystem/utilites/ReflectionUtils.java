@@ -11,6 +11,7 @@ import eng.eSystem.collections.IReadOnlyList;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -26,10 +27,11 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
 public class ReflectionUtils {
   public static class Package {
     /**
-     * @param packageName
-     * @return
+     * Returns all classes declared in the package
+     * @param packageName Package name
+     * @return Readonly list of classes.
      */
-    public static List<Class> tryGetAllTypes(String packageName) {
+    public static IReadOnlyList<Class<?>> tryGetAllTypes(String packageName) {
       ClassLoader cls = ReflectionUtils.class.getClassLoader();
       packageName = packageName.replace('.', '/');
       Enumeration<URL> urls;
@@ -40,28 +42,47 @@ public class ReflectionUtils {
         return null;
       }
 
-      List<Class> ret = new ArrayList<>();
+      IList<Class<?>> ret = new EList<>();
       while (urls.hasMoreElements()) {
         URL url = urls.nextElement();
-        Class c;
         File f = new File(url.getFile());
         if (f.getName().endsWith(".class")) {
           try {
-            c = cls.loadClass(packageName + "." + f.getName().substring(0, f.getName().length() - 6));
+            Class<?> c = cls.loadClass(packageName + "." + f.getName().substring(0, f.getName().length() - 6));
             ret.add(c);
           } catch (ClassNotFoundException ex) {
+            // intentionally blank
           }
         }
       }
-
       return ret;
     }
   }
 
-  public static List<Class> filterByParent(List<Class> classes, Class requiredParent) {
-    List<Class> ret = new ArrayList<>();
+  public static class ClassUtils {
+    /**
+     * Returns all the fields of a class, including inherited.
+     *
+     * @param type Required class to get fields over
+     * @return A readonly IList of fields.
+     */
+    public static IReadOnlyList<Field> getFields(Class<?> type) {
+      IList<Field> ret = new EList<>();
 
-    for (Class c : classes) {
+      Class<?> tmp = type;
+      while (tmp != null) {
+        Field[] fields = tmp.getDeclaredFields();
+        ret.add(fields);
+        tmp = tmp.getSuperclass();
+      }
+      return ret;
+    }
+  }
+
+  public static List<Class<?>> filterByParent(List<Class<?>> classes, Class<?> requiredParent) {
+    List<Class<?>> ret = new ArrayList<>();
+
+    for (Class<?> c : classes) {
       if (requiredParent.isAssignableFrom(c)) {
         ret.add(c);
       }
@@ -70,7 +91,7 @@ public class ReflectionUtils {
     return ret;
   }
 
-  public static int getInheritanceDistance(Class ancestorType, Class descendantType) {
+  public static int getInheritanceDistance(Class<?> ancestorType, Class<?> descendantType) {
     if (ancestorType.isAssignableFrom(descendantType) == false) {
       throw new IllegalArgumentException(
           sf("There is no inheritance relation between '%s' and '%s'.",
@@ -90,25 +111,25 @@ public class ReflectionUtils {
     return ((ParameterizedType) superclassType).getActualTypeArguments();
   }
 
-  private static int tryTraceForParent(Class targetAncestor, Class descendant) {
+  private static IList<Class<?>> getAllAncestors(Class<?> type) {
+    IList<Class<?>> ret = new EList<>();
+    if (type.getSuperclass() != null)
+      ret.add(type.getSuperclass());
+    ret.add(type.getInterfaces());
+    return ret;
+  }
+
+  private static int tryTraceForParent(Class<?> targetAncestor, Class<?> descendant) {
     if (targetAncestor.equals(descendant))
       return 0;
 
-    IReadOnlyList<Class> ancestors = getAllAncestors(descendant);
-    for (Class ancestor : ancestors) {
+    IReadOnlyList<Class<?>> ancestors = getAllAncestors(descendant);
+    for (Class<?> ancestor : ancestors) {
       int tmp = tryTraceForParent(targetAncestor, ancestor);
       if (tmp >= 0)
         return tmp + 1;
     }
     return -1;
-  }
-
-  private static IList<Class> getAllAncestors(Class type) {
-    IList<Class> ret = new EList<>();
-    if (type.getSuperclass() != null)
-      ret.add(type.getSuperclass());
-    ret.add(type.getInterfaces());
-    return ret;
   }
 
 }

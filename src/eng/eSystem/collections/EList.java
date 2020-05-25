@@ -1,8 +1,8 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.utilites.ObjectUtils;
-import eng.eSystem.utilites.Selector;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -68,8 +68,7 @@ public class EList<T> implements IList<T> {
     IList<T> ret = new EList<>();
     for (T t : this) {
       K v = selector.getValue(t);
-      if (known.contains(v)) continue;
-      else {
+      if (!known.contains(v)) {
         known.add(v);
         ret.add(t);
       }
@@ -80,7 +79,7 @@ public class EList<T> implements IList<T> {
   @Override
   public boolean equals(Object o) {
     if (o instanceof EList)
-      return inner.equals(((EList) o).inner);
+      return inner.equals(((EList<?>) o).inner);
     else
       return false;
   }
@@ -140,19 +139,15 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void remove(T item) {
-    if (item != null && item.getClass().equals(int.class)) {
-      inner.remove((Integer) item);
-    } else {
-      if (inner.contains(item) == false)
-        throw new ElementNotFoundException(item);
-      else
-        inner.remove(item);
-    }
+    if (inner.contains(item))
+      throw new ElementNotFoundException(item);
+    else
+      inner.remove(item);
   }
 
   @Override
   public void removeAt(int index) {
-    inner.remove((int) index);
+    inner.remove(index);
   }
 
   @Override
@@ -230,14 +225,20 @@ public class EList<T> implements IList<T> {
 
   @Override
   public List<T> toList() {
-    List<T> ret = new ArrayList<>();
-    ret.addAll(this.inner);
+    List<T> ret = new ArrayList<>(this.inner);
     return ret;
   }
 
   @Override
   public void toList(List<T> target) {
     target.addAll(this.inner);
+  }
+
+  @Override
+  public IReadOnlyList<T> toReversed() {
+    IList<T> ret = new EList<>(this);
+    ret.reverse();
+    return ret;
   }
 
   @Override
@@ -269,11 +270,6 @@ public class EList<T> implements IList<T> {
     return ret;
   }
 
-  /**
-   * @param predicate
-   * @param defaultValue
-   * @return Overridden due to performance
-   */
   public T tryGetLast(Predicate<T> predicate, T defaultValue) {
     T ret;
     if (inner instanceof LinkedList) {
@@ -303,11 +299,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void tryRemove(T item) {
-    if (item != null && item.getClass().equals(int.class)) {
-      inner.remove((Integer) item);
-    } else {
-      inner.remove(item);
-    }
+    inner.remove(item);
   }
 
   @Override
@@ -334,13 +326,6 @@ public class EList<T> implements IList<T> {
       ret = this.where(q -> clazz.isAssignableFrom(q.getClass())).select(q -> (V) q);
     else
       ret = this.where(q -> q.getClass().equals(clazz)).select(q -> (V) q);
-    return ret;
-  }
-
-  @Override
-  public IReadOnlyList<T> toReversed() {
-    IList<T> ret = new EList<>(this);
-    ret.reverse();
     return ret;
   }
 }

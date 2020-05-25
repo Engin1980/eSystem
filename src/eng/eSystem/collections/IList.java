@@ -1,14 +1,13 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
 public interface IList<T> extends IReadOnlyList<T> {
-  void add(T item);
 
+  void add(T item);
 
   default void add(Iterable<? extends T> items) {
     for (T item : items) {
@@ -72,14 +71,16 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   /**
    * Filters the list according to the index-selector
+   *
    * @param indexSelector Selecting indices which should be kept in the collection.
    */
   void slice(Predicate<Integer> indexSelector);
 
   /**
    * Filters the list according to from-index to to-index.
+   *
    * @param fromIndex First index to be kept, included.
-   * @param toIndex Last index to be kept, excluded.
+   * @param toIndex   Last index to be kept, excluded.
    */
   default void slice(int fromIndex, int toIndex) {
     this.slice(q -> q >= fromIndex && q < toIndex);
@@ -87,9 +88,10 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   /**
    * Filters the list according to the set of required indices.
+   *
    * @param indices Array of indices to be kept.
    */
-  default void slice(int ... indices){
+  default void slice(int... indices) {
     ESet<Integer> set = new ESet<>();
     for (int index : indices) {
       set.add(index);
@@ -99,9 +101,10 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   /**
    * Filters the list according to the set of required indices.
+   *
    * @param indicesSet Set of indices to be kept.
    */
-  default void slice(ISet<Integer> indicesSet){
+  default void slice(ISet<Integer> indicesSet) {
     this.slice(q -> indicesSet.contains(q));
   }
 

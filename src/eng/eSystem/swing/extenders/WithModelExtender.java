@@ -1,7 +1,7 @@
 package eng.eSystem.swing.extenders;
 
 import eng.eSystem.collections.IReadOnlySet;
-import eng.eSystem.utilites.Selector;
+import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
 abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {

@@ -1,16 +1,10 @@
 package eng.eSystem.geo;
 
-import eng.eSystem.EStringBuilder;
-import eng.eSystem.validation.Validator;
-
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Coordinate {
-  private final CoordinateValue latitude;
-  private final CoordinateValue longitude;
-
   public static Coordinate parse(String value) {
     Coordinate ret;
     final String regex = "^(N|S)? ?(-?\\d+(?:\\.\\d+)?)(?: +?(\\d+(?:\\.\\d+)?))?(?: +?(\\d+(?:\\.\\d+)?))?,? (?: ?(N|S|E|W))? ?(-?\\d+(?:\\.\\d+)?)(?: +?(\\d+(?:\\.\\d+)?))?(?: +?(\\d+(?:\\.\\d+)?))?(?: (E|W))?";
@@ -61,6 +55,8 @@ public class Coordinate {
 
     return ret;
   }
+  private final CoordinateValue latitude;
+  private final CoordinateValue longitude;
 
   public Coordinate(int aDegrees, int aMinutes, double aSeconds, boolean isSouth,
                     int bDegrees, int bMinutes, double bSeconds, boolean isWest) {
@@ -103,24 +99,12 @@ public class Coordinate {
     return new Coordinate(clat, clon);
   }
 
-  public CoordinateValue getLatitude() {
-    return latitude;
-  }
-
-  public CoordinateValue getLongitude() {
-    return longitude;
-  }
-
-  public boolean isSame(Coordinate other) {
-    return this.equals(other);
-  }
-
   @Override
-  public int hashCode() {
-    int hash = 5;
-    hash = 29 * hash + Objects.hashCode(this.latitude);
-    hash = 29 * hash + Objects.hashCode(this.longitude);
-    return hash;
+  @SuppressWarnings("CloneDoesntCallSuperClone")
+  public Coordinate clone() {
+    return new Coordinate(
+        this.latitude.clone(),
+        this.longitude.clone());
   }
 
   @Override
@@ -141,12 +125,28 @@ public class Coordinate {
     return true;
   }
 
+  public CoordinateValue getLatitude() {
+    return latitude;
+  }
+
+  public CoordinateValue getLongitude() {
+    return longitude;
+  }
+
   @Override
-  @SuppressWarnings("CloneDoesntCallSuperClone")
-  public Coordinate clone() {
-    return new Coordinate(
-        this.latitude.clone(),
-        this.longitude.clone());
+  public int hashCode() {
+    int hash = 5;
+    hash = 29 * hash + Objects.hashCode(this.latitude);
+    hash = 29 * hash + Objects.hashCode(this.longitude);
+    return hash;
+  }
+
+  public boolean isSame(Coordinate other) {
+    return this.equals(other);
+  }
+
+  public Coordinate negate() {
+    return new Coordinate(-this.latitude.get(), -this.longitude.get());
   }
 
   @Override
@@ -166,10 +166,6 @@ public class Coordinate {
     }
     sb.append(this.longitude.toString(false));
     return sb.toString();
-  }
-
-  public Coordinate negate() {
-    return new Coordinate(-this.latitude.get(), -this.longitude.get());
   }
 }
 
