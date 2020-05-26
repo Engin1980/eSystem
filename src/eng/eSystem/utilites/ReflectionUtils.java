@@ -60,6 +60,29 @@ public class ReflectionUtils {
   }
 
   public static class ClassUtils {
+    private static class PrimitiveToWrap{
+      final Class<?> primitive;
+      final Class<?> wrap;
+
+      public PrimitiveToWrap(Class<?> primitive, Class<?> wrap) {
+        this.primitive = primitive;
+        this.wrap = wrap;
+      }
+    }
+
+    private static final IList<PrimitiveToWrap> primitiveToWraps;
+    static{
+      primitiveToWraps = new EList<>();
+      primitiveToWraps.add(new PrimitiveToWrap(int.class, Integer.class));
+      primitiveToWraps.add(new PrimitiveToWrap(short.class, Short.class));
+      primitiveToWraps.add(new PrimitiveToWrap(byte.class, Byte.class));
+      primitiveToWraps.add(new PrimitiveToWrap(long.class, Long.class));
+      primitiveToWraps.add(new PrimitiveToWrap(double.class, Double.class));
+      primitiveToWraps.add(new PrimitiveToWrap(float.class, Float.class));
+      primitiveToWraps.add(new PrimitiveToWrap(boolean.class, Boolean.class));
+      primitiveToWraps.add(new PrimitiveToWrap(char.class, Character.class));
+    }
+
     /**
      * Returns all the fields of a class, including inherited.
      *
@@ -77,6 +100,23 @@ public class ReflectionUtils {
       }
       return ret;
     }
+
+    public Class<?> tryWrapPrimitive(Class<?> type){
+      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q->q.primitive.equals(type));
+      if (ptw != null)
+        return ptw.wrap;
+      else
+        return null;
+    }
+
+    public Class<?> tryUnwapToPrimitive(Class<?> type){
+      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q->q.wrap.equals(type));
+      if (ptw != null)
+        return ptw.primitive;
+      else
+        return null;
+    }
+
   }
 
   public static List<Class<?>> filterByParent(List<Class<?>> classes, Class<?> requiredParent) {
