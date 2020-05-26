@@ -1,8 +1,10 @@
 package eng.eSystem.eXml;
 
 import eng.eSystem.exceptions.EXmlException;
+import eng.eSystem.validation.EAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,6 +19,7 @@ import java.io.*;
 import java.nio.file.Path;
 
 public class XDocument {
+
   private final XDocumentProperties properties;
   private final XElement root;
 

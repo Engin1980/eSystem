@@ -7,6 +7,14 @@ import eng.eSystem.utilites.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
@@ -120,6 +128,18 @@ public class XElement {
 
   public boolean hasAttribute(String name) {
     return this.attributes.containsKey(name);
+  }
+
+  public static XElement fromString(String xmlString){
+    XDocument doc;
+    try {
+      InputStream is = new ByteArrayInputStream(xmlString.getBytes());
+      doc = XDocument.load(is);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(sf("Unable to load XML from '%s'.", xmlString), e);
+    }
+    XElement ret = doc.getRoot();
+    return ret;
   }
 
   public void removeAttribute(String attributeName) {
