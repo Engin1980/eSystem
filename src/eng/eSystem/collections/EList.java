@@ -139,7 +139,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public void remove(T item) {
-    if (inner.contains(item))
+    if (!inner.contains(item))
       throw new ElementNotFoundException(item);
     else
       inner.remove(item);
