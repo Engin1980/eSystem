@@ -28,14 +28,14 @@ public class Event<TSource, TEventArgs> extends EventBase<IEventListener<TSource
    *
    * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public int add(IEventListener listener) {
+  public int add(IEventListener<TSource, TEventArgs> listener) {
     return super.add(listener);
   }
 
   /* Registers a new listener ot the event.
    * @param listener An instance of listener if type {@linkplain IEventListener}.
    */
-  public int addAsync(IEventListener listener) {
+  public int addAsync(IEventListener<TSource, TEventArgs> listener) {
     return super.addAsync(listener);
   }
 
@@ -44,7 +44,7 @@ public class Event<TSource, TEventArgs> extends EventBase<IEventListener<TSource
    *
    * @param listener An instance of listener previously registered.
    */
-  public void remove(IEventListener listener) {
+  public void remove(IEventListener<TSource, TEventArgs> listener) {
     super.remove(listener);
   }
 
@@ -53,7 +53,7 @@ public class Event<TSource, TEventArgs> extends EventBase<IEventListener<TSource
    *
    * @param listener An instance of listener previously registered.
    */
-  public void removeAsync(IEventListener listener) {
+  public void removeAsync(IEventListener<TSource, TEventArgs> listener) {
     super.removeAsync(listener);
   }
 
