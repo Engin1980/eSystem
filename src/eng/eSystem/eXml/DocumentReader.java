@@ -12,7 +12,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 import java.io.InputStream;
-import java.lang.annotation.ElementType;
 
 class DocumentReader {
 
@@ -21,10 +20,9 @@ class DocumentReader {
     /*
      * During application startup
      */
-    DocumentBuilderFactory documentBuilderFactory
-        = DocumentBuilderFactory.newInstance();
-    TransformerFactory transformerFactory
-        = TransformerFactory.newInstance();
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer nullTransformer = transformerFactory.newTransformer();
 
     /*
@@ -40,8 +38,8 @@ class DocumentReader {
      *      xmlReader = XMLReaderFactory.createXMLReader();
      */
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    // saxParserFactory.setNamespaceAware(true);
-    // saxParserFactory.setValidating(true);
+    saxParserFactory.setNamespaceAware(false);
+    saxParserFactory.setValidating(false);
     SAXParser saxParser = saxParserFactory.newSAXParser();
     XMLReader xmlReader = saxParser.getXMLReader();
 
