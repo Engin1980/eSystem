@@ -7,20 +7,18 @@ import eng.eSystem.utilites.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class XElement {
+
   public static XElement fromElement(Element el) {
     XElement ret = new XElement(el.getTagName());
+    XElementLocationData locationData = (XElementLocationData) el.getUserData(XElementLocationData.LOCATION_DATA_KEY);
+    ret.locationData = locationData;
 
     // attributes
     for (int i = 0; i < el.getAttributes().getLength(); i++) {
@@ -48,9 +46,22 @@ public class XElement {
 
     return ret;
   }
+
+  public static XElement fromString(String xmlString) {
+    XDocument doc;
+    try {
+      InputStream is = new ByteArrayInputStream(xmlString.getBytes());
+      doc = XDocument.load(is);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(sf("Unable to load XML from '%s'.", xmlString), e);
+    }
+    XElement ret = doc.getRoot();
+    return ret;
+  }
   private final IMap<String, String> attributes = new EMap<>();
   private final IList<XElement> children = new EList<>();
   private String content;
+  private XElementLocationData locationData;
   private final String name;
   private XElement parent;
 
@@ -114,6 +125,10 @@ public class XElement {
     this.content = content;
   }
 
+  public XElementLocationData getLocationData() {
+    return locationData;
+  }
+
   public String getName() {
     return name;
   }
@@ -128,18 +143,6 @@ public class XElement {
 
   public boolean hasAttribute(String name) {
     return this.attributes.containsKey(name);
-  }
-
-  public static XElement fromString(String xmlString){
-    XDocument doc;
-    try {
-      InputStream is = new ByteArrayInputStream(xmlString.getBytes());
-      doc = XDocument.load(is);
-    } catch (Exception e) {
-      throw new IllegalArgumentException(sf("Unable to load XML from '%s'.", xmlString), e);
-    }
-    XElement ret = doc.getRoot();
-    return ret;
   }
 
   public void removeAttribute(String attributeName) {
