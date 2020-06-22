@@ -29,11 +29,15 @@ public class EAssert {
     }
 
     public static void isTrue(boolean value) {
-      EAssert.Argument.isTrue(value, null);
+      EAssert.Argument.isTrue(value, () -> null);
     }
 
     public static void isTrue(boolean value, String message) {
-      EAssert.isTrue(value, "Argument does not fulfil requirement. " + coalesce(message, ""));
+      EAssert.isTrue(value, () -> message);
+    }
+
+    public static void isTrue(boolean value, Producer<String> messageProducer) {
+      EAssert.isTrue(value, "Argument does not fulfil requirement. " + coalesce(messageProducer.produce(), ""));
     }
 
     public static void matchPattern(String value, String pattern, String argumentName) {
@@ -50,10 +54,10 @@ public class EAssert {
   }
 
   private static final String TEXT_ERR = "E-Assert failed. ";
+  private static final String TEXT_EMPTY_STRING = TEXT_ERR + "String expression cannot be null or zero-lenght.";
+  private static final String TEXT_NOT_FALSE = TEXT_ERR + "Expression should be false.";
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
-  private static final String TEXT_NOT_FALSE = TEXT_ERR + "Expression should be false.";
-  private static final String TEXT_EMPTY_STRING = TEXT_ERR + "String expression cannot be null or zero-lenght.";
 
   public static void isFalse(Producer<Boolean> check) {
     EAssert.isTrue(check, TEXT_NOT_FALSE);
@@ -134,6 +138,11 @@ public class EAssert {
     checkExceptionOnFail(exceptionOnFail);
     if (!value) throw exceptionOnFail;
   }
+
+  public static void isTrue(boolean value, Producer<String> messageProducer) {
+    EAssert.isTrue(value, new EAssertException(messageProducer.produce()));
+  }
+
 
   public static void isXor(boolean... value) {
     boolean isFound = false;
