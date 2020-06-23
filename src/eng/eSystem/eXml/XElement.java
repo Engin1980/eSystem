@@ -58,6 +58,7 @@ public class XElement {
     XElement ret = doc.getRoot();
     return ret;
   }
+
   private final IMap<String, String> attributes = new EMap<>();
   private final IList<XElement> children = new EList<>();
   private String content;
@@ -246,6 +247,16 @@ public class XElement {
     String ret = getAttributes().tryGet(name);
     if (ret == null)
       ret = defaultValue;
+    return ret;
+  }
+
+  public XElement tryGetChild(String name) {
+    XElement ret;
+    IReadOnlyList<XElement> tmp = this.getChildren(name);
+    if (tmp.size() == 0)
+      ret = null;
+    else
+      ret = tmp.get(0);
     return ret;
   }
 
