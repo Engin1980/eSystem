@@ -255,8 +255,10 @@ public class XElement {
     IReadOnlyList<XElement> tmp = this.getChildren(name);
     if (tmp.size() == 0)
       ret = null;
-    else
+    else if (tmp.size() == 1)
       ret = tmp.get(0);
+    else
+      throw new EXmlRuntimeException("Element '" + name + "' has multiple occurrences.");
     return ret;
   }
 
