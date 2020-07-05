@@ -15,13 +15,15 @@ import java.io.InputStream;
 
 class DocumentReader {
 
+  private static final boolean NAMESPACE_AWARE = true;
+
   public static Document readDocument(String sourceId, InputStream inputStream)
       throws TransformerException, ParserConfigurationException, SAXException {
     /*
      * During application startup
      */
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    documentBuilderFactory.setNamespaceAware(true);
+    documentBuilderFactory.setNamespaceAware(NAMESPACE_AWARE);
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer nullTransformer = transformerFactory.newTransformer();
 
@@ -38,7 +40,7 @@ class DocumentReader {
      *      xmlReader = XMLReaderFactory.createXMLReader();
      */
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    saxParserFactory.setNamespaceAware(false);
+    saxParserFactory.setNamespaceAware(NAMESPACE_AWARE);
     saxParserFactory.setValidating(false);
     SAXParser saxParser = saxParserFactory.newSAXParser();
     XMLReader xmlReader = saxParser.getXMLReader();
