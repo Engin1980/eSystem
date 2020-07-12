@@ -1,5 +1,7 @@
 package eng.eSystem.swing.extenders;
 
+import eng.eSystem.validation.EAssert;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,17 +10,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexPatternTextFieldExtender {
-  private final JTextField txt;
-  private final Pattern pattern;
   private Color errorBackground = Color.YELLOW;
-  private Color normalBackground;
   private Color errorForeground;
+  private Color normalBackground;
   private Color normalForeground;
+  private final Pattern pattern;
+  private final JTextField txt;
 
   public RegexPatternTextFieldExtender(JTextField txt, String pattern) {
-    this.txt = txt;
-    this.pattern = Pattern.compile(pattern);
+    this(txt, Pattern.compile(pattern));
+  }
 
+  public RegexPatternTextFieldExtender(JTextField txt, Pattern pattern) {
+    EAssert.Argument.isNotNull(pattern, "pattern");
+    this.txt = txt;
+    this.pattern = pattern;
     this.normalBackground = txt.getBackground();
     this.errorForeground = txt.getForeground();
     this.normalForeground = txt.getForeground();
@@ -29,6 +35,14 @@ public class RegexPatternTextFieldExtender {
 
   public RegexPatternTextFieldExtender(String pattern) {
     this(new JTextField(), pattern);
+  }
+
+  public RegexPatternTextFieldExtender(Pattern pattern) {
+    this(new JTextField(), pattern);
+  }
+
+  public JTextField getControl() {
+    return this.txt;
   }
 
   public Color getErrorBackground() {
@@ -67,10 +81,6 @@ public class RegexPatternTextFieldExtender {
     doCheck();
   }
 
-  public JTextField getControl() {
-    return this.txt;
-  }
-
   public String getText() {
     return this.txt.getText();
   }
@@ -82,15 +92,15 @@ public class RegexPatternTextFieldExtender {
   private void addListener() {
     // Listen for changes in the text
     this.txt.getDocument().addDocumentListener(new DocumentListener() {
+      public void changedUpdate(DocumentEvent e) {
+        doCheck();
+      }
+
       public void insertUpdate(DocumentEvent e) {
         doCheck();
       }
 
       public void removeUpdate(DocumentEvent e) {
-        doCheck();
-      }
-
-      public void changedUpdate(DocumentEvent e) {
         doCheck();
       }
     });
