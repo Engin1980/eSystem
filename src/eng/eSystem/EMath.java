@@ -37,6 +37,102 @@ public class EMath {
     return ret;
   }
 
+  public static Integer min(Integer ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Integer ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Integer val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val < ret)
+        ret = val;
+    }
+    return ret;
+  }
+
+  public static Double min(Double ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Double ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Double val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val < ret)
+        ret = val;
+    }
+    return ret;
+  }
+
+  public static Long min(Long ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Long ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Long val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val < ret)
+        ret = val;
+    }
+    return ret;
+  }
+
+  public static Integer max(Integer ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Integer ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Integer val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val > ret)
+        ret = val;
+    }
+    return ret;
+  }
+
+  public static Double max(Double ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Double ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Double val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val > ret)
+        ret = val;
+    }
+    return ret;
+  }
+
+  public static Long max(Long ... values){
+    if (values.length == 0)
+      throw new IllegalArgumentException("There must be at least one input value.");
+
+    Long ret = values[0];
+    for (int i = 1; i < values.length; i++) {
+      Long val = values[i];
+      if (val == null) continue;
+      if (ret == null)
+        ret = val;
+      else if (val > ret)
+        ret = val;
+    }
+    return ret;
+  }
+
   public static double min(double ... values){
     if (values.length == 0)
       throw new IllegalArgumentException("There must be at least one input value.");
