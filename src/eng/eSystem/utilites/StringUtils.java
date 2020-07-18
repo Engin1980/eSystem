@@ -3,8 +3,11 @@ package eng.eSystem.utilites;
 import eng.eSystem.EStringBuilder;
 import eng.eSystem.collections.EList;
 import eng.eSystem.collections.IList;
+import eng.eSystem.validation.EAssert;
 
 public class StringUtils {
+
+  private static final int PAD_LIMIT = 10000;
 
   /**
    * Gets beginning of the text until the delimiter is found.
@@ -44,8 +47,57 @@ public class StringUtils {
     return sb.toString();
   }
 
+  public static String padLeft(String str, int size, char padChar) {
+    EAssert.Argument.isNotNull(str, "str");
+    EAssert.Argument.isTrue(size >= 0, "Size must be equal or greater than zero.");
+    String tmp = preparePaddingString(str,size,padChar);
+    if (tmp != null)
+      return tmp.concat(str);
+    else
+      return str;
+  }
+
+  public static String padRight(String str, int size, char padChar) {
+    EAssert.Argument.isNotNull(str, "str");
+    EAssert.Argument.isTrue(size >= 0, "Size must be equal or greater than zero.");
+    String tmp = preparePaddingString(str,size,padChar);
+    if (tmp != null)
+      return str.concat(tmp);
+    else
+      return str;
+  }
+
+  public static String padRight(String str, int size) {
+    return padRight(str, size, ' ');
+  }
+
+  private static String preparePaddingString(String str, int size, char padChar) {
+    String ret;
+    int strLen = str.length();
+    int pads = size - strLen;
+    if (pads <= 0)
+      ret = null; // returns original String when possible
+    else {
+      char[] padding = new char[pads];
+      for (int i = 0; i < pads; i++) {
+        padding[i] = padChar;
+      }
+      ret = new String(padding);
+    }
+    return ret;
+  }
+
   private StringUtils() {
   }
 
+  public static String repeat(String str, int count){
+    EAssert.Argument.isNotNull(str, "str");
+    EAssert.Argument.isTrue(count >= 0, "Repeat count must be >= 0.");
+    StringBuilder ret = new StringBuilder();
+    for (int i = 0; i < count; i++) {
+      ret.append(str);
+    }
+    return ret.toString();
+  }
 
 }
