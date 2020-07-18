@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 public class ESet<T> implements ISet<T> {
 
-  private final static Class DEFAULT_CLASS = HashSet.class;
+  private final static Class<?> DEFAULT_CLASS = HashSet.class;
 
   private Set<T> inner;
 
-  public ESet(Class innerType) {
+  public ESet(Class<?> innerType) {
     this(innerType, null);
   }
 
@@ -32,9 +32,9 @@ public class ESet<T> implements ISet<T> {
     this(DEFAULT_CLASS, null);
   }
 
-  public ESet(Class innerType, Iterable<? extends T> content) {
+  public ESet(Class<?> innerType, Iterable<? extends T> content) {
     try {
-      this.inner = (Set) innerType.newInstance();
+      this.inner = (Set<T>) innerType.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
       throw new RuntimeException("Unable to create a new instance.");
     }
@@ -50,26 +50,43 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public void remove(T item) {
-    inner.remove(item);
-  }
-
-  @Override
   public void clear() {
     inner.clear();
   }
 
   @Override
-  public IList<T> toList() {
-    EList<T> ret = new EList<>(this.inner);
+  public boolean contains(T item) {
+    return this.inner.contains(item);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof ESet && inner.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return inner.hashCode();
+  }
+
+  @Override
+  public ISet<T> intersection(IReadOnlySet<T> otherSet) {
+    ISet<T> ret = new ESet<>();
+    for (T t : this) {
+      if (otherSet.contains(t))
+        ret.add(t);
+    }
     return ret;
   }
 
   @Override
-  public ISet<T> where(Predicate<T> predicate) {
-    ESet<T> ret = new ESet<>();
-    ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
-    return ret;
+  public Iterator<T> iterator() {
+    return this.inner.iterator();
+  }
+
+  @Override
+  public void remove(T item) {
+    inner.remove(item);
   }
 
   @Override
@@ -80,18 +97,6 @@ public class ESet<T> implements ISet<T> {
       ret.add(v);
     }
     return ret;
-  }
-
-  @Override
-  public Set<T> toSet() {
-    Set<T> ret = new HashSet<>();
-    ret.addAll(this.inner);
-    return ret;
-  }
-
-  @Override
-  public void toSet(Set<T> target) {
-    target.addAll(this.inner);
   }
 
   @Override
@@ -107,52 +112,46 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public ISet<T> union(IReadOnlySet<T> otherSet) {
-    ISet<T> ret = new ESet<>(this);
-    for (T t : otherSet) {
-      if (ret.contains(t) == false)
-        ret.add(t);
-    }
-    return ret;
-  }
-
-  @Override
-  public ISet<T> intersection(IReadOnlySet<T> otherSet) {
-    ISet<T> ret = new ESet<>();
-    for (T t : this) {
-      if (otherSet.contains(t))
-        ret.add(t);
-    }
-    return ret;
-  }
-
-  @Override
   public int size() {
     return this.inner.size();
   }
 
   @Override
-  public boolean contains(T item) {
-    return this.inner.contains(item);
+  public IList<T> toList() {
+    EList<T> ret = new EList<>(this.inner);
+    return ret;
   }
 
   @Override
-  public Iterator<T> iterator() {
-    return this.inner.iterator();
+  public Set<T> toSet() {
+    Set<T> ret = new HashSet<>(this.inner);
+    return ret;
   }
 
   @Override
-  public int hashCode() {
-    return inner.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    return inner.equals(o);
+  public void toSet(Set<T> target) {
+    target.addAll(this.inner);
   }
 
   @Override
   public String toString() {
     return String.format("ESet{%d items}", this.size());
+  }
+
+  @Override
+  public ISet<T> union(IReadOnlySet<T> otherSet) {
+    ISet<T> ret = new ESet<>(this);
+    for (T t : otherSet) {
+      if (!ret.contains(t))
+        ret.add(t);
+    }
+    return ret;
+  }
+
+  @Override
+  public ISet<T> where(Predicate<T> predicate) {
+    ESet<T> ret = new ESet<>();
+    ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
+    return ret;
   }
 }
