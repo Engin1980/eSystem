@@ -12,6 +12,18 @@ public class EAssert {
 
   public static class Argument {
 
+    public static void isFalse(boolean value) {
+      EAssert.Argument.isFalse(value, () -> null);
+    }
+
+    public static void isFalse(boolean value, String message) {
+      EAssert.isFalse(value, () -> message);
+    }
+
+    public static void isFalse(boolean value, Producer<String> messageProducer) {
+      EAssert.isFalse(value, "Argument does not fulfil requirement. " + coalesce(messageProducer.produce(), ""));
+    }
+
     public static void isNonemptyString(String value) {
       EAssert.isNonemptyString(value, "Argument cannot be null or empty string. ");
     }
@@ -49,8 +61,6 @@ public class EAssert {
       EAssert.matchPattern(value, pattern,
           sf("Argument with value '%s' does not match regex pattern '%s'.", value, pattern));
     }
-
-
   }
 
   private static final String TEXT_ERR = "E-Assert failed. ";
@@ -83,6 +93,10 @@ public class EAssert {
   public static void isFalse(boolean value, RuntimeException exceptionOnFail) {
     checkExceptionOnFail(exceptionOnFail);
     if (value) throw exceptionOnFail;
+  }
+
+  public static void isFalse(boolean value, Producer<String> messageProducer) {
+    EAssert.isFalse(value, new EAssertException(messageProducer.produce()));
   }
 
   public static void isNonemptyString(String value) {
@@ -142,7 +156,6 @@ public class EAssert {
   public static void isTrue(boolean value, Producer<String> messageProducer) {
     EAssert.isTrue(value, new EAssertException(messageProducer.produce()));
   }
-
 
   public static void isXor(boolean... value) {
     boolean isFound = false;
