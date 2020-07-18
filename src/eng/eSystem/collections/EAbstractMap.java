@@ -38,7 +38,7 @@ public abstract class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public V get(K key) {
-    if (inner.containsKey(key) == false)
+    if (!inner.containsKey(key))
       throw new NoSuchKeyException(key);
     else
       return inner.get(key);
@@ -51,7 +51,7 @@ public abstract class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public ISet<K> getKeys() {
-    return new ESet(inner.keySet());
+    return new ESet<>(inner.keySet());
   }
 
   @Override
@@ -71,7 +71,7 @@ public abstract class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public void remove(K key) {
-    if (inner.containsKey(key) == false)
+    if (!inner.containsKey(key))
       throw new NoSuchKeyException(key);
     else
       inner.remove(key);

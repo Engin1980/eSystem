@@ -5,7 +5,7 @@
  */
 package eng.eSystem.utilites;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class contains methods used to extend the behavior of Exceptions.

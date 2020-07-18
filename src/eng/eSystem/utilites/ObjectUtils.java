@@ -1,6 +1,6 @@
 package eng.eSystem.utilites;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class ObjectUtils {
 
