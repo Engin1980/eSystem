@@ -21,4 +21,17 @@ public interface IReadOnlySet<T> extends ICollection<T> {
 
   ISet<T> intersection(IReadOnlySet<T> otherSet);
 
+  default <K> IMap<K, ISet<T>> groupBy(Selector<T, K> keySelector){
+    EMap<K, ISet<T>> ret = new EMap<>();
+
+    for (T item : this) {
+      K key = keySelector.getValue(item);
+      if (!ret.containsKey(key))
+        ret.set(key, new ESet<>());
+      ret.get(key).add(item);
+    }
+
+    return ret;
+  }
+
 }
