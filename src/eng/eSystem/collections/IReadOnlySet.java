@@ -7,21 +7,7 @@ import java.util.function.Predicate;
 
 public interface IReadOnlySet<T> extends ICollection<T> {
 
-  ISet<T> where(Predicate<T> predicate);
-
-  Set<T> toSet();
-
-  void toSet(Set<T> target);
-
-  <V> ISet<V> select(Selector<T, V> selector);
-
-  ISet<T> selectCount(int count);
-
-  ISet<T> union(IReadOnlySet<T> otherSet);
-
-  ISet<T> intersection(IReadOnlySet<T> otherSet);
-
-  default <K> IMap<K, ISet<T>> groupBy(Selector<T, K> keySelector){
+  default <K> IMap<K, ISet<T>> groupBy(Selector<T, K> keySelector) {
     EMap<K, ISet<T>> ret = new EMap<>();
 
     for (T item : this) {
@@ -33,5 +19,24 @@ public interface IReadOnlySet<T> extends ICollection<T> {
 
     return ret;
   }
+
+  ISet<T> intersection(IReadOnlySet<T> otherSet);
+
+  ISet<T> minus(IReadOnlySet<T> otherList);
+
+  <V> ISet<V> select(Selector<T, V> selector);
+
+  ISet<T> selectCount(int count);
+
+  Set<T> toJavaSet();
+
+  void toJavaSet(Set<T> target);
+
+  IList<T> toList();
+
+  ISet<T> union(IReadOnlySet<T> otherSet);
+
+  ISet<T> where(Predicate<T> predicate);
+
 
 }

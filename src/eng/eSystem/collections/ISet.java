@@ -41,6 +41,4 @@ public interface ISet<T> extends IReadOnlySet<T> {
       this.remove(tmp);
     }
   }
-
-  IList<T> toList();
 }

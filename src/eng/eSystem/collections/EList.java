@@ -129,6 +129,16 @@ public class EList<T> implements IList<T> {
     return inner.iterator();
   }
 
+  @Override
+  public IList<T> minus(IReadOnlyList<T> otherList) {
+    IList<T> ret = new EList<>();
+    for (T item : this) {
+      if (!otherList.contains(item))
+        ret.add(item);
+    }
+    return ret;
+  }
+
   public <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse) {
     EList<T> ret = new EList<>(this);
     ret.sort(selector);
@@ -202,7 +212,7 @@ public class EList<T> implements IList<T> {
       }
     }
 
-    List<K> lst = tmp.getKeys().toList().toList();
+    List<K> lst = tmp.getKeys().toList().toJavaList();
     Collections.sort(lst);
 
     this.inner.clear();
@@ -224,13 +234,13 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public List<T> toList() {
+  public List<T> toJavaList() {
     List<T> ret = new ArrayList<>(this.inner);
     return ret;
   }
 
   @Override
-  public void toList(List<T> target) {
+  public void toJavaList(List<T> target) {
     target.addAll(this.inner);
   }
 
@@ -238,6 +248,12 @@ public class EList<T> implements IList<T> {
   public IReadOnlyList<T> toReversed() {
     IList<T> ret = new EList<>(this);
     ret.reverse();
+    return ret;
+  }
+
+  @Override
+  public ISet<T> toSet() {
+    ISet<T> ret = new ESet<>(this.inner);
     return ret;
   }
 

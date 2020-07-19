@@ -80,6 +80,16 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public ISet<T> minus(IReadOnlySet<T> otherList) {
+    ISet<T> ret = new ESet<>();
+    for (T item : this) {
+      if (!otherList.contains(item))
+        ret.add(item);
+    }
+    return ret;
+  }
+
+  @Override
   public Iterator<T> iterator() {
     return this.inner.iterator();
   }
@@ -117,23 +127,6 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public IList<T> toList() {
-    EList<T> ret = new EList<>(this.inner);
-    return ret;
-  }
-
-  @Override
-  public Set<T> toSet() {
-    Set<T> ret = new HashSet<>(this.inner);
-    return ret;
-  }
-
-  @Override
-  public void toSet(Set<T> target) {
-    target.addAll(this.inner);
-  }
-
-  @Override
   public String toString() {
     return String.format("ESet{%d items}", this.size());
   }
@@ -153,5 +146,22 @@ public class ESet<T> implements ISet<T> {
     ESet<T> ret = new ESet<>();
     ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
     return ret;
+  }
+
+  @Override
+  public IList<T> toList() {
+    EList<T> ret = new EList<>(this.inner);
+    return ret;
+  }
+
+  @Override
+  public Set<T> toJavaSet() {
+    Set<T> ret = new HashSet<>(this.inner);
+    return ret;
+  }
+
+  @Override
+  public void toJavaSet(Set<T> target) {
+    target.addAll(this.inner);
   }
 }

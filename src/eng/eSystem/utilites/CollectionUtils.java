@@ -69,7 +69,7 @@ public class CollectionUtils {
   }
 
   public static <T> boolean containsSameItems (IList<T> a, IList<T> b){
-    return containsSameItems(a.toList(), b.toList());
+    return containsSameItems(a.toJavaList(), b.toJavaList());
   }
 
   public static <T> boolean containsSameItems (List<T> a, List<T> b){

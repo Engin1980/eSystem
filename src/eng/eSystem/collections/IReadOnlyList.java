@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.functionalInterfaces.Function2;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
@@ -76,6 +77,8 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   IList<T> intersection(IReadOnlyList<T> otherList);
 
+  IList<T> minus(IReadOnlyList<T> otherList);
+
   <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse);
 
   default <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector) {
@@ -92,9 +95,11 @@ public interface IReadOnlyList<T> extends ICollection<T> {
     return ret;
   }
 
-  List<T> toList();
+  List<T> toJavaList();
 
-  void toList(List<T> target);
+  void toJavaList(List<T> target);
+
+  ISet<T> toSet();
 
   default T tryGet(int index) {
     return tryGet(index, null);
