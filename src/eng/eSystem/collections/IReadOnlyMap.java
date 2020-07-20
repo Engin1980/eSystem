@@ -27,6 +27,14 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
 
   boolean isEmpty();
 
+  default int count(){
+    return size();
+  }
+
+  default int count(Predicate<Map.Entry<K, V>> predicate){
+    return this.where(predicate).size();
+  }
+
   default Iterator<Map.Entry<K, V>> iterator() {
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     return entries.iterator();
