@@ -38,5 +38,4 @@ public interface IReadOnlySet<T> extends ICollection<T> {
 
   ISet<T> where(Predicate<T> predicate);
 
-
 }
