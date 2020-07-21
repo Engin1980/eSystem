@@ -258,6 +258,12 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
+  public IList<T> toList() {
+    IList<T> ret = new EList<>(this.inner);
+    return ret;
+  }
+
+  @Override
   public String toString() {
     return String.format("EList{%d items}", this.size());
   }

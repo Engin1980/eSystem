@@ -20,6 +20,10 @@ public interface ICollection<T> extends Iterable<T> {
 
   boolean contains(T item);
 
+  IList<T> toList();
+
+  ISet<T> toSet();
+
   default int count(Predicate<T> predicate) {
     int ret = 0;
     for (T t : this) {

@@ -155,6 +155,12 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public ISet<T> toSet() {
+    ISet<T> ret = new ESet<>(this.inner);
+    return ret;
+  }
+
+  @Override
   public Set<T> toJavaSet() {
     Set<T> ret = new HashSet<>(this.inner);
     return ret;
