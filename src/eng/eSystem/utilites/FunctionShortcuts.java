@@ -17,9 +17,15 @@ public class FunctionShortcuts {
   public static <T> T coalesce(Producer<T>... producers) {
     T ret = null;
     if (producers == null) return null;
+    int index = 0;
     for (Producer<T> producer : producers) {
-      ret = producer.produce();
+      try {
+        ret = producer.produce();
+      } catch (Exception e) {
+        throw new IllegalArgumentException(sf("Coalesce(...) failed. Producer at index %d caused an exception.", index), e);
+      }
       if (ret != null) break;
+      index++;
     }
     return ret;
   }
