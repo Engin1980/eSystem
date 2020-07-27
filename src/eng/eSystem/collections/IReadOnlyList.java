@@ -90,7 +90,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   default <K> IList<K> selectMany(Selector<T, IList<K>> selector) {
     EList<K> ret = new EList<>();
 
-    this.forEach(q -> ret.add(selector.getValue(q)));
+    this.forEach(q -> ret.addMany(selector.getValue(q)));
 
     return ret;
   }

@@ -91,20 +91,20 @@ abstract class EventBase<TListener> {
     }
     isRaised = false;
     if (toAddSync.isEmpty() == false) {
-      innerSync.add(toAddSync);
+      innerSync.addMany(toAddSync);
       toAddSync.clear();
     }
     if (toAddAsync.isEmpty() == false) {
-      innerAsync.add(toAddAsync);
+      innerAsync.addMany(toAddAsync);
       toAddAsync.clear();
     }
     if (toRemSync.isEmpty() == false) {
-      innerSync.remove(toRemSync);
+      innerSync.addMany(toRemSync);
       ids.remove(q->toRemSync.contains(q.getValue()));
       toRemSync.clear();
     }
     if (toRemAsync.isEmpty() == false) {
-      innerAsync.remove(toRemAsync);
+      innerAsync.addMany(toRemAsync);
       ids.remove(q->toRemAsync.contains(q.getValue()));
       toRemAsync.clear();
     }

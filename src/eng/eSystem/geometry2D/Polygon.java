@@ -16,7 +16,7 @@ public class Polygon {
   private final double maxY;
 
   public Polygon(IList<Point> points) {
-    this.points.add(points);
+    this.points.addMany(points);
     minX = points.minDouble(q -> q.x);
     maxX = points.maxDouble(q -> q.x);
     minY = points.minDouble(q -> q.y);

@@ -39,14 +39,14 @@ public class EDistinctList<T> extends EList<T> {
   }
 
   @Override
-  public void add(Iterable<? extends T> items) {
+  public void addMany(Iterable<? extends T> items) {
     for (T item : items) {
       this.add(item);
     }
   }
 
   @Override
-  public void add(T[] items) {
+  public void addMany(T[] items) {
     for (T item : items) {
       this.add(item);
     }

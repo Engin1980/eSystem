@@ -28,7 +28,7 @@ public class EList<T> implements IList<T> {
 
   public EList(T[] elements) {
     this(DEFAULT_CLASS, null);
-    this.add(elements);
+    this.addMany(elements);
   }
 
   public EList() {

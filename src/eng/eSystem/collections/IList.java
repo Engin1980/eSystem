@@ -9,13 +9,13 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void add(T item);
 
-  default void add(Iterable<? extends T> items) {
+  default void addMany(Iterable<? extends T> items) {
     for (T item : items) {
       this.add(item);
     }
   }
 
-  default void add(T[] items) {
+  default void addMany(T[] items) {
     for (T item : items) {
       this.add(item);
     }
@@ -43,7 +43,7 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void remove(T item);
 
-  default void remove(Iterable<? extends T> items) {
+  default void removeMany(Iterable<? extends T> items) {
     for (T item : items) {
       this.remove(item);
     }
@@ -114,7 +114,7 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void tryRemove(T item);
 
-  default void tryRemove(Iterable<? extends T> items) {
+  default void tryRemoveMany(Iterable<? extends T> items) {
     items.forEach(q -> this.tryRemove(q));
   }
 }

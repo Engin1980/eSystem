@@ -95,7 +95,7 @@ public class ReflectionUtils {
       Class<?> tmp = type;
       while (tmp != null) {
         Field[] fields = tmp.getDeclaredFields();
-        ret.add(fields);
+        ret.addMany(fields);
         tmp = tmp.getSuperclass();
       }
       return ret;
@@ -155,7 +155,7 @@ public class ReflectionUtils {
     IList<Class<?>> ret = new EList<>();
     if (type.getSuperclass() != null)
       ret.add(type.getSuperclass());
-    ret.add(type.getInterfaces());
+    ret.addMany(type.getInterfaces());
     return ret;
   }
 
