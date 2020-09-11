@@ -1,7 +1,6 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.events.Event;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -250,7 +249,6 @@ public class ObservedList<T> implements List<T> {
   /**
    * Try to get an element by the index. If operation fails, "null" is returned.
    */
-  @Nullable
   public T tryGet(int index) {
     T ret;
     try {

@@ -1,14 +1,12 @@
 package eng.eSystem.utilites;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Comparator;
 
 public class ObjectUtils {
 
   /**
    * Orders classes by their inheritance.
-   *
+   * <p>
    * It is based on Class.isAssignableFrom() method.
    */
   public static class TypeOrderComparer implements Comparator<Class<?>> {
@@ -43,7 +41,7 @@ public class ObjectUtils {
     }
   }
 
-  public static boolean equals(@Nullable Object a, @Nullable Object b) {
+  public static boolean equals(Object a, Object b) {
     boolean ret;
     if (a == null)
       ret = b == null;

@@ -2,7 +2,6 @@ package eng.eSystem.utilites;
 
 import eng.eSystem.collections.IList;
 import eng.eSystem.functionalInterfaces.Selector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +98,7 @@ public class CollectionUtils {
    * @param <T> Type of list item
    * @return
    */
-  public static <T> T getRandom(@NotNull java.util.List<T> lst) {
+  public static <T> T getRandom(java.util.List<T> lst) {
 
     if (lst == null) {
       throw new IllegalArgumentException("Argument \"lst\" cannot be null.");
@@ -122,7 +121,7 @@ public class CollectionUtils {
    * @param <T>                Type of list item
    * @return
    */
-  public static <T> T getRandom(@NotNull java.util.List<T> lst, @NotNull Random customRandomObject) {
+  public static <T> T getRandom(java.util.List<T> lst, Random customRandomObject) {
 
     if (lst == null) {
       throw new IllegalArgumentException("Argument \"lst\" cannot be null.");

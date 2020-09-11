@@ -5,8 +5,6 @@
  */
 package eng.eSystem.utilites;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * This class contains methods used to extend the behavior of Exceptions.
  *
@@ -19,7 +17,7 @@ public class ExceptionUtils {
    * @param t The exception to be printed
    * @return The full exception text message
    */
-  public static String toFullString(@NotNull Throwable t) {
+  public static String toFullString(Throwable t) {
     String ret = toFullString(t, "==>");
     return ret;
   }
@@ -31,7 +29,7 @@ public class ExceptionUtils {
    * @param separator The string used as separator between messages.
    * @return The full exception text message
    */
-  public static String toFullString(@NotNull Throwable t, @NotNull String separator) {
+  public static String toFullString(Throwable t, String separator) {
     StringBuilder sb = new StringBuilder();
 
     Throwable tt = t;
