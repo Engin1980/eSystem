@@ -127,6 +127,16 @@ public class EAssert {
     if (value == null) throw exceptionOnFail;
   }
 
+  public static void isNotNull(Object value, Producer<RuntimeException> exceptionOnFailProducer) {
+    checkExceptionOnFail(exceptionOnFailProducer);
+    if (value == null) throw exceptionOnFailProducer.produce();
+  }
+
+  private static void checkExceptionOnFail(Producer<RuntimeException> exceptionOnFailProducer) {
+    if (exceptionOnFailProducer == null)
+      throw new IllegalArgumentException("'exceptionOnFailProducer' cannot be null.");
+  }
+
   public static void isTrue(Producer<Boolean> check) {
     EAssert.isTrue(check, TEXT_NOT_TRUE);
   }
