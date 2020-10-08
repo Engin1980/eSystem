@@ -1,11 +1,8 @@
 package eng.eSystem.validation;
 
-import eng.eSystem.functionalInterfaces.Producer;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static eng.eSystem.utilites.FunctionShortcuts.coalesce;
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class EAssert {
@@ -13,53 +10,63 @@ public class EAssert {
   public static class Argument {
 
     public static void isFalse(boolean value) {
-      EAssert.Argument.isFalse(value, () -> null);
+      EAssert.Argument.isFalse(value, () -> "");
     }
 
     public static void isFalse(boolean value, String message) {
-      EAssert.isFalse(value, () -> message);
+      EAssert.Argument.isFalse(value, () -> message);
     }
 
-    public static void isFalse(boolean value, Producer<String> messageProducer) {
-      EAssert.isFalse(value, "Argument does not fulfil requirement. " + coalesce(messageProducer.produce(), ""));
+    public static void isFalse(boolean value, ErrorMessageProducer messageProducer) {
+      if (value) EAssert.raise("Argument does not fulfil requirement (must be false). ", messageProducer);
     }
 
     public static void isNonemptyString(String value) {
-      EAssert.isNonemptyString(value, "Argument cannot be null or empty string. ");
+      EAssert.Argument.isNonemptyString(value, "");
     }
 
-    public static void isNonemptyString(String value, String argumentName) {
-      EAssert.isNonemptyString(value, sf("Argument '%s' cannot be null or empty string.", argumentName));
+    public static void isNonemptyString(String value, String message) {
+      EAssert.Argument.isNonemptyString(value, () -> message);
+    }
+
+    public static void isNonemptyString(String value, ErrorMessageProducer messageProducer) {
+      EAssert.Argument.isNotNull(value, messageProducer);
+      if (value.length() == 0) EAssert.raise("Argument cannot be null or empty string. ", messageProducer);
     }
 
     public static void isNotNull(Object value) {
-      EAssert.isNotNull(value, "Argument cannot be null.");
+      EAssert.Argument.isNotNull(value, "");
     }
 
-    public static void isNotNull(Object value, String argumentName) {
-      EAssert.isNotNull(value, sf("Argument '%s' cannot be null.", argumentName));
+    public static void isNotNull(Object value, String message) {
+      EAssert.Argument.isNotNull(value, () -> message);
+    }
+
+    public static void isNotNull(Object value, ErrorMessageProducer messageProducer) {
+      if (value == null) EAssert.raise("Argument cannot be null.", messageProducer);
     }
 
     public static void isTrue(boolean value) {
-      EAssert.Argument.isTrue(value, () -> null);
+      EAssert.Argument.isTrue(value, () -> "");
     }
 
     public static void isTrue(boolean value, String message) {
-      EAssert.isTrue(value, () -> message);
+      EAssert.Argument.isTrue(value, () -> message);
     }
 
-    public static void isTrue(boolean value, Producer<String> messageProducer) {
-      EAssert.isTrue(value, "Argument does not fulfil requirement. " + coalesce(messageProducer.produce(), ""));
+    public static void isTrue(boolean value, ErrorMessageProducer messageProducer) {
+      if (!value) EAssert.raise("Argument does not fulfil requirement (must be true). ", messageProducer);
     }
+
 
     public static void matchPattern(String value, String pattern, String argumentName) {
       EAssert.matchPattern(value, pattern,
-          sf("Argument '%s' with value '%s' does not match regex pattern '%s'.", argumentName, value, pattern));
+              sf("Argument '%s' with value '%s' does not match regex pattern '%s'.", argumentName, value, pattern));
     }
 
     public static void matchPattern(String value, String pattern) {
       EAssert.matchPattern(value, pattern,
-          sf("Argument with value '%s' does not match regex pattern '%s'.", value, pattern));
+              sf("Argument with value '%s' does not match regex pattern '%s'.", value, pattern));
     }
   }
 
@@ -69,49 +76,38 @@ public class EAssert {
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
 
-  public static void isFalse(Producer<Boolean> check) {
-    EAssert.isTrue(check, TEXT_NOT_FALSE);
-  }
-
-  public static void isFalse(Producer<Boolean> check, String errorMessage) {
-    EAssert.isFalse(check, new EAssertException(errorMessage));
-  }
-
-  public static void isFalse(Producer<Boolean> check, RuntimeException exceptionOnFail) {
-    checkExceptionOnFail(exceptionOnFail);
-    if (check.produce()) throw exceptionOnFail;
-  }
-
   public static void isFalse(boolean value) {
-    EAssert.isFalse(value, TEXT_NOT_FALSE);
+    EAssert.isFalse(value, () -> TEXT_NOT_FALSE);
   }
 
-  public static void isFalse(boolean value, String errorMessage) {
-    EAssert.isFalse(value, new EAssertException(errorMessage));
+  public static void isFalse(boolean value, String message) {
+    isFalse(value, () -> message);
   }
 
-  public static void isFalse(boolean value, RuntimeException exceptionOnFail) {
-    checkExceptionOnFail(exceptionOnFail);
-    if (value) throw exceptionOnFail;
+  public static void isFalse(boolean value, ErrorMessageProducer producer) {
+    if (value) raise(producer);
   }
 
-  public static void isFalse(boolean value, Producer<String> messageProducer) {
-    EAssert.isFalse(value, new EAssertException(messageProducer.produce()));
+  public static void isFalse(boolean value, ExceptionProducer producer) {
+    if (value) raise(producer);
   }
 
   public static void isNonemptyString(String value) {
-    EAssert.isNotNull(value, TEXT_EMPTY_STRING);
-    EAssert.isTrue(value.length() > 0, TEXT_EMPTY_STRING);
+    EAssert.isNonemptyString(value, TEXT_EMPTY_STRING);
   }
 
   public static void isNonemptyString(String value, String message) {
-    EAssert.isNotNull(value, message);
-    EAssert.isTrue(value.length() > 0, message);
+    EAssert.isNonemptyString(value, () -> message);
   }
 
-  public static void isNonemptyString(String value, RuntimeException exceptionOnFail) {
-    EAssert.isNotNull(value, exceptionOnFail);
-    EAssert.isTrue(value.length() > 0, exceptionOnFail);
+  public static void isNonemptyString(String value, ExceptionProducer producer) {
+    EAssert.isNotNull(value, producer);
+    EAssert.isTrue(value.length() > 0, producer);
+  }
+
+  public static void isNonemptyString(String value, ErrorMessageProducer producer) {
+    EAssert.isNotNull(value, producer);
+    EAssert.isTrue(value.length() > 0, producer);
   }
 
   public static void isNotNull(Object value) {
@@ -119,52 +115,31 @@ public class EAssert {
   }
 
   public static void isNotNull(Object value, String message) {
-    isNotNull(value, new EAssertException(message));
+    EAssert.isNotNull(value, () -> message);
   }
 
-  public static void isNotNull(Object value, RuntimeException exceptionOnFail) {
-    checkExceptionOnFail(exceptionOnFail);
-    if (value == null) throw exceptionOnFail;
+  public static void isNotNull(Object value, ErrorMessageProducer producer) {
+    if (value == null) raise(producer);
   }
 
-  public static void isNotNull(Object value, Producer<RuntimeException> exceptionOnFailProducer) {
-    checkExceptionOnFail(exceptionOnFailProducer);
-    if (value == null) throw exceptionOnFailProducer.produce();
-  }
-
-  private static void checkExceptionOnFail(Producer<RuntimeException> exceptionOnFailProducer) {
-    if (exceptionOnFailProducer == null)
-      throw new IllegalArgumentException("'exceptionOnFailProducer' cannot be null.");
-  }
-
-  public static void isTrue(Producer<Boolean> check) {
-    EAssert.isTrue(check, TEXT_NOT_TRUE);
-  }
-
-  public static void isTrue(Producer<Boolean> check, String errorMessage) {
-    EAssert.isTrue(check, new EAssertException(errorMessage));
-  }
-
-  public static void isTrue(Producer<Boolean> check, RuntimeException exceptionOnFail) {
-    checkExceptionOnFail(exceptionOnFail);
-    if (!check.produce()) throw exceptionOnFail;
+  public static void isNotNull(Object value, ExceptionProducer producer) {
+    if (value == null) raise(producer);
   }
 
   public static void isTrue(boolean value) {
-    EAssert.isTrue(value, TEXT_NOT_TRUE);
+    EAssert.isTrue(value, () -> TEXT_NOT_TRUE);
   }
 
-  public static void isTrue(boolean value, String errorMessage) {
-    EAssert.isTrue(value, new EAssertException(errorMessage));
+  public static void isTrue(boolean value, String message) {
+    EAssert.isTrue(value, () -> message);
   }
 
-  public static void isTrue(boolean value, RuntimeException exceptionOnFail) {
-    checkExceptionOnFail(exceptionOnFail);
-    if (!value) throw exceptionOnFail;
+  public static void isTrue(boolean value, ErrorMessageProducer producer) {
+    if (!value) raise(producer);
   }
 
-  public static void isTrue(boolean value, Producer<String> messageProducer) {
-    EAssert.isTrue(value, new EAssertException(messageProducer.produce()));
+  public static void isTrue(boolean value, ExceptionProducer producer) {
+    if (!value) raise(producer);
   }
 
   public static void isXor(boolean... value) {
@@ -177,8 +152,7 @@ public class EAssert {
           throw new EAssertException("Multiple of XOR boolean expressions is true.");
       }
     }
-    if (!isFound)
-      throw new EAssertException("Any of XOR boolean expressions is true.");
+    if (!isFound) raise(() -> "Any of XOR boolean expressions is true.");
   }
 
   public static void matchPattern(String text, String pattern) {
@@ -193,17 +167,41 @@ public class EAssert {
 
   public static void matchPattern(String text, Pattern pattern) {
     matchPattern(text, pattern,
-        sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
+            sf("Validation: Value '%s' does not match pattern '%s'.", text, pattern.toString()));
   }
 
   public static void matchPattern(String text, Pattern pattern, String message) {
     Matcher m = pattern.matcher(text);
-    if (!m.find())
-      throw new EAssertException(message);
+    if (!m.find()) raise(() -> message);
   }
 
-  private static void checkExceptionOnFail(RuntimeException value) {
-    if (value == null)
-      throw new IllegalArgumentException("E-Assert 'exceptionOnFail' cannot be null.");
+  private static void raise(String baseText, ErrorMessageProducer errorMessageProducer) {
+    String errorMessage;
+    try {
+      errorMessage = errorMessageProducer.produce();
+    } catch (Exception e) {
+      throw new EAssertRaiseException(e);
+    }
+    throw new EAssertException(baseText + errorMessage);
+  }
+
+  private static void raise(ExceptionProducer exceptionOnFailProducer) {
+    RuntimeException exception;
+    try {
+      exception = exceptionOnFailProducer.produce();
+    } catch (Exception e) {
+      throw new EAssertRaiseException(e);
+    }
+    throw exception;
+  }
+
+  private static void raise(ErrorMessageProducer errorMessageProducer) {
+    String errorMessage;
+    try {
+      errorMessage = errorMessageProducer.produce();
+    } catch (Exception e) {
+      throw new EAssertRaiseException(e);
+    }
+    throw new EAssertException(errorMessage);
   }
 }
