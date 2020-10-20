@@ -1,5 +1,7 @@
 package eng.eSystem.validation;
 
+import eng.eSystem.utilites.ObjectUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,6 +77,113 @@ public class EAssert {
   private static final String TEXT_NOT_FALSE = TEXT_ERR + "Expression should be false.";
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
+  private static final String TEXT_NOT_EQUAL = TEXT_ERR + "Values are not equal.";
+
+  // region equals
+
+  public static void equals(Object first, Object second) {
+    EAssert.equals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void equals(Object first, Object second, String message) {
+    equals(first, second, () -> message);
+  }
+
+  public static void equals(Object first, Object second, ErrorMessageProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void equals(Object first, Object second, ExceptionProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void equals(long first, long second) {
+    EAssert.equals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void equals(long first, long second, String message) {
+    equals(first, second, () -> message);
+  }
+
+  public static void equals(long first, long second, ErrorMessageProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void equals(long first, long second, ExceptionProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void equals(double first, double second) {
+    EAssert.equals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void equals(double first, double second, String message) {
+    equals(first, second, () -> message);
+  }
+
+  public static void equals(double first, double second, ErrorMessageProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void equals(double first, double second, ExceptionProducer producer) {
+    if (!ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+// endregion equals
+
+  //region notEquals
+
+  public static void notEquals(Object first, Object second) {
+    EAssert.notEquals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void notEquals(Object first, Object second, String message) {
+    notEquals(first, second, () -> message);
+  }
+
+  public static void notEquals(Object first, Object second, ErrorMessageProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void notEquals(Object first, Object second, ExceptionProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void notEquals(long first, long second) {
+    EAssert.notEquals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void notEquals(long first, long second, String message) {
+    EAssert.notEquals(first, second, () -> message);
+  }
+
+  public static void notEquals(long first, long second, ErrorMessageProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void notEquals(long first, long second, ExceptionProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void notEquals(double first, double second) {
+    EAssert.notEquals(first, second, () -> TEXT_NOT_EQUAL);
+  }
+
+  public static void notEquals(double first, double second, String message) {
+    EAssert.notEquals(first, second, () -> message);
+  }
+
+  public static void notEquals(double first, double second, ErrorMessageProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  public static void notEquals(double first, double second, ExceptionProducer producer) {
+    if (ObjectUtils.equals(first, second)) raise(producer);
+  }
+
+  //endregion notEquals
+
+  //region isFalse
 
   public static void isFalse(boolean value) {
     EAssert.isFalse(value, () -> TEXT_NOT_FALSE);
@@ -91,6 +200,10 @@ public class EAssert {
   public static void isFalse(boolean value, ExceptionProducer producer) {
     if (value) raise(producer);
   }
+
+  //endregion isFalse
+
+  //region isNonemptyString
 
   public static void isNonemptyString(String value) {
     EAssert.isNonemptyString(value, TEXT_EMPTY_STRING);
@@ -110,6 +223,10 @@ public class EAssert {
     EAssert.isTrue(value.length() > 0, producer);
   }
 
+  // endregion isNonemptyString
+
+  //region isNotNull
+
   public static void isNotNull(Object value) {
     EAssert.isNotNull(value, TEXT_NOT_NULL);
   }
@@ -125,6 +242,10 @@ public class EAssert {
   public static void isNotNull(Object value, ExceptionProducer producer) {
     if (value == null) raise(producer);
   }
+
+  // endregion isNotNull
+
+  //region isTrue
 
   public static void isTrue(boolean value) {
     EAssert.isTrue(value, () -> TEXT_NOT_TRUE);
@@ -142,6 +263,8 @@ public class EAssert {
     if (!value) raise(producer);
   }
 
+  // endregion isTrue
+
   public static void isXor(boolean... value) {
     boolean isFound = false;
     for (boolean b : value) {
@@ -154,6 +277,8 @@ public class EAssert {
     }
     if (!isFound) raise(() -> "Any of XOR boolean expressions is true.");
   }
+
+  //region matchPattern
 
   public static void matchPattern(String text, String pattern) {
     Pattern p = Pattern.compile(pattern);
@@ -174,6 +299,10 @@ public class EAssert {
     Matcher m = pattern.matcher(text);
     if (!m.find()) raise(() -> message);
   }
+
+  //endregion matchPattern
+
+  //region Private methods
 
   private static void raise(String baseText, ErrorMessageProducer errorMessageProducer) {
     String errorMessage;
@@ -204,4 +333,6 @@ public class EAssert {
     }
     throw new EAssertException(errorMessage);
   }
+
+  // endregion Private methods
 }
