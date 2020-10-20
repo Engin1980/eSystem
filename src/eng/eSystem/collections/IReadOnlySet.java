@@ -11,7 +11,7 @@ public interface IReadOnlySet<T> extends ICollection<T> {
     EMap<K, ISet<T>> ret = new EMap<>();
 
     for (T item : this) {
-      K key = keySelector.getValue(item);
+      K key = keySelector.select(item);
       if (!ret.containsKey(key))
         ret.set(key, new ESet<>());
       ret.get(key).add(item);

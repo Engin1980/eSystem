@@ -67,7 +67,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
     EMap<K, IList<T>> ret = new EMap<>();
 
     for (T item : this) {
-      K key = keySelector.getValue(item);
+      K key = keySelector.select(item);
       if (!ret.containsKey(key))
         ret.set(key, new EList<>());
       ret.get(key).add(item);
@@ -91,7 +91,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
   default <K> IList<K> selectMany(Selector<T, IList<K>> selector) {
     EList<K> ret = new EList<>();
 
-    this.forEach(q -> ret.addMany(selector.getValue(q)));
+    this.forEach(q -> ret.addMany(selector.select(q)));
 
     return ret;
   }

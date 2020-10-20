@@ -31,7 +31,7 @@ public class EDistinctList<T> extends EList<T> {
   public void add(T item) {
     boolean exists = false;
     if (onDuplicateBehavior != Behavior.ignore)
-      exists = existsDistinctValue(this.selector.getValue(item));
+      exists = existsDistinctValue(this.selector.select(item));
     if (exists)
       throwIfRequired(item);
     else
@@ -56,7 +56,7 @@ public class EDistinctList<T> extends EList<T> {
   public void insert(int index, T item) {
     boolean exists = false;
     if (onDuplicateBehavior != Behavior.ignore)
-      exists = existsDistinctValue(this.selector.getValue(item));
+      exists = existsDistinctValue(this.selector.select(item));
     if (exists)
       throwIfRequired(item);
     else super.insert(index, item);
@@ -66,7 +66,7 @@ public class EDistinctList<T> extends EList<T> {
   public void set(int index, T item) {
     boolean exists = false;
     if (onDuplicateBehavior != Behavior.ignore)
-      exists = existsDistinctValue(this.selector.getValue(item));
+      exists = existsDistinctValue(this.selector.select(item));
     if (exists)
       throwIfRequired(item);
     else
@@ -95,14 +95,14 @@ public class EDistinctList<T> extends EList<T> {
       if (this.get(i) == null)
         tmA = null;
       else
-        tmA = this.selector.getValue(this.get(i));
+        tmA = this.selector.select(this.get(i));
 
       for (int j = 0; j < i; j++) {
         Object tmB;
         if (this.get(j) == null)
           tmB = null;
         else
-          tmB = this.selector.getValue(this.get(j));
+          tmB = this.selector.select(this.get(j));
 
         boolean isDuplicity;
         if (tmA == null) {
@@ -125,7 +125,7 @@ public class EDistinctList<T> extends EList<T> {
 
   private void throwIfRequired(T item) {
     if (onDuplicateBehavior == Behavior.exception)
-      throw new DuplicitItemException("The item " + item + " represents value " + this.selector.getValue(item) + " which already exists in the list.");
+      throw new DuplicitItemException("The item " + item + " represents value " + this.selector.select(item) + " which already exists in the list.");
   }
 
   private boolean existsDistinctValue(Object d) {
@@ -134,7 +134,7 @@ public class EDistinctList<T> extends EList<T> {
       if (q == null)
         rr = false;
       else {
-        Object a = this.selector.getValue(q);
+        Object a = this.selector.select(q);
         if (a == null){
           throw new IllegalArgumentException("Distinct list selector cannot return null. Selector returned null for object " + q);
         } else {

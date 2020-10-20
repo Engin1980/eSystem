@@ -34,7 +34,7 @@ abstract class WithModelExtender<T, Ttype> extends  Extender<Ttype> {
   public void addItem(T value) {
     String label;
     try{
-      label = this.labelSelector.getValue(value);
+      label = this.labelSelector.select(value);
     } catch (Exception ex){
       throw new IllegalArgumentException("Unable to get label for value " + value + " using predefined label selector.");
     }

@@ -45,7 +45,7 @@ public class EStringBuilder {
         isFirst = false;
       else
         this.append(separator);
-      String it = selector.getValue(item);
+      String it = selector.select(item);
       this.append(it);
     }
     return this;
@@ -62,7 +62,7 @@ public class EStringBuilder {
         isFirst = false;
       else
         this.append(separator);
-      String it = selector.getValue(item);
+      String it = selector.select(item);
       this.append(it);
     }
     return this;

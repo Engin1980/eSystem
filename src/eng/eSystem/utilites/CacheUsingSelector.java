@@ -26,7 +26,7 @@ public class CacheUsingSelector<Tkey, Ttype> {
   }
 
   protected void obtainInstanceForKey(Tkey key) {
-    Ttype instance = instanceProducer.getValue(key);
+    Ttype instance = instanceProducer.select(key);
     this.cache.set(key, instance);
   }
 }
