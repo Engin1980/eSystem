@@ -103,7 +103,7 @@ public class ESet<T> implements ISet<T> {
   public <V> ISet<V> select(Selector<T, V> selector) {
     ISet<V> ret = new ESet<>();
     for (T t : inner) {
-      V v = selector.select(t);
+      V v = selector.invoke(t);
       ret.add(v);
     }
     return ret;

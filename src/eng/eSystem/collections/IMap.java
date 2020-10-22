@@ -20,7 +20,7 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
   default V getOrSet(K key, Producer<V> valueProducerIfKeyNotFound) {
     V ret;
     if (!this.containsKey(key))
-      this.set(key, valueProducerIfKeyNotFound.produce());
+      this.set(key, valueProducerIfKeyNotFound.invoke());
     ret = this.get(key);
     return ret;
   }

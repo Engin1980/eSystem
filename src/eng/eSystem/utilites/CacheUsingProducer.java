@@ -25,7 +25,7 @@ public class CacheUsingProducer<T> {
   }
 
   protected void obtainInstance() {
-    this.cachedValue = instanceProducer.produce();
+    this.cachedValue = instanceProducer.invoke();
     this.obtained = true;
   }
 }

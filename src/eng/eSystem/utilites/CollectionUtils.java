@@ -42,7 +42,7 @@ public class CollectionUtils {
   public static <T> double sum(Iterable<T> lst, Selector<T, Double> selector) {
     double sum = 0;
     for (T t : lst) {
-      sum += selector.select(t);
+      sum += selector.invoke(t);
     }
     return sum;
   }
@@ -50,7 +50,7 @@ public class CollectionUtils {
   public static <T,K> List<K> select(Iterable <T> lst, Selector<T,K> selector){
     List<K> ret = new ArrayList<>();
     for (T t : lst) {
-      K k = selector.select(t);
+      K k = selector.invoke(t);
       ret.add(k);
     }
     return ret;

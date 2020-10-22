@@ -34,7 +34,7 @@ public class Validator {
 
   public static <T> void check(Producer<Boolean> check, RuntimeException exceptionOnFail){
     if (exceptionOnFail == null) throw new IllegalArgumentException("Fail exception cannot be null.");
-    if (check.produce() == false)
+    if (check.invoke() == false)
       throw exceptionOnFail;
   }
 

@@ -12,7 +12,7 @@ public interface ICollection<T> extends Iterable<T> {
   default <V> V aggregate(Selector<T, V> selector, BiFunction<V, V, V> aggregator, V initialAgregatorValue) {
     V ret = initialAgregatorValue;
     for (T t : this) {
-      V v = selector.select(t);
+      V v = selector.invoke(t);
       ret = aggregator.apply(ret, v);
     }
     return ret;
@@ -68,9 +68,9 @@ public interface ICollection<T> extends Iterable<T> {
     for (T t : this) {
       if (ret == null) {
         ret = t;
-        min = selector.select(t);
+        min = selector.invoke(t);
       } else {
-        V v = selector.select(t);
+        V v = selector.invoke(t);
         if (v.compareTo(min) > 0) {
           ret = t;
           min = v;
@@ -102,7 +102,7 @@ public interface ICollection<T> extends Iterable<T> {
     Double minimalCriterionValue = Double.MAX_VALUE;
     T ret = null;
     for (T t : this) {
-      Double currentCriterionValue = minimizingCriterionSelector.select(t);
+      Double currentCriterionValue = minimizingCriterionSelector.invoke(t);
       if (currentCriterionValue < minimalCriterionValue) {
         ret = t;
         minimalCriterionValue = currentCriterionValue;
@@ -116,11 +116,11 @@ public interface ICollection<T> extends Iterable<T> {
       throw new ElementNotFoundException();
 
     T ret = null;
-    double sum = this.sumDouble(q -> weightSelector.select(q));
+    double sum = this.sumDouble(q -> weightSelector.invoke(q));
     double val = Math.random() * sum;
     for (T t : this) {
       ret = t;
-      val -= weightSelector.select(t);
+      val -= weightSelector.invoke(t);
       if (val < 0) break;
     }
     return ret;
@@ -131,11 +131,11 @@ public interface ICollection<T> extends Iterable<T> {
       throw new ElementNotFoundException();
 
     T ret = null;
-    double sum = this.sumDouble(q -> weightSelector.select(q));
+    double sum = this.sumDouble(q -> weightSelector.invoke(q));
     double val = rnd.nextDouble() * sum;
     for (T t : this) {
       ret = t;
-      val -= weightSelector.select(t);
+      val -= weightSelector.invoke(t);
       if (val < 0) break;
     }
     return ret;
@@ -150,9 +150,9 @@ public interface ICollection<T> extends Iterable<T> {
     for (T t : this) {
       if (ret == null) {
         ret = t;
-        min = selector.select(t);
+        min = selector.invoke(t);
       } else {
-        V v = selector.select(t);
+        V v = selector.invoke(t);
         if (v.compareTo(min) < 0) {
           ret = t;
           min = v;
@@ -189,7 +189,7 @@ public interface ICollection<T> extends Iterable<T> {
   default <V extends Comparable<V>> V max(Selector<T, V> selector, V maximalValue) {
     V ret = maximalValue;
     for (T t : this) {
-      V v = selector.select(t);
+      V v = selector.invoke(t);
       if (v != null && v.compareTo(ret) > 0)
         ret = v;
     }
@@ -233,7 +233,7 @@ public interface ICollection<T> extends Iterable<T> {
   default <V extends Comparable<V>> V min(Selector<T, V> selector, V minimalValue) {
     V ret = minimalValue;
     for (T t : this) {
-      V v = selector.select(t);
+      V v = selector.invoke(t);
       if (v != null && v.compareTo(ret) < 0)
         ret = v;
     }
@@ -265,7 +265,7 @@ public interface ICollection<T> extends Iterable<T> {
   default double sumDouble(Selector<T, Double> selector) {
     double ret = 0;
     for (T t : this) {
-      ret += selector.select(t);
+      ret += selector.invoke(t);
     }
     return ret;
   }
@@ -273,7 +273,7 @@ public interface ICollection<T> extends Iterable<T> {
   default int sumInt(Selector<T, Integer> selector) {
     int ret = 0;
     for (T t : this) {
-      ret += selector.select(t);
+      ret += selector.invoke(t);
     }
     return ret;
   }
@@ -281,7 +281,7 @@ public interface ICollection<T> extends Iterable<T> {
   default long sumLong(Selector<T, Long> selector) {
     long ret = 0;
     for (T t : this) {
-      ret += selector.select(t);
+      ret += selector.invoke(t);
     }
     return ret;
   }

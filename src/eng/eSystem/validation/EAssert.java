@@ -307,7 +307,7 @@ public class EAssert {
   private static void raise(String baseText, ErrorMessageProducer errorMessageProducer) {
     String errorMessage;
     try {
-      errorMessage = errorMessageProducer.produce();
+      errorMessage = errorMessageProducer.invoke();
     } catch (Exception e) {
       throw new EAssertRaiseException(e);
     }
@@ -317,7 +317,7 @@ public class EAssert {
   private static void raise(ExceptionProducer exceptionOnFailProducer) {
     RuntimeException exception;
     try {
-      exception = exceptionOnFailProducer.produce();
+      exception = exceptionOnFailProducer.invoke();
     } catch (Exception e) {
       throw new EAssertRaiseException(e);
     }
@@ -327,7 +327,7 @@ public class EAssert {
   private static void raise(ErrorMessageProducer errorMessageProducer) {
     String errorMessage;
     try {
-      errorMessage = errorMessageProducer.produce();
+      errorMessage = errorMessageProducer.invoke();
     } catch (Exception e) {
       throw new EAssertRaiseException(e);
     }

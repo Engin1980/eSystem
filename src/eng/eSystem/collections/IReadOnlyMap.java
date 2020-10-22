@@ -46,8 +46,8 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     for (K key : this.getKeys()) {
       Knew newKey;
       Vnew newValue;
-      newKey = keySelector.select(key);
-      newValue = valueSelector.select(this.get(key));
+      newKey = keySelector.invoke(key);
+      newValue = valueSelector.invoke(this.get(key));
       ret.set(newKey, newValue);
     }
 

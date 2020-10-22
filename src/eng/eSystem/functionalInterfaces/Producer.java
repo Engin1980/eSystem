@@ -1,5 +1,5 @@
 package eng.eSystem.functionalInterfaces;
 
-public interface Producer <T> {
-  T produce();
+public interface Producer<TResult> {
+  TResult invoke();
 }

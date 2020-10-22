@@ -67,7 +67,7 @@ public class EList<T> implements IList<T> {
     ISet<K> known = new ESet<>();
     IList<T> ret = new EList<>();
     for (T t : this) {
-      K v = selector.select(t);
+      K v = selector.invoke(t);
       if (!known.contains(v)) {
         known.add(v);
         ret.add(t);
@@ -94,7 +94,7 @@ public class EList<T> implements IList<T> {
     ISet<K> known = new ESet<>();
     ISet<T> ret = new ESet<>();
     for (T t : this) {
-      K v = selector.select(t);
+      K v = selector.invoke(t);
       if (!known.contains(v)) {
         known.add(v);
       } else if (!ret.contains(t)) {
@@ -169,7 +169,7 @@ public class EList<T> implements IList<T> {
   public <V> IList<V> select(Selector<T, V> selector) {
     IList<V> ret = new EList<>();
     for (T t : this) {
-      V v = selector.select(t);
+      V v = selector.invoke(t);
       ret.add(v);
     }
     return ret;
@@ -205,7 +205,7 @@ public class EList<T> implements IList<T> {
       if (t == null)
         nullCount++;
       else {
-        K key = selector.select(t);
+        K key = selector.invoke(t);
         if (tmp.containsKey(key) == false)
           tmp.set(key, new EList<>());
         tmp.get(key).add(t);

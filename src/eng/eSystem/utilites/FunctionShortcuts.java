@@ -20,7 +20,7 @@ public class FunctionShortcuts {
     int index = 0;
     for (Producer<T> producer : producers) {
       try {
-        ret = producer.produce();
+        ret = producer.invoke();
       } catch (Exception e) {
         throw new IllegalArgumentException(sf("Coalesce(...) failed. Producer at index %d caused an exception.", index), e);
       }

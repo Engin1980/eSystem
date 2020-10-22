@@ -1,5 +1,5 @@
 package eng.eSystem.functionalInterfaces;
 
-public interface Consumer<T> {
-  void consume(T value);
+public interface Consumer<T1> {
+  void invoke(T1 a);
 }
