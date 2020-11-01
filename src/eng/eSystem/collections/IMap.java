@@ -9,6 +9,14 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
 
   void clear();
 
+  void remove(K key);
+
+  void set(K key, V value);
+
+  void set(Map<? extends K, ? extends V> m);
+
+  void tryRemove(K key);
+
   default V getOrSet(K key, V valueIfKeyNotFound) {
     V ret;
     if (!this.containsKey(key))
@@ -25,27 +33,20 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
     return ret;
   }
 
-  void remove(K key);
-
   default void remove(Predicate<Map.Entry<K, V>> predicate) {
     ISet<K> tmp = this.where(predicate).getKeys();
-    this.remove(tmp);
+    this.removeMany(tmp);
   }
 
-  default void remove(ISet<K> keys) {
+  default void removeMany(ISet<K> keys) {
     for (K key : keys) {
       this.remove(key);
     }
   }
 
-  void set(K key, V value);
-
-  void set(Map<? extends K, ? extends V> m);
-
-  default void set(IMap<K, ? extends V> m) {
-    for (K k : m.getKeys()) {
-      V v = m.get(k);
-      this.set(k, v);
+  default void tryRemoveMany(Iterable<K> keys) {
+    for (K key : keys) {
+      this.tryRemove(key);
     }
   }
 
@@ -53,10 +54,15 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
     this.set(m.getKey(), m.getValue());
   }
 
-  default void set(IList<Map.Entry<? extends K, ? extends V>> m) {
-    m.forEach(q -> this.set(q));
+  default void setMany(IMap<K, ? extends V> m) {
+    for (K k : m.getKeys()) {
+      V v = m.get(k);
+      this.set(k, v);
+    }
   }
 
-  void tryRemove(K key);
+  default void setMany(Iterable<Map.Entry<? extends K, ? extends V>> m) {
+    m.forEach(q -> this.set(q));
+  }
 
 }

@@ -6,6 +6,18 @@ public interface ISet<T> extends IReadOnlySet<T> {
 
   void add(T item);
 
+  default void addMany(Iterable<? extends T> items) {
+    for (T item : items) {
+      this.add(item);
+    }
+  }
+
+  default void addMany(T[] items) {
+    for (T item : items) {
+      this.add(item);
+    }
+  }
+
   default void add(Iterable<? extends T> items) {
     for (T item : items) {
       this.add(item);
@@ -40,5 +52,11 @@ public interface ISet<T> extends IReadOnlySet<T> {
     for (T t : tmp) {
       this.remove(tmp);
     }
+  }
+
+  void tryRemove(T item);
+
+  default void tryRemoveMany(Iterable<? extends T> items) {
+    items.forEach(q -> this.tryRemove(q));
   }
 }

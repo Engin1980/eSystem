@@ -1,5 +1,6 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.exceptions.EIllegalArgumentException;
 import eng.eSystem.functionalInterfaces.Selector;
 
@@ -80,6 +81,11 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public Iterator<T> iterator() {
+    return this.inner.iterator();
+  }
+
+  @Override
   public ISet<T> minus(IReadOnlySet<T> otherList) {
     ISet<T> ret = new ESet<>();
     for (T item : this) {
@@ -90,12 +96,9 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public Iterator<T> iterator() {
-    return this.inner.iterator();
-  }
-
-  @Override
   public void remove(T item) {
+    if (!inner.contains(item))
+      throw new ElementNotFoundException(item);
     inner.remove(item);
   }
 
@@ -127,8 +130,36 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public Set<T> toJavaSet() {
+    Set<T> ret = new HashSet<>(this.inner);
+    return ret;
+  }
+
+  @Override
+  public void toJavaSet(Set<T> target) {
+    target.addAll(this.inner);
+  }
+
+  @Override
+  public IList<T> toList() {
+    EList<T> ret = new EList<>(this.inner);
+    return ret;
+  }
+
+  @Override
+  public ISet<T> toSet() {
+    ISet<T> ret = new ESet<>(this.inner);
+    return ret;
+  }
+
+  @Override
   public String toString() {
     return String.format("ESet{%d items}", this.size());
+  }
+
+  @Override
+  public void tryRemove(T item) {
+    inner.remove(item);
   }
 
   @Override
@@ -146,28 +177,5 @@ public class ESet<T> implements ISet<T> {
     ESet<T> ret = new ESet<>();
     ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toSet());
     return ret;
-  }
-
-  @Override
-  public IList<T> toList() {
-    EList<T> ret = new EList<>(this.inner);
-    return ret;
-  }
-
-  @Override
-  public ISet<T> toSet() {
-    ISet<T> ret = new ESet<>(this.inner);
-    return ret;
-  }
-
-  @Override
-  public Set<T> toJavaSet() {
-    Set<T> ret = new HashSet<>(this.inner);
-    return ret;
-  }
-
-  @Override
-  public void toJavaSet(Set<T> target) {
-    target.addAll(this.inner);
   }
 }

@@ -78,6 +78,7 @@ public class EAssert {
   private static final String TEXT_NOT_NULL = TEXT_ERR + "Value should not be null.";
   private static final String TEXT_NOT_TRUE = TEXT_ERR + "Expression should be true.";
   private static final String TEXT_NOT_EQUAL = TEXT_ERR + "Values are not equal.";
+  private static final String TEXT_NOT_TYPE = "Value does not match the required type.";
 
   // region equals
 
@@ -181,7 +182,6 @@ public class EAssert {
     if (ObjectUtils.equals(first, second)) raise(producer);
   }
 
-  //endregion notEquals
 
   //region isFalse
 
