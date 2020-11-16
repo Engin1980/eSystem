@@ -8,6 +8,8 @@ package eng.eSystem.utilites;
 import eng.eSystem.collections.EList;
 import eng.eSystem.collections.IList;
 import eng.eSystem.collections.IReadOnlyList;
+import eng.eSystem.exceptions.EApplicationException;
+import eng.eSystem.validation.EAssert;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +27,47 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
  * @author Marek Vajgl
  */
 public class ReflectionUtils {
+  @Deprecated
   public static class Package {
     /**
      * Returns all classes declared in the package
+     *
+     * @param packageName Package name
+     * @return Readonly list of classes.
+     */
+    @Deprecated
+    public static IReadOnlyList<Class<?>> tryGetAllTypes(String packageName) {
+      ClassLoader cls = ReflectionUtils.class.getClassLoader();
+      packageName = packageName.replace('.', '/');
+      Enumeration<URL> urls;
+
+      try {
+        urls = cls.getResources(packageName);
+      } catch (IOException ex) {
+        return null;
+      }
+
+      IList<Class<?>> ret = new EList<>();
+      while (urls.hasMoreElements()) {
+        URL url = urls.nextElement();
+        File f = new File(url.getFile());
+        if (f.getName().endsWith(".class")) {
+          try {
+            Class<?> c = cls.loadClass(packageName + "." + f.getName().substring(0, f.getName().length() - 6));
+            ret.add(c);
+          } catch (ClassNotFoundException ex) {
+            // intentionally blank
+          }
+        }
+      }
+      return ret;
+    }
+  }
+
+  public static class PackageUtils {
+    /**
+     * Returns all classes declared in the package
+     *
      * @param packageName Package name
      * @return Readonly list of classes.
      */
@@ -60,7 +100,7 @@ public class ReflectionUtils {
   }
 
   public static class ClassUtils {
-    private static class PrimitiveToWrap{
+    private static class PrimitiveToWrap {
       final Class<?> primitive;
       final Class<?> wrap;
 
@@ -71,7 +111,8 @@ public class ReflectionUtils {
     }
 
     private static final IList<PrimitiveToWrap> primitiveToWraps;
-    static{
+
+    static {
       primitiveToWraps = new EList<>();
       primitiveToWraps.add(new PrimitiveToWrap(int.class, Integer.class));
       primitiveToWraps.add(new PrimitiveToWrap(short.class, Short.class));
@@ -101,22 +142,39 @@ public class ReflectionUtils {
       return ret;
     }
 
-    public static Class<?> tryWrapPrimitive(Class<?> type){
-      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q->q.primitive.equals(type));
+    public static Class<?> tryWrapPrimitive(Class<?> type) {
+      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q -> q.primitive.equals(type));
       if (ptw != null)
         return ptw.wrap;
       else
         return null;
     }
 
-    public static Class<?> tryUnwapToPrimitive(Class<?> type){
-      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q->q.wrap.equals(type));
+    public static Class<?> tryUnwapToPrimitive(Class<?> type) {
+      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q -> q.wrap.equals(type));
       if (ptw != null)
         return ptw.primitive;
       else
         return null;
     }
 
+  }
+
+  public static class FieldUtils {
+    public static void set(Object target, String fieldName, Object value) {
+      EAssert.Argument.isNotNull(target, "target");
+      EAssert.Argument.isNonemptyString(fieldName, "fieldName");
+
+      try {
+        Field field = target.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(target, value);
+        field.setAccessible(false);
+      } catch (IllegalAccessException | NoSuchFieldException e) {
+        throw new EApplicationException(sf("Unable to set field value. Class: '%s', field '%s'.", target.getClass(), fieldName), e);
+      }
+
+    }
   }
 
   public static List<Class<?>> filterByParent(List<Class<?>> classes, Class<?> requiredParent) {
@@ -134,9 +192,9 @@ public class ReflectionUtils {
   public static int getInheritanceDistance(Class<?> ancestorType, Class<?> descendantType) {
     if (ancestorType.isAssignableFrom(descendantType) == false) {
       throw new IllegalArgumentException(
-          sf("There is no inheritance relation between '%s' and '%s'.",
-              ancestorType.getName(),
-              descendantType.getName()));
+              sf("There is no inheritance relation between '%s' and '%s'.",
+                      ancestorType.getName(),
+                      descendantType.getName()));
     }
 
     int ret = tryTraceForParent(ancestorType, descendantType);
