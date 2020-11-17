@@ -128,6 +128,14 @@ public class ReflectionUtils {
       return primitiveToWraps.isAny(q -> q.primitive.equals(type) || q.wrap.equals(type));
     }
 
+    public static boolean isPrimitive(Class<?> type) {
+      return primitiveToWraps.isAny(q -> q.primitive.equals(type));
+    }
+
+    public static boolean isWrappedPrimitive(Class<?> type) {
+      return primitiveToWraps.isAny(q -> q.wrap.equals(type));
+    }
+
     /**
      * Returns all the fields of a class, including inherited.
      *
