@@ -5,12 +5,20 @@
  */
 package eng.eSystem.utilites;
 
-import java.util.function.Predicate;
+import eng.eSystem.functionalInterfaces.Predicate;
 
 /**
  * @author Marek Vajgl
  */
 public class ArrayUtils {
+
+  public static <T> int indexOf(T[] array, Predicate<T> predicate){
+    for (int i = 0; i < array.length; i++) {
+      if (predicate.invoke(array[i]))
+        return i;
+    }
+    return -1;
+  }
 
   public static <T> boolean contains(T[] array, T element) {
     boolean ret = false;
@@ -114,7 +122,7 @@ public class ArrayUtils {
   public static <T> boolean contains(T[] array, Predicate<T> predicate) {
     boolean ret = false;
     for (T t : array) {
-      if (predicate.test(t)) {
+      if (predicate.invoke(t)) {
         ret = true;
         break;
       }

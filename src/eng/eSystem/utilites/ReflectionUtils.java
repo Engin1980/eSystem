@@ -100,6 +100,7 @@ public class ReflectionUtils {
   }
 
   public static class ClassUtils {
+
     private static class PrimitiveToWrap {
       final Class<?> primitive;
       final Class<?> wrap;
@@ -109,7 +110,6 @@ public class ReflectionUtils {
         this.wrap = wrap;
       }
     }
-
     private static final IList<PrimitiveToWrap> primitiveToWraps;
 
     static {
@@ -122,6 +122,10 @@ public class ReflectionUtils {
       primitiveToWraps.add(new PrimitiveToWrap(float.class, Float.class));
       primitiveToWraps.add(new PrimitiveToWrap(boolean.class, Boolean.class));
       primitiveToWraps.add(new PrimitiveToWrap(char.class, Character.class));
+    }
+
+    public static boolean isPrimitiveOrWrappedPrimitive(Class<?> type) {
+      return primitiveToWraps.isAny(q -> q.primitive.equals(type) || q.wrap.equals(type));
     }
 
     /**
