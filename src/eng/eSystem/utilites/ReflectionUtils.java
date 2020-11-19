@@ -110,6 +110,7 @@ public class ReflectionUtils {
         this.wrap = wrap;
       }
     }
+
     private static final IList<PrimitiveToWrap> primitiveToWraps;
 
     static {
@@ -185,7 +186,21 @@ public class ReflectionUtils {
       } catch (IllegalAccessException | NoSuchFieldException e) {
         throw new EApplicationException(sf("Unable to set field value. Class: '%s', field '%s'.", target.getClass(), fieldName), e);
       }
+    }
 
+    public static Object get(Object source, String fieldName) {
+      EAssert.Argument.isNotNull(source, "source");
+      EAssert.Argument.isNonemptyString(fieldName, "fieldName");
+      Object ret;
+      try {
+        Field field = source.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        ret = field.get(source);
+        field.setAccessible(false);
+      } catch (IllegalAccessException | NoSuchFieldException e) {
+        throw new EApplicationException(sf("Unable to get field value. Class: '%s', field '%s'.", source.getClass(), fieldName), e);
+      }
+      return ret;
     }
   }
 
