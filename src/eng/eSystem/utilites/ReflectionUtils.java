@@ -174,32 +174,42 @@ public class ReflectionUtils {
   }
 
   public static class FieldUtils {
-    public static void set(Object target, String fieldName, Object value) {
+    public static void setFieldValue(Object target, String fieldName, Object value) {
       EAssert.Argument.isNotNull(target, "target");
       EAssert.Argument.isNonemptyString(fieldName, "fieldName");
 
       try {
-        Field field = target.getClass().getDeclaredField(fieldName);
+        Field field = getField(target.getClass(), fieldName);
         field.setAccessible(true);
         field.set(target, value);
         field.setAccessible(false);
-      } catch (IllegalAccessException | NoSuchFieldException e) {
+      } catch (Exception e) {
         throw new EApplicationException(sf("Unable to set field value. Class: '%s', field '%s'.", target.getClass(), fieldName), e);
       }
     }
 
-    public static Object get(Object source, String fieldName) {
+    public static Object getFieldValue(Object source, String fieldName) {
       EAssert.Argument.isNotNull(source, "source");
       EAssert.Argument.isNonemptyString(fieldName, "fieldName");
       Object ret;
       try {
-        Field field = source.getClass().getDeclaredField(fieldName);
+        Field field = getField(source.getClass(), fieldName);
         field.setAccessible(true);
         ret = field.get(source);
         field.setAccessible(false);
-      } catch (IllegalAccessException | NoSuchFieldException e) {
+      } catch (Exception e) {
         throw new EApplicationException(sf("Unable to get field value. Class: '%s', field '%s'.", source.getClass(), fieldName), e);
       }
+      return ret;
+    }
+
+    public static Field getField(Class clz, String fieldName) {
+      Field[] fields = clz.getDeclaredFields();
+      Field ret = ArrayUtils.tryGetFirst(fields, q -> q.getName().equals(fieldName));
+      if (ret == null && clz.getSuperclass() != null)
+        ret = getField(clz.getSuperclass(), fieldName);
+      if (ret == null)
+        throw new EApplicationException(sf("Failed to find field named '%s' in '%s'.", fieldName, clz.getName()));
       return ret;
     }
   }

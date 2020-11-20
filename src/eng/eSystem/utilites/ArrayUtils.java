@@ -12,7 +12,7 @@ import eng.eSystem.functionalInterfaces.Predicate;
  */
 public class ArrayUtils {
 
-  public static <T> int indexOf(T[] array, Predicate<T> predicate){
+  public static <T> int indexOf(T[] array, Predicate<T> predicate) {
     for (int i = 0; i < array.length; i++) {
       if (predicate.invoke(array[i]))
         return i;
@@ -286,5 +286,17 @@ public class ArrayUtils {
       ret[i] = data[i];
     }
     return ret;
+  }
+
+  public static  <T> T tryGetFirst(T[] array, Predicate<T> predicate, T defaultValue) {
+    for (T t : array) {
+      if (predicate.invoke(t))
+        return t;
+    }
+    return defaultValue;
+  }
+
+  public static <T> T tryGetFirst(T[] array, Predicate<T> predicate) {
+    return tryGetFirst(array, predicate, null);
   }
 }
