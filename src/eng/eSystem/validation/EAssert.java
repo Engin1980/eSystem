@@ -311,7 +311,10 @@ public class EAssert {
     } catch (Exception e) {
       throw new EAssertRaiseException(e);
     }
-    throw new EAssertException(baseText + errorMessage);
+    if (errorMessage != null && errorMessage.length() > 0)
+      throw new EAssertException(baseText + ": " + errorMessage);
+    else
+      throw new EAssertException(baseText);
   }
 
   private static void raise(ExceptionProducer exceptionOnFailProducer) {
