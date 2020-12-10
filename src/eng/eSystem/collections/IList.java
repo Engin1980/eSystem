@@ -25,14 +25,14 @@ public interface IList<T> extends IReadOnlyList<T> {
 
   void insert(int index, T item);
 
-  default void insert(int index, T[] items) {
+  default void insertMany(int index, T[] items) {
     if (items == null) throw new IllegalArgumentException("Parameter 'items' cannot be null.");
     for (int i = 0; i < items.length; i++) {
       this.insert(index + i, items[i]);
     }
   }
 
-  default void insert(int index, Iterable<? extends T> items) {
+  default void insertMany(int index, Iterable<? extends T> items) {
     if (items == null) throw new IllegalArgumentException("Parameter 'items' cannot be null.");
     int i = 0;
     for (T item : items) {
