@@ -33,7 +33,7 @@ public class Coordinate {
 
 
     boolean isNeg = (fsA != null && (fsA.equals("S") || fsA.equals("W")))
-        || (fsB != null && (fsB.equals("S") || fsB.equals("W")));
+            || (fsB != null && (fsB.equals("S") || fsB.equals("W")));
     double d;
     double m;
     double s;
@@ -55,21 +55,22 @@ public class Coordinate {
 
     return ret;
   }
+
   private final CoordinateValue latitude;
   private final CoordinateValue longitude;
 
   public Coordinate(int aDegrees, int aMinutes, double aSeconds, boolean isSouth,
                     int bDegrees, int bMinutes, double bSeconds, boolean isWest) {
     this(
-        new CoordinateValue(aDegrees, aMinutes, aSeconds, isSouth),
-        new CoordinateValue(bDegrees, bMinutes, bSeconds, isWest));
+            new CoordinateValue(aDegrees, aMinutes, aSeconds, isSouth),
+            new CoordinateValue(bDegrees, bMinutes, bSeconds, isWest));
   }
 
   public Coordinate(int aDegrees, double aMinutesSeconds, boolean isSouth,
                     int bDegrees, double bMinutesSeconds, boolean isWest) {
     this(
-        new CoordinateValue(aDegrees, aMinutesSeconds, isSouth),
-        new CoordinateValue(bDegrees, bMinutesSeconds, isWest));
+            new CoordinateValue(aDegrees, aMinutesSeconds, isSouth),
+            new CoordinateValue(bDegrees, bMinutesSeconds, isWest));
   }
 
   private Coordinate() {
@@ -78,7 +79,7 @@ public class Coordinate {
 
   public Coordinate(double lat, double lon) {
     this(
-        new CoordinateValue(lat), new CoordinateValue(lon));
+            new CoordinateValue(lat), new CoordinateValue(lon));
   }
 
   public Coordinate(CoordinateValue lat, CoordinateValue lon) {
@@ -103,8 +104,8 @@ public class Coordinate {
   @SuppressWarnings("CloneDoesntCallSuperClone")
   public Coordinate clone() {
     return new Coordinate(
-        this.latitude.clone(),
-        this.longitude.clone());
+            this.latitude.clone(),
+            this.longitude.clone());
   }
 
   @Override
@@ -149,23 +150,29 @@ public class Coordinate {
     return new Coordinate(-this.latitude.get(), -this.longitude.get());
   }
 
+//  @Override
+//  public String toString() {
+//    StringBuilder sb = new StringBuilder();
+//    if (this.latitude.get() > 0) {
+//      sb.append("N");
+//    } else {
+//      sb.append("S");
+//    }
+//    sb.append(this.latitude.toString(false));
+//    sb.append(" ");
+//    if (this.longitude.get() > 0) {
+//      sb.append("E");
+//    } else {
+//      sb.append("W");
+//    }
+//    sb.append(this.longitude.toString(false));
+//    return sb.toString();
+//  }
+
+
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    if (this.latitude.get() > 0) {
-      sb.append("N");
-    } else {
-      sb.append("S");
-    }
-    sb.append(this.latitude.toString(false));
-    sb.append(" ");
-    if (this.longitude.get() > 0) {
-      sb.append("E");
-    } else {
-      sb.append("W");
-    }
-    sb.append(this.longitude.toString(false));
-    return sb.toString();
+    return this.getLatitude().toDecimalString(true) + ", " + this.getLongitude().toDecimalString(true);
   }
 }
 

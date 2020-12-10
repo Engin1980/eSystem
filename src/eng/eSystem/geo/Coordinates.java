@@ -11,6 +11,7 @@ public class Coordinates {
   }
 
   private final static double R = 6371;
+  private static final double DISTANCE_THRESHOLD_TO_MANAGE_POINTS_AS_THE_SAME = 0.000001;
 
   /**
    * Returns new Coordinate based on initial point, distance
@@ -48,6 +49,19 @@ public class Coordinates {
    * @return Distance in nauctional miles
    */
   public static double getDistanceInNM(Coordinate a, Coordinate b) {
+    double ret = getDistanceInKm(a, b);
+    ret = UnitUtils.Distance.kmToNM(ret);
+    return ret;
+  }
+
+  /**
+   * Returns distance between two points
+   *
+   * @param a First point
+   * @param b Second point
+   * @return Distance in kilometers
+   */
+  public static double getDistanceInKm(Coordinate a, Coordinate b) {
     double s1 = a.getLatitude().get();
     s1 = toRadians(s1);
     double s2 = b.getLatitude().get();
@@ -62,8 +76,6 @@ public class Coordinates {
             * Math.sin(dl / 2) * Math.sin(dl / 2);
     double cc = 2 * Math.atan2(Math.sqrt(aa), Math.sqrt(1 - aa));
     double ret = R * cc;
-    ret = UnitUtils.Distance.kmToNM(ret);
-
     return ret;
   }
 
@@ -90,7 +102,7 @@ public class Coordinates {
     return ret;
   }
 
-  public static Coordinate getIntersection(Coordinate pointA, double bearingA, Coordinate pointB, double bearingB) {
+  public static Coordinate getIntersectionOld(Coordinate pointA, double bearingA, Coordinate pointB, double bearingB) {
     double φ1 = toRadians(pointA.getLatitude().get());
     double λ1 = toRadians(pointA.getLongitude().get());
     double φ2 = toRadians(pointB.getLatitude().get());
@@ -127,6 +139,72 @@ public class Coordinates {
     double λ3 = λ1 + Δλ13;
 
     Coordinate ret = new Coordinate(toDegrees(φ3), toDegrees(λ3));
+    return ret;
+  }
+
+  public static Coordinate getIntersection(Coordinate pointA, double bearingA, Coordinate pointB, double bearingB) {
+    double π = Math.PI;
+
+    double φ1 = toRadians(pointA.getLatitude().get()), λ1 = toRadians(pointA.getLongitude().get());
+    double φ2 = toRadians(pointB.getLatitude().get()), λ2 = toRadians(pointB.getLongitude().get());
+    double θ13 = toRadians(bearingA), θ23 = toRadians(bearingB);
+    double Δφ = φ2 - φ1, Δλ = λ2 - λ1;
+
+    // angular distance p1-p2
+    double δ12 = 2 * Math.asin(Math.sqrt(Math.sin(Δφ / 2) * Math.sin(Δφ / 2)
+            + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)));
+    if (Math.abs(δ12) < DISTANCE_THRESHOLD_TO_MANAGE_POINTS_AS_THE_SAME) {
+      return pointA.clone();
+    } // coincident points
+
+    // initial/final bearings between points
+    double cosθa = (Math.sin(φ2) - Math.sin(φ1) * Math.cos(δ12)) / (Math.sin(δ12) * Math.cos(φ1));
+    double cosθb = (Math.sin(φ1) - Math.sin(φ2) * Math.cos(δ12)) / (Math.sin(δ12) * Math.cos(φ2));
+    double θa = Math.acos(Math.min(Math.max(cosθa, -1), 1)); // protect against rounding errors
+    double θb = Math.acos(Math.min(Math.max(cosθb, -1), 1)); // protect against rounding errors
+
+    double θ12 = Math.sin(λ2 - λ1) > 0 ? θa : 2 * π - θa;
+    double θ21 = Math.sin(λ2 - λ1) > 0 ? 2 * π - θb : θb;
+
+    double α1 = θ13 - θ12; // angle 2-1-3
+    double α2 = θ21 - θ23; // angle 1-2-3
+
+    if (Math.sin(α1) == 0 && Math.sin(α2) == 0) {
+      throw new IllegalArgumentException("Infinite intersections");
+    }
+    if (Math.sin(α1) * Math.sin(α2) < 0) {
+      throw new IllegalArgumentException("Ambigous intersection (antipodal?)");
+    }
+
+    double cosα3 = -Math.cos(α1) * Math.cos(α2) + Math.sin(α1) * Math.sin(α2) * Math.cos(δ12);
+    double δ13 = Math.atan2(Math.sin(δ12) * Math.sin(α1) * Math.sin(α2), Math.cos(α2) + Math.cos(α1) * cosα3);
+    double φ3 = Math.asin(Math.min(Math.max(Math.sin(φ1) * Math.cos(δ13) + Math.cos(φ1) * Math.sin(δ13) * Math.cos(θ13), -1), 1));
+    double Δλ13 = Math.atan2(Math.sin(θ13) * Math.sin(δ13) * Math.cos(φ1), Math.cos(δ13) - Math.sin(φ1) * Math.sin(φ3));
+    double λ3 = λ1 + Δλ13;
+
+    double lat = toDegrees(φ3);
+    double lon = toDegrees(λ3);
+
+    Coordinate ret = new Coordinate(lat, lon);
+    return ret;
+  }
+
+  public static double getDistanceToRadialInNM(Coordinate point, Coordinate radialFix, double radial) {
+    double ret = getDistanceToRadialInKm(point, radialFix, radial);
+    ret = UnitUtils.Distance.kmToNM(ret);
+    return ret;
+  }
+
+  public static double getDistanceToRadialInKm(Coordinate point, Coordinate radialFix, double radial) {
+    double bearingToPoint = Coordinates.getBearing(radialFix, point);
+    if (Headings.getDifference(radial, bearingToPoint, true) > 90)
+      radial = Headings.getOpposite(radial);
+    double pointRadial = Headings.subtract(radial, bearingToPoint) < 0 ?
+            Headings.add(radial, -90) : Headings.add(radial, 90);
+
+    Coordinate intersection = getIntersection(point, pointRadial, radialFix, radial);
+    double ret = Coordinates.getDistanceInKm(point, intersection);
+
     return ret;
   }
 
@@ -182,11 +260,11 @@ public class Coordinates {
   }
 
   private static double toRadians(double degrees) {
-    return degrees * Math.PI / 180;
+    return degrees * Math.PI / 180d;
   }
 
   private static double toDegrees(double radians) {
-    return radians * 180 / Math.PI;
+    return radians * 180d / Math.PI;
   }
 
   private Coordinates() {
