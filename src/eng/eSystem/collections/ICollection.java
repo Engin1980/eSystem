@@ -9,6 +9,26 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public interface ICollection<T> extends Iterable<T> {
+  boolean contains(T item);
+
+  IList<T> toList();
+
+  default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
+    IMap<K, V> ret = new EMap<>();
+
+    for (T t : this) {
+      K key = keySelector.invoke(t);
+      V value = valueSelector.invoke(t);
+      ret.set(key, value);
+    }
+
+    return ret;
+  }
+
+  ISet<T> toSet();
+
+  int size();
+
   default <V> V aggregate(Selector<T, V> selector, BiFunction<V, V, V> aggregator, V initialAgregatorValue) {
     V ret = initialAgregatorValue;
     for (T t : this) {
@@ -17,12 +37,6 @@ public interface ICollection<T> extends Iterable<T> {
     }
     return ret;
   }
-
-  boolean contains(T item);
-
-  IList<T> toList();
-
-  ISet<T> toSet();
 
   default int count(Predicate<T> predicate) {
     int ret = 0;
@@ -259,8 +273,6 @@ public interface ICollection<T> extends Iterable<T> {
     int ret = min(selector, defaultValueIfEmptyList);
     return ret;
   }
-
-  int size();
 
   default double sumDouble(Selector<T, Double> selector) {
     double ret = 0;

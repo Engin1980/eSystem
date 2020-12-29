@@ -27,11 +27,13 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
 
   boolean isEmpty();
 
-  default int count(){
+  int size();
+
+  default int count() {
     return size();
   }
 
-  default int count(Predicate<Map.Entry<K, V>> predicate){
+  default int count(Predicate<Map.Entry<K, V>> predicate) {
     return this.where(predicate).size();
   }
 
@@ -54,7 +56,27 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     return ret;
   }
 
-  int size();
+  default <Tnew> IList<Tnew> toList(Selector<Map.Entry<K, V>, Tnew> selector) {
+    IList<Tnew> ret = new EList<>();
+
+    for (Map.Entry<K, V> entry : this) {
+      Tnew item = selector.invoke(entry);
+      ret.add(item);
+    }
+
+    return ret;
+  }
+
+  default <Tnew> ISet<Tnew> toSet(Selector<Map.Entry<K, V>, Tnew> selector) {
+    ISet<Tnew> ret = new ESet<>();
+
+    for (Map.Entry<K, V> entry : this) {
+      Tnew item = selector.invoke(entry);
+      ret.add(item);
+    }
+
+    return ret;
+  }
 
   default V tryGet(K key) {
     V ret = tryGet(key, null);
