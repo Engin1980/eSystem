@@ -20,6 +20,16 @@ public interface IReadOnlySet<T> extends ICollection<T> {
     return ret;
   }
 
+  default T find(int index) {
+    int c = 0;
+    for (T t : this) {
+      if (c == index)
+        return t;
+      c++;
+    }
+    throw new IndexOutOfBoundsException("Not enough items in the set (requested " + index + "), available " + this.size() + ").");
+  }
+
   ISet<T> intersection(IReadOnlySet<T> otherSet);
 
   ISet<T> minus(IReadOnlySet<T> otherList);
