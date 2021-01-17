@@ -51,6 +51,12 @@ public interface ISet<T> extends IReadOnlySet<T> {
     }
   }
 
+  default void removeMany(Iterable<? extends T> items) {
+    for (T item : items) {
+      this.remove(item);
+    }
+  }
+
   default void retain(Predicate<T> predicate) {
     ISet<T> tmp = this.where(predicate.negate());
     for (T t : tmp) {
