@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.collections.internalInterfaces.ISetOperations;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
@@ -9,14 +10,25 @@ import java.util.function.Predicate;
 
 public interface IReadOnlyList<T> extends ICollection<T> {
 
+  /**
+   * Returns list containing every item only once.
+   * @return New list containing every item only once.
+   */
   default IList<T> distinct() {
     return distinct(q -> q);
   }
 
+  /**
+   * Returns list containing every item only once.
+   * @param selector Criteria specifying what is unique
+   * @param <K> Criteria item type
+   * @return New list containing every item only once.
+   */
   <K> IList<T> distinct(Selector<T, K> selector);
 
   T get(int index);
 
+  //TODO rename to getMany()
   default IReadOnlyList<T> get(int fromIndex, int toIndex) {
     EAssert.isTrue(
             fromIndex >= 0,
@@ -38,6 +50,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   <K> ISet<T> getDuplicateItems(Selector<T, K> selector);
 
+  //TODO rename to "indexOf"
   default int getIndexOf(T item) {
     Integer ret = tryGetIndexOf(item);
     if (ret == null)
@@ -46,6 +59,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
       return ret;
   }
 
+  //TODO rename to indexOf
   default int getIndexOf(Predicate<T> predicate) {
     Integer ret = tryGetIndexOf(predicate);
     if (ret == null)
@@ -54,6 +68,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
       return ret;
   }
 
+  //TODO move to ICollection
   default T getRandom() {
     if (this.isEmpty())
       throw new ElementNotFoundException();
@@ -62,6 +77,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
     T ret = this.get(index);
     return ret;
   }
+
 
   default <K> IMap<K, IList<T>> groupBy(Selector<T, K> keySelector) {
     EMap<K, IList<T>> ret = new EMap<>();
@@ -102,6 +118,7 @@ public interface IReadOnlyList<T> extends ICollection<T> {
 
   IReadOnlyList<T> toReversed();
 
+  @Override
   ISet<T> toSet();
 
   default T tryGet(int index) {

@@ -1,6 +1,7 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.exceptions.DeprecatedException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.lang.reflect.Array;
@@ -12,18 +13,6 @@ public interface ICollection<T> extends Iterable<T> {
   boolean contains(T item);
 
   IList<T> toList();
-
-  default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
-    IMap<K, V> ret = new EMap<>();
-
-    for (T t : this) {
-      K key = keySelector.invoke(t);
-      V value = valueSelector.invoke(t);
-      ret.set(key, value);
-    }
-
-    return ret;
-  }
 
   ISet<T> toSet();
 
@@ -315,6 +304,18 @@ public interface ICollection<T> extends Iterable<T> {
       ret[index] = (K) item;
       index++;
     }
+    return ret;
+  }
+
+  default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
+    IMap<K, V> ret = new EMap<>();
+
+    for (T t : this) {
+      K key = keySelector.invoke(t);
+      V value = valueSelector.invoke(t);
+      ret.set(key, value);
+    }
+
     return ret;
   }
 

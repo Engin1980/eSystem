@@ -3,6 +3,7 @@ package eng.eSystem.collections;
 import eng.eSystem.collections.exceptions.NoSuchKeyException;
 import eng.eSystem.validation.EAssert;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
@@ -90,6 +91,13 @@ public abstract class EAbstractMap<K, V> implements IMap<K, V> {
   @Override
   public int size() {
     return inner.size();
+  }
+
+  @Override
+  public Map<K, V> toJavaMap() {
+    Map<K, V> ret = new HashMap<>();
+    ret.putAll(this.inner);
+    return ret;
   }
 
   @Override

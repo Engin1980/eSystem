@@ -1,5 +1,6 @@
 package eng.eSystem.collections;
 
+import eng.eSystem.functionalInterfaces.Producer;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.Iterator;
@@ -28,6 +29,8 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
   boolean isEmpty();
 
   int size();
+
+  Map<K, V> toJavaMap();
 
   default int count() {
     return size();
@@ -79,7 +82,7 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
   }
 
   default V tryGet(K key) {
-    V ret = tryGet(key, null);
+    V ret = tryGet(key, (V) null);
     return ret;
   }
 
@@ -89,6 +92,15 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
       ret = this.get(key);
     else
       ret = defaultValue;
+    return ret;
+  }
+
+  default V tryGet(K key, Producer<V> defaultValueProducer) {
+    V ret;
+    if (this.containsKey(key))
+      ret = this.get(key);
+    else
+      ret = defaultValueProducer.invoke();
     return ret;
   }
 
@@ -115,6 +127,4 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     ret = new EMap<>(entries);
     return ret;
   }
-
-
 }

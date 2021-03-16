@@ -182,6 +182,24 @@ public class EAssert {
     if (ObjectUtils.equals(first, second)) raise(producer);
   }
 
+  //region fail
+  public static void fail() {
+    raise(() -> "EAssert fail invoked.");
+  }
+
+  public static void fail(String message) {
+    raise(() -> message);
+  }
+
+  public static void fail(ErrorMessageProducer producer) {
+    raise(producer);
+  }
+
+  public static void fail(ExceptionProducer producer) {
+    raise(producer);
+  }
+  //endregion fail
+
 
   //region isFalse
 
