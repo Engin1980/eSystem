@@ -83,18 +83,16 @@ public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyShared<IReadO
     return this.orderBy(selector, false);
   }
 
-  //TODO is pro set
   <V> IList<V> select(Selector<T, V> selector);
 
-  //TODO is pro set
   default <K> IList<K> selectMany(Selector<T, IList<K>> selector) {
     EList<K> ret = new EList<>();
     this.forEach(q -> ret.addMany(selector.invoke(q)));
     return ret;
   }
 
-  IReadOnlyList<T> toReversed(); //TODO same isntance over EList?
-  IReadOnlyList<T> toShuffled(); //TODO same instance over EList?
+  IReadOnlyList<T> toReversed();
+  IReadOnlyList<T> toShuffled();
 
   default Optional<T> tryGet(int index) {
     if (index < 0 || index >= this.size())

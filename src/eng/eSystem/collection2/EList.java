@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class EList<T>  implements IList<T>{
+public class EList<T> implements IList<T> {
 
   private final static Class<? extends java.util.List<?>> DEFAULT_CLASS = (Class<? extends List<?>>) ArrayList.class;
 
@@ -83,7 +83,7 @@ public class EList<T>  implements IList<T>{
 
   @Override
   public boolean equals(Object o) {
-      return Objects.equals(this, o);
+    return Objects.equals(this, o);
   }
 
   @Override
@@ -150,7 +150,6 @@ public class EList<T>  implements IList<T>{
   }
 
 
-
   @Override
   public void remove(T item) {
     if (!inner.contains(item))
@@ -182,6 +181,11 @@ public class EList<T>  implements IList<T>{
   @Override
   public void set(int index, T item) {
     inner.set(index, item);
+  }
+
+  @Override
+  public void shuffle() {
+    Collections.shuffle(this.inner);
   }
 
   @Override
@@ -249,16 +253,8 @@ public class EList<T>  implements IList<T>{
   }
 
   @Override
-  public IReadOnlyList<T> toReversed() {
-    IList<T> ret = new EList<>(this);
-    ret.reverse();
-    return ret;
-  }
-
-  @Override
-  public ISet<T> toSet() {
-    ISet<T> ret = ESet.with(this.inner);
-    return ret;
+  public void toJavaSet(Set<T> target) {
+    target.addAll(this.inner);
   }
 
   @Override
@@ -268,8 +264,58 @@ public class EList<T>  implements IList<T>{
   }
 
   @Override
+  public IReadOnlyList<T> toReversed() {
+    IList<T> ret = EList.of(this);
+    ret.reverse();
+    return ret;
+  }
+
+  @Override
+  public ISet<T> toSet() {
+    ISet<T> ret = ESet.of(this.inner);
+    return ret;
+  }
+
+  @Override
+  public IReadOnlyList<T> toShuffled() {
+    IList<T> ret = EList.of(this);
+    ret.shuffle();
+    return ret;
+  }
+
+  @Override
   public String toString() {
     return String.format("EList{%d items}", this.size());
+  }
+
+  @Override
+  public Optional<T> tryGetLast(Predicate<T> predicate) {
+
+    if (inner instanceof LinkedList) {
+      T tmp;
+      Iterator<T> iter = ((LinkedList<T>) inner).descendingIterator();
+      while (iter.hasNext()) {
+        tmp = iter.next();
+        if (predicate.test(tmp))
+          return Optional.of(tmp);
+      }
+      return Optional.empty();
+    } else if (inner instanceof ArrayList) {
+      T tmp;
+      for (int i = this.size() - 1; i >= 0; i--) {
+        tmp = this.get(i);
+        if (predicate.test(tmp))
+          return Optional.of(tmp);
+      }
+      return Optional.empty();
+    } else {
+      Optional<T> ret = Optional.empty();
+      for (T t : this) {
+        if (predicate.test(t))
+          ret = Optional.of(t);
+      }
+      return ret;
+    }
   }
 
   @Override
@@ -293,34 +339,6 @@ public class EList<T>  implements IList<T>{
   }
 
   @Override
-  public Optional<T> tryGetLast(Predicate<T> predicate) {
-    T ret;
-    if (inner instanceof LinkedList) {
-      Iterator<T> iter = ((LinkedList<T>) inner).descendingIterator();
-      while (iter.hasNext()) {
-        ret = iter.next();
-        if (predicate.test(ret))
-          return ret;
-      }
-      return defaultValue;
-    } else if (inner instanceof ArrayList) {
-      for (int i = this.size() - 1; i >= 0; i--) {
-        ret = this.get(i);
-        if (predicate.test(ret))
-          return ret;
-      }
-      return defaultValue;
-    } else {
-      ret = defaultValue;
-      for (T t : this) {
-        if (predicate.test(t))
-          ret = t;
-      }
-      return ret;
-    }
-  }
-
-  @Override
   public void tryRemove(T item) {
     inner.remove(item);
   }
@@ -337,8 +355,8 @@ public class EList<T>  implements IList<T>{
 
   @Override
   public IList<T> where(Predicate<T> predicate) {
-    EList<T> ret = new EList<>();
-    ret.inner = this.inner.stream().filter(predicate).collect(Collectors.toList());
+    EList<T> ret = EList.of(
+            this.inner.stream().filter(predicate).collect(Collectors.toList()));
     return ret;
   }
   // endregion
