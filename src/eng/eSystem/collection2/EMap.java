@@ -1,17 +1,19 @@
 package eng.eSystem.collection2;
 
+import eng.eSystem.validation.EAssert;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class EMap<K, V> extends EAbstractMap<K, V> {
-  public static <K, V> EMap<K, V> of(Iterable<Map.Entry<K, V>> entries) {
-    EMap<K, V> ret = new EMap<>();
-    ret.setMany(entries);
-    return ret;
+  private final static Class DEFAULT_CLASS = HashMap.class;
+
+
+  public EMap() {
+    this(DEFAULT_CLASS);
   }
 
-  //TODO implement from EMap ver 1
-  protected EMap() {
-    super(new HashMap<>());
+  public EMap(Class<? extends java.util.Map> innerType) {
+    super((java.util.Map) Common.provideInstance(innerType));
   }
 }

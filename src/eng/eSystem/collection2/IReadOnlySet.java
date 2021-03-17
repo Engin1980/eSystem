@@ -1,12 +1,12 @@
 package eng.eSystem.collection2;
 
-import eng.eSystem.collection2.subinterfaces.IReadOnlyShared;
+import eng.eSystem.collection2.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.Optional;
 import java.util.Random;
 
-public interface IReadOnlySet<T> extends ICollection<T>, IReadOnlyShared<IReadOnlySet<T>, T, ISet<T>> {
+public interface IReadOnlySet<T> extends ICollection<T>, IReadOnlyCollection<IReadOnlySet<T>, T, ISet<T>> {
   default <K> IMap<K, ISet<T>> groupBy(Selector<T, K> keySelector) {
     EMap<K, ISet<T>> ret = new EMap<>();
 
@@ -38,7 +38,6 @@ public interface IReadOnlySet<T> extends ICollection<T>, IReadOnlyShared<IReadOn
       return tmp.get();
   }
 
-  //TODO nemá toto raději vracet list?
   <V> ISet<V> select(Selector<T, V> selector);
 
   default <K> ISet<K> selectMany(Selector<T, ISet<K>> selector) {

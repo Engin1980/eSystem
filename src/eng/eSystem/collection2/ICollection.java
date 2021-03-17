@@ -343,7 +343,6 @@ public interface ICollection<T> extends Iterable<T> {
   //endregion
 
   //region Private
-
   private <V> IList<V> selectNonNull(Selector<T,V> selector){
     EList<V> ret = new EList<>();
     for (T t : this) {

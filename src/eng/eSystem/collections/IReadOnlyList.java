@@ -1,7 +1,6 @@
 package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
-import eng.eSystem.collections.internalInterfaces.ISetOperations;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 

@@ -10,21 +10,8 @@ import java.util.stream.Collectors;
 
 public class EList<T> implements IList<T> {
 
-  private final static Class<? extends java.util.List<?>> DEFAULT_CLASS = (Class<? extends List<?>>) ArrayList.class;
+  private final static Class<? extends java.util.List> DEFAULT_CLASS = ArrayList.class;
 
-  //region Static methods
-  public static <T> EList<T> of(T... elements) {
-    EList<T> ret = new EList<>();
-    ret.addMany(elements);
-    return ret;
-  }
-
-  //TODO add for eset
-  public static <T> EList<T> of(Iterable<T> items) {
-    EList<T> ret = new EList<>();
-    ret.addMany(items);
-    return ret;
-  }
   //endregion
 
   private final List<T> inner;
@@ -39,13 +26,8 @@ public class EList<T> implements IList<T> {
     this(DEFAULT_CLASS);
   }
 
-  public EList(Class<? extends java.util.List<?>> innerType) {
-    try {
-      //TODO resolve obsolete method
-      this.inner = (List) innerType.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
-      throw new RuntimeException("Unable to create a new instance of " + innerType.getName() + ".", e);
-    }
+  public EList(Class<? extends java.util.List> innerType) {
+    this.inner = (java.util.List<T>) Common.provideInstance(innerType);
   }
 
   //endregion
@@ -142,7 +124,7 @@ public class EList<T> implements IList<T> {
   }
 
   public <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse) {
-    EList<T> ret = EList.of(this);
+    IList<T> ret = new EList<T>().with(this);
     ret.sort(selector);
     if (reverse)
       ret.reverse();
@@ -184,8 +166,8 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public void shuffle() {
-    Collections.shuffle(this.inner);
+  public void shuffle(Random rnd) {
+    Collections.shuffle(this.inner, rnd);
   }
 
   @Override
@@ -265,20 +247,20 @@ public class EList<T> implements IList<T> {
 
   @Override
   public IReadOnlyList<T> toReversed() {
-    IList<T> ret = EList.of(this);
+    IList<T> ret = new EList<T>().with(this);
     ret.reverse();
     return ret;
   }
 
   @Override
   public ISet<T> toSet() {
-    ISet<T> ret = ESet.of(this.inner);
+    ISet<T> ret = new ESet<T>().with(this.inner);
     return ret;
   }
 
   @Override
   public IReadOnlyList<T> toShuffled() {
-    IList<T> ret = EList.of(this);
+    IList<T> ret = new EList<T>().with(this);
     ret.shuffle();
     return ret;
   }
@@ -345,7 +327,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public IList<T> union(IReadOnlyList<T> otherList) {
-    IList<T> ret = EList.of(this);
+    IList<T> ret = new EList<T>().with(this);
     for (T t : otherList) {
       if (ret.contains(t) == false)
         ret.add(t);
@@ -355,7 +337,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public IList<T> where(Predicate<T> predicate) {
-    EList<T> ret = EList.of(
+    IList<T> ret = new EList<T>().with(
             this.inner.stream().filter(predicate).collect(Collectors.toList()));
     return ret;
   }

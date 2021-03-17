@@ -7,6 +7,7 @@ import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
 import java.util.Comparator;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public interface IList<T> extends IReadOnlyList<T>, IEditableCollection<T> {
@@ -17,8 +18,11 @@ public interface IList<T> extends IReadOnlyList<T>, IEditableCollection<T> {
 
   void reverse();
 
-  //TODO add with "random" arg
-  void shuffle();
+  void shuffle(Random rnd);
+
+  default void shuffle(){
+    this.shuffle(Common.rnd);
+  }
 
   void set(int index, T item);
 
@@ -83,5 +87,15 @@ public interface IList<T> extends IReadOnlyList<T>, IEditableCollection<T> {
    */
   default void slice(ISet<Integer> indicesSet) {
     this.slice(q -> indicesSet.contains(q));
+  }
+
+  default IList<T> with(T... elements) {
+    this.addMany(elements);
+    return this;
+  }
+
+  default IList<T> with(Iterable<T> items) {
+    this.addMany(items);
+    return this;
   }
 }

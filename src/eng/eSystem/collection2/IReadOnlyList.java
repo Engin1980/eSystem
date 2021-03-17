@@ -1,6 +1,6 @@
 package eng.eSystem.collection2;
 
-import eng.eSystem.collection2.subinterfaces.IReadOnlyShared;
+import eng.eSystem.collection2.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.collections.EMap;
 import eng.eSystem.collections.IMap;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyShared<IReadOnlyList<T>, T, IList<T>> {
+public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IReadOnlyList<T>, T, IList<T>> {
 
   T get(int index);
 

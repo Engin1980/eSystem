@@ -1,6 +1,5 @@
 package eng.eSystem.collection2;
 
-import eng.eSystem.collections.exceptions.NoSuchKeyException;
 import eng.eSystem.validation.EAssert;
 
 import java.util.HashMap;
@@ -39,17 +38,17 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public ISet<Map.Entry<K, V>> getEntries() {
-    return ESet.of(inner.entrySet());
+    return new ESet<Map.Entry<K, V>>().with(inner.entrySet());
   }
 
   @Override
   public ISet<K> getKeys() {
-    return ESet.of(inner.keySet());
+    return new ESet<K>().with(inner.keySet());
   }
 
   @Override
   public ICollection<V> getValues() {
-    return EList.of(inner.values());
+    return new EList<V>().with(inner.values());
   }
 
   @Override
@@ -65,6 +64,11 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
   @Override
   public void setMany(Map<? extends K, ? extends V> m) {
     inner.putAll(m);
+  }
+
+  @Override
+  public void setMany(IMap<K, ? extends V> m) {
+    this.inner.putAll(m.toJavaMap());
   }
 
   @Override
@@ -87,5 +91,25 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
   @Override
   public void tryRemove(K key) {
     inner.remove(key);
+  }
+
+  @Override
+  public IMap<K, V> with(IMap<K, V> map) {
+    this.inner.putAll(map.toJavaMap());
+    return this;
+  }
+
+  @Override
+  public IMap<K, V> with(ISet<Map.Entry<K, V>> entries) {
+    for (Map.Entry<K, V> entry : entries) {
+      this.inner.put(entry.getKey(), entry.getValue());
+    }
+    return this;
+  }
+
+  @Override
+  public IMap<K, V> with(Map<K, V> map) {
+    this.inner.putAll(map);
+    return this;
   }
 }

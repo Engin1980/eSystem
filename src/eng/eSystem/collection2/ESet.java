@@ -4,39 +4,26 @@ import eng.eSystem.collection2.exceptions.ElementNotFoundException;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
 public class ESet<T> implements ISet<T> {
-  private final static Class<? extends Set<?>> DEFAULT_CLASS = (Class<? extends Set<?>>) HashSet.class;
+  private final static Class<? extends java.util.Set> DEFAULT_CLASS = HashSet.class;
 
-  public static <T> ESet<T> of(Iterable<T> elements) {
-    ESet<T> ret = new ESet<>();
-    ret.addMany(elements);
-    return ret;
-  }
-
-  public static <T> ESet<T> of(T... elements) {
-    ESet<T> ret = new ESet<>();
-    ret.addMany(elements);
-    return ret;
-  }
   private final Set<T> inner;
 
   public ESet() {
     this(DEFAULT_CLASS);
   }
 
-  public ESet(Class<? extends Set<?>> innerType) {
-    try {
-      //TODO rewrite without deprecated method
-      this.inner = (Set<T>) innerType.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
-      throw new RuntimeException("Unable to create a new instance.");
-    }
+  public ESet(Class<? extends java.util.Set> innerType) {
+    this.inner = (java.util.Set<T>) Common.provideInstance(innerType);
   }
 
   @Override
@@ -55,16 +42,6 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    return o instanceof ESet && inner.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return inner.hashCode();
-  }
-
-  @Override
   public <K> ISet<T> distinct(Selector<T, K> selector) {
     ISet<K> known = new ESet<>();
     ISet<T> ret = new ESet<>();
@@ -76,6 +53,16 @@ public class ESet<T> implements ISet<T> {
       }
     }
     return ret;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof ESet && inner.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return inner.hashCode();
   }
 
   @Override
@@ -137,6 +124,11 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
+  public void toJavaList(List<T> target) {
+    target.addAll(this.inner);
+  }
+
+  @Override
   public Set<T> toJavaSet() {
     Set<T> ret = new HashSet<>(this.inner);
     return ret;
@@ -149,18 +141,13 @@ public class ESet<T> implements ISet<T> {
 
   @Override
   public IList<T> toList() {
-    EList<T> ret = EList.of(this.inner);
+    IList<T> ret = new EList<T>().with(this.inner);
     return ret;
   }
 
   @Override
-  public void toJavaList(List<T> target) {
-    target.addAll(this.inner);
-  }
-
-  @Override
   public ISet<T> toSet() {
-    ISet<T> ret = ESet.of(this.inner);
+    ISet<T> ret = new ESet<T>().with(this.inner);
     return ret;
   }
 
@@ -176,7 +163,7 @@ public class ESet<T> implements ISet<T> {
 
   @Override
   public ISet<T> union(IReadOnlySet<T> otherSet) {
-    ISet<T> ret = ESet.of(this);
+    ISet<T> ret = new ESet<T>().with(this);
     for (T t : otherSet) {
       if (!ret.contains(t))
         ret.add(t);
@@ -186,7 +173,7 @@ public class ESet<T> implements ISet<T> {
 
   @Override
   public ISet<T> where(Predicate<T> predicate) {
-    ESet<T> ret = ESet.of(
+    ISet<T> ret = new ESet<T>().with(
             this.inner.stream().filter(predicate).collect(Collectors.toSet()));
     return ret;
   }

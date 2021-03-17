@@ -16,15 +16,6 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
   @Override
   boolean equals(Object o);
 
-  default V get(K key){
-    Optional<V> tmp = tryGet(key);
-    if (tmp.isEmpty())
-      throw new NoSuchKeyException(key);
-    else
-      return tmp.get();
-  }
-
-
   ISet<Map.Entry<K, V>> getEntries();
 
   ISet<K> getKeys();
@@ -32,10 +23,6 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
   ICollection<V> getValues();
 
   int hashCode();
-
-  default boolean isEmpty() {
-    return this.size() == 0;
-  }
 
   int size();
 
@@ -47,6 +34,18 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
 
   default int count(Predicate<Map.Entry<K, V>> predicate) {
     return this.where(predicate).size();
+  }
+
+  default V get(K key) {
+    Optional<V> tmp = tryGet(key);
+    if (tmp.isEmpty())
+      throw new NoSuchKeyException(key);
+    else
+      return tmp.get();
+  }
+
+  default boolean isEmpty() {
+    return this.size() == 0;
   }
 
   default Iterator<Map.Entry<K, V>> iterator() {
@@ -99,30 +98,27 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     return ret;
   }
 
-  //TODO solve EOptional with producer for non-success?
-
-
   default IMap<K, V> where(Predicate<Map.Entry<K, V>> predicate) {
-    EMap<K, V> ret;
+    IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q));
-    ret = EMap.of(entries);
+    ret = new EMap<K,V>().with(entries);
     return ret;
   }
 
   default IMap<K, V> whereKey(Predicate<K> predicate) {
-    EMap<K, V> ret;
+    IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getKey()));
-    ret = EMap.of(entries);
+    ret = new EMap<K,V>().with(entries);
     return ret;
   }
 
   default IMap<K, V> whereValue(Predicate<V> predicate) {
-    EMap<K, V> ret;
+    IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getValue()));
-    ret = EMap.of(entries);
+    ret = new EMap<K,V>().with(entries);
     return ret;
   }
 }
