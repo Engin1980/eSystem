@@ -48,6 +48,7 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public ICollection<V> getValues() {
+    IList<V> ret = new EList<>();
     return new EList<V>().with(inner.values());
   }
 

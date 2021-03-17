@@ -12,7 +12,17 @@ public class EList<T> implements IList<T> {
 
   private final static Class<? extends java.util.List> DEFAULT_CLASS = ArrayList.class;
 
-  //endregion
+  public static <T> EList<T> of(Iterable<T> items){
+    EList<T> ret = new EList<>();
+    ret.addMany(items);
+    return ret;
+  }
+
+  public static <T> EList<T> of(T[] items){
+    EList<T> ret = new EList<>();
+    ret.addMany(items);
+    return ret;
+  }
 
   private final List<T> inner;
 

@@ -16,6 +16,18 @@ import static eng.eSystem.utilites.FunctionShortcuts.sf;
 public class ESet<T> implements ISet<T> {
   private final static Class<? extends java.util.Set> DEFAULT_CLASS = HashSet.class;
 
+  public static <T> ESet<T> of(Iterable<T> items) {
+    ESet<T> ret = new ESet<>();
+    ret.addMany(items);
+    return ret;
+  }
+
+  public static <T> ESet<T> of(T[] items) {
+    ESet<T> ret = new ESet<>();
+    ret.addMany(items);
+    return ret;
+  }
+
   private final Set<T> inner;
 
   public ESet() {
