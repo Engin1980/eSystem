@@ -1,4 +1,4 @@
-package eng.eSystem.collection2.exceptions;
+package eng.eSystem.collection.exceptions;
 
 public class ElementNotFoundException extends  RuntimeException {
 

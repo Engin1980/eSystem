@@ -1,8 +1,8 @@
-package eng.eSystem.collection2.subinterfaces;
+package eng.eSystem.collection.subinterfaces;
 
-import eng.eSystem.collection2.ESet;
-import eng.eSystem.collection2.ICollection;
-import eng.eSystem.collection2.ISet;
+import eng.eSystem.collection.ESet;
+import eng.eSystem.collection.ICollection;
+import eng.eSystem.collection.ISet;
 import eng.eSystem.functionalInterfaces.Predicate;
 import eng.eSystem.validation.EAssert;
 

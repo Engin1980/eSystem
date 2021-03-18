@@ -1,6 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
-import eng.eSystem.collection2.exceptions.EmptyCollectionException;
+import eng.eSystem.collection.exceptions.EmptyCollectionException;
 import eng.eSystem.collections.EMap;
 import eng.eSystem.collections.IMap;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
@@ -8,7 +8,6 @@ import eng.eSystem.exceptions.DeprecatedException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;

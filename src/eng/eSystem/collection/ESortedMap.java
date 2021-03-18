@@ -1,7 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.TreeMap;
 
 public class ESortedMap<K, V> extends EAbstractMap<K, V> {

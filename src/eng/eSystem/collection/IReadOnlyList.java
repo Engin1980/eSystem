@@ -1,6 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
-import eng.eSystem.collection2.subinterfaces.IReadOnlyCollection;
+import eng.eSystem.collection.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.collections.EMap;
 import eng.eSystem.collections.IMap;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;

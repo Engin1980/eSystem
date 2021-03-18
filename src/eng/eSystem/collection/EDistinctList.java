@@ -1,6 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
-import eng.eSystem.collection2.exceptions.DuplicitItemException;
+import eng.eSystem.collection.exceptions.DuplicitItemException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 public class EDistinctList<T> extends EList<T> {

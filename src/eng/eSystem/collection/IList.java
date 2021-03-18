@@ -1,6 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
-import eng.eSystem.collection2.subinterfaces.IEditableCollection;
+import eng.eSystem.collection.subinterfaces.IEditableCollection;
 import eng.eSystem.collections.ESet;
 import eng.eSystem.collections.ISet;
 import eng.eSystem.functionalInterfaces.Selector;

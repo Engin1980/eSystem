@@ -1,6 +1,6 @@
-package eng.eSystem.collection2;
+package eng.eSystem.collection;
 
-import eng.eSystem.collection2.subinterfaces.IEditableCollection;
+import eng.eSystem.collection.subinterfaces.IEditableCollection;
 
 public interface ISet<T> extends IReadOnlySet<T>, IEditableCollection<T> {
 
