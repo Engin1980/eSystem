@@ -1,4 +1,4 @@
-package eng.eSystem.collection.exceptions;
+package eng.eSystem.collections.exceptions;
 
 public class EmptyCollectionException extends RuntimeException {
 

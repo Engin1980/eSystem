@@ -1,8 +1,6 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collection.exceptions.EmptyCollectionException;
-import eng.eSystem.collections.EMap;
-import eng.eSystem.collections.IMap;
+import eng.eSystem.collections.exceptions.EmptyCollectionException;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.exceptions.DeprecatedException;
 import eng.eSystem.functionalInterfaces.Selector;

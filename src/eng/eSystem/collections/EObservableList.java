@@ -1,7 +1,5 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collections.EList;
-import eng.eSystem.collections.IList;
 import eng.eSystem.events.Event;
 
 public class EObservableList<T> extends eng.eSystem.collections.EList<T> {
@@ -17,7 +15,7 @@ public class EObservableList<T> extends eng.eSystem.collections.EList<T> {
 
   @Override
   public void clear() {
-    IList<T> tmp = new EList<>(this);
+    IList<T> tmp = EList.of(this);
     super.clear();
     tmp.forEach(q -> removeEvent.raise(q));
   }

@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Optional;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
@@ -238,27 +239,21 @@ public class XElement {
     return sb.toString();
   }
 
-  public String tryGetAttribute(String name) {
-    String ret = getAttributes().tryGet(name);
+  public Optional<String> tryGetAttribute(String name) {
+    Optional<String> ret = getAttributes().tryGet(name);
     return ret;
   }
 
-  public String tryGetAttribute(String name, String defaultValue) {
-    String ret = getAttributes().tryGet(name);
-    if (ret == null)
-      ret = defaultValue;
-    return ret;
-  }
-
-  public XElement tryGetChild(String name) {
-    XElement ret;
+  public Optional<XElement> tryGetChild(String name) {
+    Optional<XElement> ret;
     IReadOnlyList<XElement> tmp = this.getChildren(name);
-    if (tmp.size() == 0)
-      ret = null;
-    else if (tmp.size() == 1)
-      ret = tmp.get(0);
-    else
+    if (tmp.size() == 0) {
+      ret = Optional.empty();
+    } else if (tmp.size() > 1) {
       throw new EXmlRuntimeException("Element '" + name + "' has multiple occurrences.");
+    } else {
+      ret = Optional.of(tmp.get(0));
+    }
     return ret;
   }
 

@@ -1,6 +1,6 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collection.exceptions.ElementNotFoundException;
+import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.utilites.ObjectUtils;
 

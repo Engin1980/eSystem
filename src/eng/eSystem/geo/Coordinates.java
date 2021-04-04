@@ -102,6 +102,7 @@ public class Coordinates {
     return ret;
   }
 
+  @Deprecated
   public static Coordinate getIntersectionOld(Coordinate pointA, double bearingA, Coordinate pointB, double bearingB) {
     double φ1 = toRadians(pointA.getLatitude().get());
     double λ1 = toRadians(pointA.getLongitude().get());

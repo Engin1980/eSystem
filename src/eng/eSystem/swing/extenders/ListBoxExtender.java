@@ -158,7 +158,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
   }
 
   public void setSelectedItems(T... item) {
-    ISet<T> lst = new ESet<>(item);
+    ISet<T> lst = ESet.of(item);
     this.setSelectedItems(lst);
   }
 
@@ -167,7 +167,7 @@ public class ListBoxExtender<T> extends WithModelExtender<T, javax.swing.JList> 
   }
 
   public void setSelectedLabels(String... label) {
-    ISet<String> lst = new ESet<>(label);
+    ISet<String> lst = ESet.of(label);
     this.setSelectedLabels(lst);
   }
 

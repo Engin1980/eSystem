@@ -1,4 +1,4 @@
-package eng.eSystem.collection.subinterfaces;
+package eng.eSystem.collections.subinterfaces;
 
 import eng.eSystem.functionalInterfaces.Selector;
 

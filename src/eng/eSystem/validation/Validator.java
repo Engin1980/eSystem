@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
+/**
+ * Deprecated.
+ * @see EAssert
+ */
 @Deprecated() // use Assert instead
 public class Validator {
   public static void isNotNull(Object value){

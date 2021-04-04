@@ -1,6 +1,6 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collection.subinterfaces.IReadOnlyCollection;
+import eng.eSystem.collections.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.Optional;

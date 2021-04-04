@@ -1,4 +1,4 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
 import java.util.Comparator;
 import java.util.TreeMap;

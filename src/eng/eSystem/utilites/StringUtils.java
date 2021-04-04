@@ -37,7 +37,7 @@ public class StringUtils {
   }
 
   public static String join(String delimiter, String... items) {
-    IList<String> lst = new EList<>(items);
+    IList<String> lst = EList.of(items);
     return StringUtils.join(delimiter, lst);
   }
 

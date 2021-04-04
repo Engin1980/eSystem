@@ -1,4 +1,4 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
 import eng.eSystem.collections.exceptions.NoSuchKeyException;
 import eng.eSystem.functionalInterfaces.Producer;

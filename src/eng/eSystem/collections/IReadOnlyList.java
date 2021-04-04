@@ -1,8 +1,6 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collection.subinterfaces.IReadOnlyCollection;
-import eng.eSystem.collections.EMap;
-import eng.eSystem.collections.IMap;
+import eng.eSystem.collections.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;

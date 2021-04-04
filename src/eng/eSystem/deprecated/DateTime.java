@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
  *
  * @author Marek Vajgl
  */
+@Deprecated
 public class DateTime {
 
   private final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";

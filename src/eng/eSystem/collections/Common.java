@@ -1,6 +1,6 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
-import eng.eSystem.collection.exceptions.EmptyCollectionException;
+import eng.eSystem.collections.exceptions.EmptyCollectionException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;

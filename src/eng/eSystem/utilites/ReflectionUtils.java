@@ -156,19 +156,11 @@ public class ReflectionUtils {
     }
 
     public static Class<?> tryWrapPrimitive(Class<?> type) {
-      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q -> q.primitive.equals(type));
-      if (ptw != null)
-        return ptw.wrap;
-      else
-        return null;
+      return primitiveToWraps.tryGetFirst(q -> q.primitive.equals(type)).map(q->q.wrap).orElse(null);
     }
 
     public static Class<?> tryUnwapToPrimitive(Class<?> type) {
-      PrimitiveToWrap ptw = primitiveToWraps.tryGetFirst(q -> q.wrap.equals(type));
-      if (ptw != null)
-        return ptw.primitive;
-      else
-        return null;
+      return primitiveToWraps.tryGetFirst(q -> q.wrap.equals(type)).map(q->q.primitive).orElse(null);
     }
 
   }

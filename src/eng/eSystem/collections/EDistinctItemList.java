@@ -1,4 +1,4 @@
-package eng.eSystem.collection;
+package eng.eSystem.collections;
 
 public class EDistinctItemList<T extends EDistinctItemList.IDistinctItem<?>> extends EDistinctList<T> {
 
