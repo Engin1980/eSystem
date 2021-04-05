@@ -85,6 +85,11 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
   }
 
   @Override
+  public V get(K key) {
+    return this.inner.get(key);
+  }
+
+  @Override
   public String toString() {
     return sf("%s (%d items)", this.getClass().getSimpleName(), this.size());
   }

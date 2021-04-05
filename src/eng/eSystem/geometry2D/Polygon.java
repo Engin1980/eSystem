@@ -17,10 +17,10 @@ public class Polygon {
 
   public Polygon(IList<Point> points) {
     this.points.addMany(points);
-    minX = points.minDouble(q -> q.x);
-    maxX = points.maxDouble(q -> q.x);
-    minY = points.minDouble(q -> q.y);
-    maxY = points.maxDouble(q -> q.y);
+    minX = points.minDouble(q -> q.x).orElseThrow();
+    maxX = points.maxDouble(q -> q.x).orElseThrow();
+    minY = points.minDouble(q -> q.y).orElseThrow();
+    maxY = points.maxDouble(q -> q.y).orElseThrow();
   }
 
   public Polygon(Point... points) {

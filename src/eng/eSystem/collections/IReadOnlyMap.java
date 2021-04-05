@@ -1,6 +1,5 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.collections.exceptions.NoSuchKeyException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.util.Iterator;
@@ -28,20 +27,14 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
 
   Map<K, V> toJavaMap();
 
+  V get(K key);
+
   default int count() {
     return size();
   }
 
   default int count(Predicate<Map.Entry<K, V>> predicate) {
     return this.where(predicate).size();
-  }
-
-  default V get(K key) {
-    Optional<V> tmp = tryGet(key);
-    if (tmp.isEmpty())
-      throw new NoSuchKeyException(key);
-    else
-      return tmp.get();
   }
 
   default boolean isEmpty() {
@@ -102,7 +95,7 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q));
-    ret = new EMap<K,V>().with(entries);
+    ret = new EMap<K, V>().with(entries);
     return ret;
   }
 
@@ -110,7 +103,7 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getKey()));
-    ret = new EMap<K,V>().with(entries);
+    ret = new EMap<K, V>().with(entries);
     return ret;
   }
 
@@ -118,7 +111,7 @@ public interface IReadOnlyMap<K, V> extends Iterable<Map.Entry<K, V>> {
     IMap<K, V> ret;
     ISet<Map.Entry<K, V>> entries = this.getEntries();
     entries = entries.where(q -> predicate.test(q.getValue()));
-    ret = new EMap<K,V>().with(entries);
+    ret = new EMap<K, V>().with(entries);
     return ret;
   }
 }

@@ -6,9 +6,7 @@ import eng.eSystem.exceptions.DeprecatedException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.lang.reflect.Array;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -210,11 +208,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  default <V extends Comparable<V>> V max(Selector<T, V> selector) {
+  default <V extends Comparable<V>> Optional<V> max(Selector<T, V> selector) {
     Common.ensureNotEmpty(this);
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
-      throw new EmptyCollectionException("All items when processed by selector are null.");
+      return Optional.empty();
 
     V ret = null;
     for (V v : tmp) {
@@ -223,26 +221,29 @@ public interface ICollection<T> extends Iterable<T> {
       else if (v != null && v.compareTo(ret) > 0)
         ret = v;
     }
+    return ret == null ? Optional.empty() : Optional.of(ret);
+  }
+
+  default OptionalDouble maxDouble(Selector<T, Double> selector) {
+    Optional<Double> ret = max(selector);
+    return ret.isEmpty() ? OptionalDouble.empty() : OptionalDouble.of(ret.get());
+  }
+
+  default OptionalInt maxInt(Selector<T, Integer> selector) {
+    Optional<Integer> ret = max(selector);
+    return ret.isEmpty() ? OptionalInt.empty() : OptionalInt.of(ret.get());
+  }
+
+  default OptionalDouble mean(Selector<T, Double> selector) {
+    OptionalDouble ret;
+    if (this.isEmpty())
+      ret = OptionalDouble.empty();
+    else
+      ret = OptionalDouble.of(this.sumDouble(selector) / this.size());
     return ret;
   }
 
-  default double maxDouble(Selector<T, Double> selector) {
-    double ret = max(selector);
-    return ret;
-  }
-
-  default int maxInt(Selector<T, Integer> selector) {
-    int ret = max(selector);
-    return ret;
-  }
-
-  default double mean(Selector<T, Double> selector) {
-    Common.ensureNotEmpty(this);
-    double ret = this.sumDouble(selector) / this.size();
-    return ret;
-  }
-
-  default <V extends Comparable<V>> V min(Selector<T, V> selector) {
+  default <V extends Comparable<V>> Optional<V> min(Selector<T, V> selector) {
     Common.ensureNotEmpty(this);
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
@@ -255,17 +256,17 @@ public interface ICollection<T> extends Iterable<T> {
       else if (v != null && v.compareTo(ret) < 0)
         ret = v;
     }
-    return ret;
+    return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
-  default double minDouble(Selector<T, Double> selector) {
-    double ret = min(selector);
-    return ret;
+  default OptionalDouble minDouble(Selector<T, Double> selector) {
+    Optional<Double> ret = min(selector);
+    return ret.isEmpty() ? OptionalDouble.empty() : OptionalDouble.of(ret.get());
   }
 
-  default int minInt(Selector<T, Integer> selector) {
-    int ret = min(selector);
-    return ret;
+  default OptionalInt minInt(Selector<T, Integer> selector) {
+    Optional<Integer> ret = min(selector);
+    return ret.isEmpty() ? OptionalInt.empty() : OptionalInt.of(ret.get());
   }
   //endregion
 
