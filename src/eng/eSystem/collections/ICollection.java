@@ -65,19 +65,12 @@ public interface ICollection<T> extends Iterable<T> {
       return ret.get();
   }
 
-  @Deprecated
-  default <V extends Comparable<V>> T getGreatest(Selector<T, V> selector) {
-    throw new DeprecatedException("Use getMaximal() instead.");
-  }
-
-  default <V extends Comparable<V>> T getMaximal(Selector<T, V> criteriaSelector) {
-    Common.ensureNotEmpty(this);
-
+  default <V extends Comparable<V>> Optional<T> getMaximal(Selector<T, V> criteriaSelector) {
     return this.getMaximal(Comparator.comparing(criteriaSelector::invoke));
   }
 
-  default <V extends Comparable<V>> T getMaximal(java.util.Comparator<T> comparator) {
-    Common.ensureNotEmpty(this);
+  default <V extends Comparable<V>> Optional<T> getMaximal(java.util.Comparator<T> comparator) {
+    if (this.isEmpty()) return Optional.empty();
 
     T ret = null;
     for (T t : this) {
@@ -88,15 +81,15 @@ public interface ICollection<T> extends Iterable<T> {
           ret = t;
       }
     }
-    return ret;
+    return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
-  default <V extends Comparable<V>> T getMinimal(Selector<T, V> criteriaSelector) {
+  default <V extends Comparable<V>> Optional<T> getMinimal(Selector<T, V> criteriaSelector) {
     return this.getMinimal(Comparator.comparing(criteriaSelector::invoke));
   }
 
-  default <V extends Comparable<V>> T getMinimal(java.util.Comparator<T> comparator) {
-    Common.ensureNotEmpty(this);
+  default <V extends Comparable<V>> Optional<T> getMinimal(java.util.Comparator<T> comparator) {
+    if (this.isEmpty()) return Optional.empty();
 
     T ret = null;
     for (T t : this) {
@@ -107,7 +100,7 @@ public interface ICollection<T> extends Iterable<T> {
           ret = t;
       }
     }
-    return ret;
+    return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
   default T getRandomByWeights(Selector<T, Double> weightSelector) {
@@ -209,7 +202,6 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default <V extends Comparable<V>> Optional<V> max(Selector<T, V> selector) {
-    Common.ensureNotEmpty(this);
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
       return Optional.empty();
@@ -244,7 +236,6 @@ public interface ICollection<T> extends Iterable<T> {
   }
 
   default <V extends Comparable<V>> Optional<V> min(Selector<T, V> selector) {
-    Common.ensureNotEmpty(this);
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
       throw new EmptyCollectionException("All items when processed by selector are null.");
