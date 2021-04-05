@@ -33,7 +33,7 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
 
   @Override
   public boolean equals(Object o) {
-    return Objects.equals(this, o);
+    return this == o;
   }
 
   @Override

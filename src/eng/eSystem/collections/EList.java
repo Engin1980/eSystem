@@ -75,7 +75,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public boolean equals(Object o) {
-    return Objects.equals(this, o);
+    return this == o;
   }
 
   @Override

@@ -238,7 +238,7 @@ public interface ICollection<T> extends Iterable<T> {
   default <V extends Comparable<V>> Optional<V> min(Selector<T, V> selector) {
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
-      throw new EmptyCollectionException("All items when processed by selector are null.");
+      return Optional.empty();
 
     V ret = null;
     for (V v : tmp) {
