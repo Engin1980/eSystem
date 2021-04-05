@@ -134,6 +134,16 @@ public interface ICollection<T> extends Iterable<T> {
     return this.getRandom(Common.rnd);
   }
 
+  default Optional<T> tryGetRandom(){
+    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom());
+    return ret;
+  }
+
+  default Optional<T> tryGetRandom(Random rnd){
+    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom(rnd));
+    return ret;
+  }
+
   /**
    * Returns random element. Collection should not be empty.
    * @param rnd Instance of Random class

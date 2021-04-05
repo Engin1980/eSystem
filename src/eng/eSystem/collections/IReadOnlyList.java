@@ -11,6 +11,10 @@ import java.util.function.Predicate;
 
 public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IReadOnlyList<T>, T, IList<T>> {
 
+  default IList<T> distinct() {
+    return distinct(q -> q);
+  }
+
   T get(int index);
 
   default IReadOnlyList<T> getMany(int fromIndex, int toIndex) {
@@ -97,5 +101,14 @@ public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IR
       return Optional.empty();
     else
       return Optional.of(this.get(index));
+  }
+
+  default <V> IList<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance){
+    IList<V> ret;
+    if (includeInheritance)
+      ret = this.where(q -> clazz.isAssignableFrom(q.getClass())).select(q -> (V) q);
+    else
+      ret = this.where(q -> q.getClass().equals(clazz)).select(q -> (V) q);
+    return ret;
   }
 }

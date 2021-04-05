@@ -56,4 +56,13 @@ public interface IReadOnlySet<T> extends ICollection<T>, IReadOnlyCollection<IRe
     T ret = this.find(index);
     return ret;
   }
+
+  default <V> ISet<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance){
+    ISet<V> ret;
+    if (includeInheritance)
+      ret = this.where(q -> clazz.isAssignableFrom(q.getClass())).select(q -> (V) q);
+    else
+      ret = this.where(q -> q.getClass().equals(clazz)).select(q -> (V) q);
+    return ret;
+  }
 }

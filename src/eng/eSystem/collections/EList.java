@@ -18,7 +18,7 @@ public class EList<T> implements IList<T> {
     return ret;
   }
 
-  public static <T> EList<T> of(T[] items){
+  public static <T> EList<T> of(T... items){
     EList<T> ret = new EList<>();
     ret.addMany(items);
     return ret;
