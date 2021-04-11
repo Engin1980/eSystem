@@ -287,7 +287,7 @@ public interface ICollection<T> extends Iterable<T> {
   }
   //endregion
 
-  //region ..toSomething() operations
+  //region ..toSosort(mething() operations
   default T[] toArray(Class<T> arrayItemType) {
     T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
