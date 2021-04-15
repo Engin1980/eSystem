@@ -1,7 +1,7 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.collections.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
+import eng.eSystem.collections.subinterfaces.IReadOnlyCollection;
 import eng.eSystem.functionalInterfaces.Selector;
 import eng.eSystem.validation.EAssert;
 
@@ -11,11 +11,25 @@ import java.util.function.Predicate;
 
 public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IReadOnlyList<T>, T, IList<T>> {
 
+  T get(int index);
+
+  <K> ISet<T> getDuplicateItems(Selector<T, K> selector);
+
+  Optional<Integer> tryIndexOf(T item);
+
+  Optional<Integer> tryIndexOf(Predicate<T> predicate);
+
+  <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse);
+
+  <V> IList<V> select(Selector<T, V> selector);
+
+  IReadOnlyList<T> toReversed();
+
+  IReadOnlyList<T> toShuffled();
+
   default IList<T> distinct() {
     return distinct(q -> q);
   }
-
-  T get(int index);
 
   default IReadOnlyList<T> getMany(int fromIndex, int toIndex) {
     EAssert.isTrue(
@@ -35,28 +49,6 @@ public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IR
 
     return ret;
   }
-
-  <K> ISet<T> getDuplicateItems(Selector<T, K> selector);
-
-  default int indexOf(T item) {
-    Optional<Integer> ret = tryIndexOf(item);
-    if (ret.isEmpty())
-      throw new ElementNotFoundException();
-    else
-      return ret.get();
-  }
-
-  default int indexOf(Predicate<T> predicate) {
-    Optional<Integer> ret = tryIndexOf(predicate);
-    if (ret.isEmpty())
-      throw new ElementNotFoundException();
-    else
-      return ret.get();
-  }
-
-  Optional<Integer> tryIndexOf(T item);
-
-  Optional<Integer> tryIndexOf(Predicate<T> predicate);
 
   @Override
   default T getRandom(Random rnd) {
@@ -80,21 +72,31 @@ public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IR
     return ret;
   }
 
-  <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector, boolean reverse);
+  default int indexOf(T item) {
+    Optional<Integer> ret = tryIndexOf(item);
+    if (ret.isEmpty())
+      throw new ElementNotFoundException();
+    else
+      return ret.get();
+  }
+
+  default int indexOf(Predicate<T> predicate) {
+    Optional<Integer> ret = tryIndexOf(predicate);
+    if (ret.isEmpty())
+      throw new ElementNotFoundException();
+    else
+      return ret.get();
+  }
+
   default <K extends Comparable<K>> IList<T> orderBy(Selector<T, K> selector) {
     return this.orderBy(selector, false);
   }
 
-  <V> IList<V> select(Selector<T, V> selector);
-
-  default <K> IList<K> selectMany(Selector<T, IList<K>> selector) {
+  default <K> IList<K> selectMany(Selector<T, IReadOnlyList<K>> selector) {
     EList<K> ret = new EList<>();
     this.forEach(q -> ret.addMany(selector.invoke(q)));
     return ret;
   }
-
-  IReadOnlyList<T> toReversed();
-  IReadOnlyList<T> toShuffled();
 
   default Optional<T> tryGet(int index) {
     if (index < 0 || index >= this.size())
@@ -103,7 +105,7 @@ public interface IReadOnlyList<T> extends ICollection<T>, IReadOnlyCollection<IR
       return Optional.of(this.get(index));
   }
 
-  default <V> IList<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance){
+  default <V> IList<V> whereItemClassIs(Class<? extends V> clazz, boolean includeInheritance) {
     IList<V> ret;
     if (includeInheritance)
       ret = this.where(q -> clazz.isAssignableFrom(q.getClass())).select(q -> (V) q);
