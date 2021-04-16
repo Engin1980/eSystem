@@ -26,11 +26,9 @@ public interface ICollection<T> extends Iterable<T> {
   int size();
 
   /**
-   * Returns random element. Collection should not be empty.
-   *
+   * Returns random element. If collection is empty, throws an exception.
    * @param rnd Instance of Random class
    * @return Random element from collection
-   * Should throw {link EmptyCollectionException} if collection is empty.
    */
   T getRandom(Random rnd);
 
@@ -224,14 +222,29 @@ public interface ICollection<T> extends Iterable<T> {
     return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
+  /**
+   * Returns random element. If collection is empty, throws an exception.
+   * @return Random element from collection
+   */
   default T getRandom() {
     return this.getRandom(Common.rnd);
   }
 
+  /**
+   * Returns random element by weight. If collection is empty, throws an exception.
+   * @param weightSelector Selector to select the weight for collection element
+   * @return Random element from collection
+   */
   default T getRandomByWeights(Selector<T, Double> weightSelector) {
     return getRandomByWeights(weightSelector, Common.rnd);
   }
 
+  /**
+   * Returns random element by weight. If collection is empty, throws an exception.
+   * @param weightSelector Selector to select the weight for collection element
+   * @param rnd Instance of Random class
+   * @return Random element from collection
+   */
   default T getRandomByWeights(Selector<T, Double> weightSelector, Random rnd) {
     Common.ensureNotEmpty(this);
 
@@ -246,6 +259,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Checks if all items in this collections match an predicate.
+   * @param predicate Predicate to match.
+   * @return True if all elements passes the predicate, false otherwise.
+   */
   default boolean isAll(Predicate<T> predicate) {
     for (T t : this) {
       if (predicate.test(t) == false)
@@ -254,6 +272,11 @@ public interface ICollection<T> extends Iterable<T> {
     return true;
   }
 
+  /**
+   * Checks if at least one item in this collections matches an predicate.
+   * @param predicate Predicate to match.
+   * @return True if at leas one element passes the predicate, false otherwise.
+   */
   default boolean isAny(Predicate<T> predicate) {
     for (T t : this) {
       if (predicate.test(t))
@@ -262,10 +285,19 @@ public interface ICollection<T> extends Iterable<T> {
     return false;
   }
 
+  /**
+   * Checks if this collection is empty.
+   * @return True if this collection is empty, false otherwise.
+   */
   default boolean isEmpty() {
     return size() == 0;
   }
 
+  /**
+   * Checks if any item in this collections matches an predicate.
+   * @param predicate Predicate to match.
+   * @return True if any element passes the predicate, false otherwise.
+   */
   default boolean isNone(Predicate<T> predicate) {
     return !isAny(predicate);
   }
