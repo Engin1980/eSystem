@@ -1,8 +1,6 @@
 package eng.eSystem.collections;
 
-import eng.eSystem.collections.exceptions.EmptyCollectionException;
 import eng.eSystem.collections.exceptions.ElementNotFoundException;
-import eng.eSystem.exceptions.DeprecatedException;
 import eng.eSystem.functionalInterfaces.Selector;
 
 import java.lang.reflect.Array;
@@ -11,15 +9,84 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public interface ICollection<T> extends Iterable<T> {
-  //region Common
+  /**
+   * Returns True if item is in the collection.
+   * Equality is based on JavaCollectionFramework equality in lists/sets, that is <code>equals(...)</code> function.
+   *
+   * @param item Item to find
+   * @return True if item is in collection, false otherwise.
+   */
   boolean contains(T item);
 
-  default boolean isEmpty() {
-    return size() == 0;
-  }
-
+  /**
+   * Returns number of elements in the collection.
+   *
+   * @return Number of elements
+   */
   int size();
 
+  /**
+   * Returns random element. Collection should not be empty.
+   *
+   * @param rnd Instance of Random class
+   * @return Random element from collection
+   * Should throw {link EmptyCollectionException} if collection is empty.
+   */
+  T getRandom(Random rnd);
+
+  /**
+   * Converts collection to {@link IList}.
+   *
+   * @return {@link IList} instance with same elements.
+   */
+  IList<T> toList();
+
+  /**
+   * Adds collection items to {@link java.util.List}.
+   *
+   * @param target Target list in which elements will be added.
+   */
+  void toJavaList(java.util.List<T> target);
+
+
+  /**
+   * Converts collection to {@link ISet}.
+   *
+   * @return {@link ISet} instance with same elements.
+   */
+  ISet<T> toSet();
+
+  /**
+   * Adds collection items to {@link java.util.Set}.
+   *
+   * @param target Target set in which elements will be added.
+   */
+  void toJavaSet(java.util.Set<T> target);
+
+  /**
+   * Aggregates all the elements of this collection into a single value.
+   *
+   * @param selector               How value representing one item is selected.
+   * @param aggregator             How value of item is aggregated with previous aggregating values.
+   * @param initialAggregatorValue What is the initial aggregation value.
+   * @param <V>                    Result value type
+   * @return Result of the aggregation
+   */
+  default <V> V aggregate(Selector<T, V> selector, BiFunction<V, V, V> aggregator, V initialAggregatorValue) {
+    V ret = initialAggregatorValue;
+    for (T t : this) {
+      V v = selector.invoke(t);
+      ret = aggregator.apply(ret, v);
+    }
+    return ret;
+  }
+
+  /**
+   * Return number of elements fulfilling {@link eng.eSystem.functionalInterfaces.Predicate}.
+   *
+   * @param predicate Predicate to fulfil
+   * @return Number of elements accepted by predicate
+   */
   default int count(Predicate<T> predicate) {
     int ret = 0;
     for (T t : this) {
@@ -28,12 +95,22 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Returns number of elements. Equal to {@link #size()}.
+   *
+   * @return Number of elements in this collection
+   * @see #size()
+   */
   default int count() {
     return this.size();
   }
-  //endregion common
 
-  //region Item getters
+  /**
+   * Returns the first element fulfilling the predicate, {@link ElementNotFoundException} otherwise.
+   *
+   * @param predicate Predicate to fulfil.
+   * @return The first found element fulfilling predicate, or exception.
+   */
   default T getFirst(Predicate<T> predicate) {
     Optional<T> ret = tryGetFirst(predicate);
     if (ret.isEmpty())
@@ -42,6 +119,11 @@ public interface ICollection<T> extends Iterable<T> {
       return ret.get();
   }
 
+  /**
+   * Returns the first element, {@link ElementNotFoundException} otherwise.
+   *
+   * @return The first found element fulfilling predicate, or exception.
+   */
   default T getFirst() {
     Optional<T> ret = tryGetFirst();
     if (ret.isEmpty())
@@ -49,6 +131,12 @@ public interface ICollection<T> extends Iterable<T> {
     return ret.get();
   }
 
+  /**
+   * Returns the last element fulfilling the predicate, {@link ElementNotFoundException} otherwise.
+   *
+   * @param predicate Predicate to fulfil.
+   * @return The last found element fulfilling predicate, or exception.
+   */
   default T getLast(Predicate<T> predicate) {
     Optional<T> ret = tryGetLast(predicate);
     if (ret.isEmpty())
@@ -57,6 +145,11 @@ public interface ICollection<T> extends Iterable<T> {
       return ret.get();
   }
 
+  /**
+   * Returns the last element, {@link ElementNotFoundException} otherwise.
+   *
+   * @return The last found element fulfilling predicate, or exception.
+   */
   default T getLast() {
     Optional<T> ret = tryGetLast();
     if (ret.isEmpty())
@@ -65,11 +158,25 @@ public interface ICollection<T> extends Iterable<T> {
       return ret.get();
   }
 
+  /**
+   * Get the maximal/highest element with respect to the criterion.
+   *
+   * @param criteriaSelector Criterion selecting compared value for each element; result must be {@link Comparable}.
+   * @param <V>              Type of criterion to be compared
+   * @return The maximal element.
+   * @see #getMaximal(Comparator)
+   */
   default <V extends Comparable<V>> Optional<T> getMaximal(Selector<T, V> criteriaSelector) {
     return this.getMaximal(Comparator.comparing(criteriaSelector::invoke));
   }
 
-  default <V extends Comparable<V>> Optional<T> getMaximal(java.util.Comparator<T> comparator) {
+  /**
+   * Get the maximal/highest element with respect to the comparator.
+   *
+   * @param comparator Defines how to compare two collection elements.
+   * @return The maximal element.
+   */
+  default Optional<T> getMaximal(java.util.Comparator<T> comparator) {
     if (this.isEmpty()) return Optional.empty();
 
     T ret = null;
@@ -84,11 +191,25 @@ public interface ICollection<T> extends Iterable<T> {
     return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
+  /**
+   * Get the minimal/lowest element with respect to the criterion.
+   *
+   * @param criteriaSelector Criterion selecting compared value for each element; result must be {@link Comparable}.
+   * @param <V>              Type of criterion to be compared
+   * @return The minimal/lowest element.
+   * @see #getMinimal(Comparator)
+   */
   default <V extends Comparable<V>> Optional<T> getMinimal(Selector<T, V> criteriaSelector) {
     return this.getMinimal(Comparator.comparing(criteriaSelector::invoke));
   }
 
-  default <V extends Comparable<V>> Optional<T> getMinimal(java.util.Comparator<T> comparator) {
+  /**
+   * Get the minimal/lowest element with respect to the comparator.
+   *
+   * @param comparator Defines how to compare two collection elements.
+   * @return The minimal/lowest element.
+   */
+  default Optional<T> getMinimal(java.util.Comparator<T> comparator) {
     if (this.isEmpty()) return Optional.empty();
 
     T ret = null;
@@ -101,6 +222,10 @@ public interface ICollection<T> extends Iterable<T> {
       }
     }
     return ret == null ? Optional.empty() : Optional.of(ret);
+  }
+
+  default T getRandom() {
+    return this.getRandom(Common.rnd);
   }
 
   default T getRandomByWeights(Selector<T, Double> weightSelector) {
@@ -121,55 +246,6 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  default T getRandom(){
-    return this.getRandom(Common.rnd);
-  }
-
-  default Optional<T> tryGetRandom(){
-    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom());
-    return ret;
-  }
-
-  default Optional<T> tryGetRandom(Random rnd){
-    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom(rnd));
-    return ret;
-  }
-
-  /**
-   * Returns random element. Collection should not be empty.
-   * @param rnd Instance of Random class
-   * @return Random element from collection
-   * Should throw {link EmptyCollectionException} if collection is empty.
-   */
-  T getRandom(Random rnd);
-
-  default Optional<T> tryGetFirst(Predicate<T> predicate) {
-    for (T t : this) {
-      if (predicate.test(t))
-        return Optional.of(t);
-    }
-    return Optional.empty();
-  }
-
-  default Optional<T> tryGetFirst() {
-    return tryGetFirst(q->true);
-  }
-
-  default Optional<T> tryGetLast(Predicate<T> predicate) {
-    Optional<T> ret = Optional.empty();
-    for (T t : this) {
-      if (predicate.test(t))
-        ret = Optional.of(t);
-    }
-    return ret;
-  }
-
-  default Optional<T> tryGetLast() {
-    return tryGetLast(q->true);
-  }
-  //endregion
-
-  //region Quantification operations
   default boolean isAll(Predicate<T> predicate) {
     for (T t : this) {
       if (predicate.test(t) == false)
@@ -186,19 +262,12 @@ public interface ICollection<T> extends Iterable<T> {
     return false;
   }
 
+  default boolean isEmpty() {
+    return size() == 0;
+  }
+
   default boolean isNone(Predicate<T> predicate) {
     return !isAny(predicate);
-  }
-  //endregion
-
-  //region Min-Max-Mean operations
-  default <V> V aggregate(Selector<T, V> selector, BiFunction<V, V, V> aggregator, V initialAggregatorValue) {
-    V ret = initialAggregatorValue;
-    for (T t : this) {
-      V v = selector.invoke(t);
-      ret = aggregator.apply(ret, v);
-    }
-    return ret;
   }
 
   default <V extends Comparable<V>> Optional<V> max(Selector<T, V> selector) {
@@ -259,9 +328,7 @@ public interface ICollection<T> extends Iterable<T> {
     Optional<Integer> ret = min(selector);
     return ret.isEmpty() ? OptionalInt.empty() : OptionalInt.of(ret.get());
   }
-  //endregion
 
-  //region Sum operations
   default double sumDouble(Selector<T, Double> selector) {
     double ret = 0;
     for (T t : this) {
@@ -285,9 +352,7 @@ public interface ICollection<T> extends Iterable<T> {
     }
     return ret;
   }
-  //endregion
 
-  //region ..toSosort(mething() operations
   default T[] toArray(Class<T> arrayItemType) {
     T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
@@ -308,6 +373,18 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  default java.util.List<T> toJavaList() {
+    java.util.List<T> ret = new java.util.ArrayList<>();
+    this.toJavaList(ret);
+    return ret;
+  }
+
+  default java.util.Set<T> toJavaSet() {
+    java.util.Set<T> ret = new java.util.HashSet<>();
+    this.toJavaSet(ret);
+    return ret;
+  }
+
   default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
     IMap<K, V> ret = new EMap<>();
 
@@ -320,29 +397,43 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
-  IList<T> toList();
+  default Optional<T> tryGetFirst(Predicate<T> predicate) {
+    for (T t : this) {
+      if (predicate.test(t))
+        return Optional.of(t);
+    }
+    return Optional.empty();
+  }
 
-  default java.util.List<T> toJavaList(){
-    java.util.List<T> ret = new java.util.ArrayList<>();
-    this.toJavaList(ret);
+  default Optional<T> tryGetFirst() {
+    return tryGetFirst(q -> true);
+  }
+
+  default Optional<T> tryGetLast(Predicate<T> predicate) {
+    Optional<T> ret = Optional.empty();
+    for (T t : this) {
+      if (predicate.test(t))
+        ret = Optional.of(t);
+    }
     return ret;
   }
 
-  void toJavaList(java.util.List<T> target);
+  default Optional<T> tryGetLast() {
+    return tryGetLast(q -> true);
+  }
 
-  ISet<T> toSet();
-
-  default java.util.Set<T> toJavaSet(){
-    java.util.Set<T> ret = new java.util.HashSet<>();
-    this.toJavaSet(ret);
+  default Optional<T> tryGetRandom() {
+    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom());
     return ret;
   }
 
-  void toJavaSet(java.util.Set<T> target);
-  //endregion
+  default Optional<T> tryGetRandom(Random rnd) {
+    Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom(rnd));
+    return ret;
+  }
 
   //region Private
-  private <V> IList<V> selectNonNull(Selector<T,V> selector){
+  private <V> IList<V> selectNonNull(Selector<T, V> selector) {
     EList<V> ret = new EList<>();
     for (T t : this) {
       V v = selector.invoke(t);
