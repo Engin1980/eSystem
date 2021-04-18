@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eng.eSystem.utilites;
 
 /**
@@ -12,7 +7,7 @@ package eng.eSystem.utilites;
  */
 public class ExceptionUtils {
   /**
-   * Prints long exception string including type and all exception causes.
+   * Returns long exception string including type and all exception causes.
    *
    * @param t The exception to be printed
    * @return The full exception text message
@@ -23,7 +18,7 @@ public class ExceptionUtils {
   }
 
   /**
-   * Prints long exception string including type and all exception causes.
+   * Returns long exception string including type and all exception causes.
    *
    * @param t         The exception to be printed
    * @param separator The string used as separator between messages.
@@ -37,14 +32,35 @@ public class ExceptionUtils {
       if (t != tt) {
         sb.append(separator);
       }
-      sb.append("[");
-      sb.append(tt.getClass().getSimpleName());
-      sb.append("]:: ");
-      sb.append(tt.getMessage());
-
+      sb.append(String.format("[%s]:: %s (%s)",
+              tt.getClass().getSimpleName(),
+              tt.getMessage(),
+              tt.getStackTrace()[0].toString()));
       tt = tt.getCause();
     }
 
+    return sb.toString();
+  }
+
+  /**
+   * Returns multiline string including all exception and stack trace data.
+   * @param t Exception
+   * @return Multiline string
+   */
+  public static String toFullStringWithStackTrace(Throwable t) {
+    StringBuilder sb = new StringBuilder();
+    int indent = 0;
+    while (t != null) {
+      sb.append(StringUtils.repeat("\t", indent))
+              .append(String.format("[%s]::%s%n", t.getClass().getName(), t.getMessage()));
+      for (StackTraceElement ste : t.getStackTrace()) {
+        sb.append(StringUtils.repeat("\t", indent))
+                .append("  ")
+                .append(ste.toString());
+      }
+      indent++;
+      t = t.getCause();
+    }
     return sb.toString();
   }
 }

@@ -102,7 +102,7 @@ public class NumberUtils {
    * @return Returned value, if between min-max, or min/max.
    * Function returns middle value, if it fits into min..max interval. If value is
    * lower then minimum, minimum is returned. If value is higher than maximum,
-   * maximum is returned. Function does not check and expects that min<=max,
+   * maximum is returned. Function does not check and expects that min &lt;=max,
    * otherwise unexpected behavior occurs.
    */
   public static int boundBetween(int min, int value, int max){
@@ -117,7 +117,7 @@ public class NumberUtils {
    * @return Returned value, if between min-max, or min/max.
    * Function returns middle value, if it fits into min..max interval. If value is
    * lower then minimum, minimum is returned. If value is higher than maximum,
-   * maximum is returned. Function does not check and expects that min<=max,
+   * maximum is returned. Function does not check and expects that min @lt;=max,
    * otherwise unexpected behavior occurs.
    */
   public static double boundBetween(double min, double value, double max){

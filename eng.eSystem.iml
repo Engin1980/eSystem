@@ -8,18 +8,8 @@
       <excludeFolder url="file://$MODULE_DIR$/src/eng/eSystem/functionalInterfaces/old" />
       <excludeFolder url="file://$MODULE_DIR$/src/eng/eSystem/collections_obsolete" />
     </content>
-    <orderEntry type="jdk" jdkName="11 (Idea)" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" scope="TEST">
-      <library name="JUnit4">
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/hamcrest-core-1.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit4">
         <CLASSES>

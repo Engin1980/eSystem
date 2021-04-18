@@ -8,6 +8,10 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
+/**
+ * Represents generic object able to contain multiple items.
+ * @param <T> Type of item in this object.
+ */
 public interface ICollection<T> extends Iterable<T> {
   /**
    * Returns True if item is in the collection.
@@ -302,6 +306,12 @@ public interface ICollection<T> extends Iterable<T> {
     return !isAny(predicate);
   }
 
+  /**
+   * Returns maximal value selected from items in this collection.
+   * @param selector How to select representative value from collection's item, must be {@link Comparable}.
+   * @param <V> Type if result
+   * @return Maximal item, or empty {@link Optional}
+   */
   default <V extends Comparable<V>> Optional<V> max(Selector<T, V> selector) {
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
@@ -317,16 +327,31 @@ public interface ICollection<T> extends Iterable<T> {
     return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
+  /**
+   * Returns maximal double value selected from items in this collection.
+   * @param selector How to select double value from collection's item.
+   * @return Maximal value, or empty {@link Optional} for empty collection.
+   */
   default OptionalDouble maxDouble(Selector<T, Double> selector) {
     Optional<Double> ret = max(selector);
     return ret.isEmpty() ? OptionalDouble.empty() : OptionalDouble.of(ret.get());
   }
 
+  /**
+   * Returns maximal int value selected from items in this collection.
+   * @param selector How to select int value from collection's item.
+   * @return Maximal value, or empty {@link Optional} for empty collection.
+   */
   default OptionalInt maxInt(Selector<T, Integer> selector) {
     Optional<Integer> ret = max(selector);
     return ret.isEmpty() ? OptionalInt.empty() : OptionalInt.of(ret.get());
   }
 
+  /**
+   * Returns average value selected from items in this collection.
+   * @param selector How to select value representing one item
+   * @return Mean over all selected value, or empty {@link Optional}.
+   */
   default OptionalDouble mean(Selector<T, Double> selector) {
     OptionalDouble ret;
     if (this.isEmpty())
@@ -336,6 +361,12 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Returns minimal value selected from items in this collection.
+   * @param selector How to select representative value from collection's item, must be {@link Comparable}.
+   * @param <V> Type if result
+   * @return Minimal item, or empty {@link Optional}
+   */
   default <V extends Comparable<V>> Optional<V> min(Selector<T, V> selector) {
     IList<V> tmp = selectNonNull(selector);
     if (tmp.isEmpty())
@@ -351,16 +382,31 @@ public interface ICollection<T> extends Iterable<T> {
     return ret == null ? Optional.empty() : Optional.of(ret);
   }
 
+  /**
+   * Returns minimal double value selected from items in this collection.
+   * @param selector How to select double value from collection's item.
+   * @return Minimal value, or empty {@link Optional} for empty collection.
+   */
   default OptionalDouble minDouble(Selector<T, Double> selector) {
     Optional<Double> ret = min(selector);
     return ret.isEmpty() ? OptionalDouble.empty() : OptionalDouble.of(ret.get());
   }
 
+  /**
+   * Returns minimal int value selected from items in this collection.
+   * @param selector How to select int value from collection's item.
+   * @return Minimal value, or empty {@link Optional} for empty collection.
+   */
   default OptionalInt minInt(Selector<T, Integer> selector) {
     Optional<Integer> ret = min(selector);
     return ret.isEmpty() ? OptionalInt.empty() : OptionalInt.of(ret.get());
   }
 
+  /**
+   * Returns sum of double values selected from items in this collection.
+   * @param selector How to select double value from collection's item.
+   * @return Sum of selected values
+   */
   default double sumDouble(Selector<T, Double> selector) {
     double ret = 0;
     for (T t : this) {
@@ -369,6 +415,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Returns sum of int values selected from items in this collection.
+   * @param selector How to select int value from collection's item.
+   * @return Sum of selected values
+   */
   default int sumInt(Selector<T, Integer> selector) {
     int ret = 0;
     for (T t : this) {
@@ -377,6 +428,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Returns sum of long values selected from items in this collection.
+   * @param selector How to select long value from collection's item.
+   * @return Sum of selected values
+   */
   default long sumLong(Selector<T, Long> selector) {
     long ret = 0;
     for (T t : this) {
@@ -385,6 +441,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Converts items into typed array
+   * @param arrayItemType Result array item type
+   * @return Array with elements of this collection.
+   */
   default T[] toArray(Class<T> arrayItemType) {
     T[] ret = (T[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
@@ -395,6 +456,11 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Converts items into typed array of different type than the current collection items type.
+   * @param arrayItemType Result array item type
+   * @return Array with elements of this collection.
+   */
   default <K> K[] toArrayUnchecked(Class<K> arrayItemType) {
     K[] ret = (K[]) Array.newInstance(arrayItemType, this.size());
     int index = 0;
@@ -405,18 +471,34 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Converts collection into {@link java.util.List} ({@link java.util.ArrayList} by default).
+   * @return Java list of items.
+   */
   default java.util.List<T> toJavaList() {
     java.util.List<T> ret = new java.util.ArrayList<>();
     this.toJavaList(ret);
     return ret;
   }
 
+  /**
+   * Converts collection into {@link java.util.Set} ({@link java.util.HashSet} by default).
+   * @return Java set of items. Duplicity items will be skipped.
+   */
   default java.util.Set<T> toJavaSet() {
     java.util.Set<T> ret = new java.util.HashSet<>();
     this.toJavaSet(ret);
     return ret;
   }
 
+  /**
+   * Converts collection into {@link IMap} ({@link EMap} by default).
+   * @param keySelector How key will be obtained from item
+   * @param  valueSelector How value will be obtained from item
+   * @param <K> Key type
+   * @param <V> Value type
+   * @return Map of items
+   */
   default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
     IMap<K, V> ret = new EMap<>();
 
@@ -429,6 +511,12 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Tries to return the first element matching predicate from this collection.
+   * @param predicate Predicate selecting the element
+   * @return The first element, or empty of {@link Optional}
+   * @see #getFirst
+   */
   default Optional<T> tryGetFirst(Predicate<T> predicate) {
     for (T t : this) {
       if (predicate.test(t))
@@ -437,10 +525,21 @@ public interface ICollection<T> extends Iterable<T> {
     return Optional.empty();
   }
 
+  /**
+   * Tries to return the first element from this collection.
+   * @return The first element, or empty of {@link Optional}
+   * @see #getFirst
+   */
   default Optional<T> tryGetFirst() {
     return tryGetFirst(q -> true);
   }
 
+  /**
+   * Tries to return the last element matching predicate from this collection.
+   * @param predicate Predicate selecting the element
+   * @return The last element, or empty of {@link Optional}
+   * @see #getLast
+   */
   default Optional<T> tryGetLast(Predicate<T> predicate) {
     Optional<T> ret = Optional.empty();
     for (T t : this) {
@@ -450,15 +549,30 @@ public interface ICollection<T> extends Iterable<T> {
     return ret;
   }
 
+  /**
+   * Tries to return the last element from this collection.
+   * @return The first element, or empty of {@link Optional}
+   * @see #getLast
+   */
   default Optional<T> tryGetLast() {
     return tryGetLast(q -> true);
   }
 
+  /**
+   * Tries to return a random item from this collection.
+   * @return Random item, or empty of {@link Optional} if collection is empty
+   * @see #getRandom
+   */
   default Optional<T> tryGetRandom() {
     Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom());
     return ret;
   }
 
+  /**
+   * Tries to return a random item from this collection.
+   * @param rnd Instance of provided {@link Random}
+   * @return Random item, or empty of {@link Optional} if collection is empty
+   */
   default Optional<T> tryGetRandom(Random rnd) {
     Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom(rnd));
     return ret;

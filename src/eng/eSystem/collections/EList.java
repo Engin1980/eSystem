@@ -12,13 +12,13 @@ public class EList<T> implements IList<T> {
 
   private final static Class<? extends java.util.List> DEFAULT_CLASS = ArrayList.class;
 
-  public static <T> EList<T> of(Iterable<T> items){
+  public static <T> EList<T> of(Iterable<T> items) {
     EList<T> ret = new EList<>();
     ret.addMany(items);
     return ret;
   }
 
-  public static <T> EList<T> of(T... items){
+  public static <T> EList<T> of(T... items) {
     EList<T> ret = new EList<>();
     ret.addMany(items);
     return ret;
@@ -27,10 +27,6 @@ public class EList<T> implements IList<T> {
   private final List<T> inner;
 
   //region .ctor
-
-  private EList(List<T> inner) {
-    this.inner = inner;
-  }
 
   public EList() {
     this(DEFAULT_CLASS);
@@ -109,10 +105,10 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public IList<T> intersection(IReadOnlyList<T> otherList) {
+  public IList<T> intersection(IReadOnlyList<T> otherCollection) {
     IList<T> ret = new EList<>();
     for (T t : this) {
-      if (otherList.contains(t))
+      if (otherCollection.contains(t))
         ret.add(t);
     }
     return ret;
@@ -124,10 +120,10 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public IList<T> minus(IReadOnlyList<T> otherList) {
+  public IList<T> minus(IReadOnlyList<T> otherCollection) {
     IList<T> ret = new EList<>();
     for (T item : this) {
-      if (!otherList.contains(item))
+      if (!otherCollection.contains(item))
         ret.add(item);
     }
     return ret;
@@ -251,7 +247,7 @@ public class EList<T> implements IList<T> {
 
   @Override
   public IList<T> toList() {
-    IList<T> ret = new EList<>(this.inner);
+    IList<T> ret = new EList<T>().with(this);
     return ret;
   }
 
@@ -311,23 +307,23 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public Optional<Integer> tryIndexOf(T item) {
+  public OptionalInt tryIndexOf(T item) {
     for (int i = 0; i < this.inner.size(); i++) {
       if (ObjectUtils.equals(this.inner.get(i), item)) {
-        return Optional.of(i);
+        return OptionalInt.of(i);
       }
     }
-    return Optional.empty();
+    return OptionalInt.empty();
   }
 
   @Override
-  public Optional<Integer> tryIndexOf(Predicate<T> predicate) {
+  public OptionalInt tryIndexOf(Predicate<T> predicate) {
     for (int i = 0; i < this.inner.size(); i++) {
       if (predicate.test(this.inner.get(i))) {
-        return Optional.of(i);
+        return OptionalInt.of(i);
       }
     }
-    return Optional.empty();
+    return OptionalInt.empty();
   }
 
   @Override
@@ -336,9 +332,9 @@ public class EList<T> implements IList<T> {
   }
 
   @Override
-  public IList<T> union(IReadOnlyList<T> otherList) {
+  public IList<T> union(IReadOnlyList<T> otherCollection) {
     IList<T> ret = new EList<T>().with(this);
-    for (T t : otherList) {
+    for (T t : otherCollection) {
       if (ret.contains(t) == false)
         ret.add(t);
     }

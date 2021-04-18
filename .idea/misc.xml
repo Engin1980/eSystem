@@ -3,9 +3,10 @@
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="r:/javadoc" />
     <option name="OPTION_SCOPE" value="public" />
+    <option name="OTHER_OPTIONS" value="-encoding UTF8" />
     <option name="LOCALE" value="en-US" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11 (Idea)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

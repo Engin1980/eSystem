@@ -78,10 +78,10 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public ISet<T> intersection(IReadOnlySet<T> otherSet) {
+  public ISet<T> intersection(IReadOnlySet<T> otherCollection) {
     ISet<T> ret = new ESet<>();
     for (T t : this) {
-      if (otherSet.contains(t))
+      if (otherCollection.contains(t))
         ret.add(t);
     }
     return ret;
@@ -93,10 +93,10 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public ISet<T> minus(IReadOnlySet<T> otherList) {
+  public ISet<T> minus(IReadOnlySet<T> otherCollection) {
     ISet<T> ret = new ESet<>();
     for (T item : this) {
-      if (!otherList.contains(item))
+      if (!otherCollection.contains(item))
         ret.add(item);
     }
     return ret;
@@ -174,9 +174,9 @@ public class ESet<T> implements ISet<T> {
   }
 
   @Override
-  public ISet<T> union(IReadOnlySet<T> otherSet) {
+  public ISet<T> union(IReadOnlySet<T> otherCollection) {
     ISet<T> ret = new ESet<T>().with(this);
-    for (T t : otherSet) {
+    for (T t : otherCollection) {
       if (!ret.contains(t))
         ret.add(t);
     }
