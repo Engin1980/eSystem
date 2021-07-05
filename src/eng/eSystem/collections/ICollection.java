@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 /**
  * Represents generic object able to contain multiple items.
+ *
  * @param <T> Type of item in this object.
  */
 public interface ICollection<T> extends Iterable<T> {
@@ -31,6 +32,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns random element. If collection is empty, throws an exception.
+   *
    * @param rnd Instance of Random class
    * @return Random element from collection
    */
@@ -228,6 +230,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns random element. If collection is empty, throws an exception.
+   *
    * @return Random element from collection
    */
   default T getRandom() {
@@ -236,6 +239,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns random element by weight. If collection is empty, throws an exception.
+   *
    * @param weightSelector Selector to select the weight for collection element
    * @return Random element from collection
    */
@@ -245,8 +249,9 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns random element by weight. If collection is empty, throws an exception.
+   *
    * @param weightSelector Selector to select the weight for collection element
-   * @param rnd Instance of Random class
+   * @param rnd            Instance of Random class
    * @return Random element from collection
    */
   default T getRandomByWeights(Selector<T, Double> weightSelector, Random rnd) {
@@ -265,6 +270,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Checks if all items in this collections match an predicate.
+   *
    * @param predicate Predicate to match.
    * @return True if all elements passes the predicate, false otherwise.
    */
@@ -278,6 +284,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Checks if at least one item in this collections matches an predicate.
+   *
    * @param predicate Predicate to match.
    * @return True if at leas one element passes the predicate, false otherwise.
    */
@@ -291,6 +298,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Checks if this collection is empty.
+   *
    * @return True if this collection is empty, false otherwise.
    */
   default boolean isEmpty() {
@@ -299,6 +307,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Checks if any item in this collections matches an predicate.
+   *
    * @param predicate Predicate to match.
    * @return True if any element passes the predicate, false otherwise.
    */
@@ -308,8 +317,9 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns maximal value selected from items in this collection.
+   *
    * @param selector How to select representative value from collection's item, must be {@link Comparable}.
-   * @param <V> Type if result
+   * @param <V>      Type if result
    * @return Maximal item, or empty {@link Optional}
    */
   default <V extends Comparable<V>> Optional<V> max(Selector<T, V> selector) {
@@ -329,6 +339,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns maximal double value selected from items in this collection.
+   *
    * @param selector How to select double value from collection's item.
    * @return Maximal value, or empty {@link Optional} for empty collection.
    */
@@ -339,6 +350,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns maximal int value selected from items in this collection.
+   *
    * @param selector How to select int value from collection's item.
    * @return Maximal value, or empty {@link Optional} for empty collection.
    */
@@ -349,6 +361,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns average value selected from items in this collection.
+   *
    * @param selector How to select value representing one item
    * @return Mean over all selected value, or empty {@link Optional}.
    */
@@ -363,8 +376,9 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns minimal value selected from items in this collection.
+   *
    * @param selector How to select representative value from collection's item, must be {@link Comparable}.
-   * @param <V> Type if result
+   * @param <V>      Type if result
    * @return Minimal item, or empty {@link Optional}
    */
   default <V extends Comparable<V>> Optional<V> min(Selector<T, V> selector) {
@@ -384,6 +398,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns minimal double value selected from items in this collection.
+   *
    * @param selector How to select double value from collection's item.
    * @return Minimal value, or empty {@link Optional} for empty collection.
    */
@@ -394,6 +409,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns minimal int value selected from items in this collection.
+   *
    * @param selector How to select int value from collection's item.
    * @return Minimal value, or empty {@link Optional} for empty collection.
    */
@@ -404,6 +420,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns sum of double values selected from items in this collection.
+   *
    * @param selector How to select double value from collection's item.
    * @return Sum of selected values
    */
@@ -417,6 +434,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns sum of int values selected from items in this collection.
+   *
    * @param selector How to select int value from collection's item.
    * @return Sum of selected values
    */
@@ -430,6 +448,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Returns sum of long values selected from items in this collection.
+   *
    * @param selector How to select long value from collection's item.
    * @return Sum of selected values
    */
@@ -443,6 +462,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Converts items into typed array
+   *
    * @param arrayItemType Result array item type
    * @return Array with elements of this collection.
    */
@@ -458,6 +478,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Converts items into typed array of different type than the current collection items type.
+   *
    * @param arrayItemType Result array item type
    * @return Array with elements of this collection.
    */
@@ -473,6 +494,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Converts collection into {@link java.util.List} ({@link java.util.ArrayList} by default).
+   *
    * @return Java list of items.
    */
   default java.util.List<T> toJavaList() {
@@ -483,6 +505,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Converts collection into {@link java.util.Set} ({@link java.util.HashSet} by default).
+   *
    * @return Java set of items. Duplicity items will be skipped.
    */
   default java.util.Set<T> toJavaSet() {
@@ -493,10 +516,11 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Converts collection into {@link IMap} ({@link EMap} by default).
-   * @param keySelector How key will be obtained from item
-   * @param  valueSelector How value will be obtained from item
-   * @param <K> Key type
-   * @param <V> Value type
+   *
+   * @param keySelector   How key will be obtained from item
+   * @param valueSelector How value will be obtained from item
+   * @param <K>           Key type
+   * @param <V>           Value type
    * @return Map of items
    */
   default <K, V> IMap<K, V> toMap(Selector<T, K> keySelector, Selector<T, V> valueSelector) {
@@ -513,6 +537,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return the first element matching predicate from this collection.
+   *
    * @param predicate Predicate selecting the element
    * @return The first element, or empty of {@link Optional}
    * @see #getFirst
@@ -527,6 +552,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return the first element from this collection.
+   *
    * @return The first element, or empty of {@link Optional}
    * @see #getFirst
    */
@@ -536,6 +562,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return the last element matching predicate from this collection.
+   *
    * @param predicate Predicate selecting the element
    * @return The last element, or empty of {@link Optional}
    * @see #getLast
@@ -551,6 +578,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return the last element from this collection.
+   *
    * @return The first element, or empty of {@link Optional}
    * @see #getLast
    */
@@ -560,6 +588,7 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return a random item from this collection.
+   *
    * @return Random item, or empty of {@link Optional} if collection is empty
    * @see #getRandom
    */
@@ -570,12 +599,44 @@ public interface ICollection<T> extends Iterable<T> {
 
   /**
    * Tries to return a random item from this collection.
+   *
    * @param rnd Instance of provided {@link Random}
    * @return Random item, or empty of {@link Optional} if collection is empty
    */
   default Optional<T> tryGetRandom(Random rnd) {
     Optional<T> ret = this.isEmpty() ? Optional.empty() : Optional.of(getRandom(rnd));
     return ret;
+  }
+
+  /**
+   * Returns weighted average value selected from items in this collection.
+   *
+   * @param valueSelector  How to select value representing one item
+   * @param weightSelector How to select weight for the value for one item
+   * @return Mean over all selected value, or empty {@link Optional}. Empty is returned if collection
+   * is empty or if one selected value or weight is Double.NaN.
+   */
+  default OptionalDouble weightedMean(Selector<T, Double> valueSelector, Selector<T, Double> weightSelector) {
+    if (this.isEmpty())
+      return OptionalDouble.empty();
+
+    OptionalDouble ret;
+    double sum = 0;
+    double cnt = 0;
+    for (T t : this) {
+      double v = valueSelector.invoke(t);
+      double w = weightSelector.invoke(t);
+      if (Double.isNaN(v) || Double.isNaN(w))
+        return OptionalDouble.empty();
+
+      sum += v * w;
+      cnt += w;
+    }
+
+    if (cnt == 0)
+      return OptionalDouble.empty();
+    else
+      return OptionalDouble.of(sum / cnt);
   }
 
   //region Private

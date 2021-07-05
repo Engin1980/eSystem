@@ -1,6 +1,5 @@
 package eng.eSystem.eXml;
 
-import eng.eSystem.exceptions.EXmlException;
 import eng.eSystem.utilites.ExceptionUtils;
 import org.junit.Test;
 

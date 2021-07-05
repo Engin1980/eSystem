@@ -1,4 +1,4 @@
-package eng.eSystem.exceptions;
+package eng.eSystem.eXml;
 
 public class EXmlException extends Exception {
 

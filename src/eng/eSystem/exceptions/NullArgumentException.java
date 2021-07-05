@@ -2,6 +2,9 @@ package eng.eSystem.exceptions;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
+/**
+ * Invoked when argument is null.
+ */
 public class NullArgumentException extends IllegalArgumentException {
 
   public NullArgumentException(String argumentName) {

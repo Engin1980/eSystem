@@ -1,6 +1,6 @@
 package eng.eSystem;
 
-import eng.eSystem.exceptions.EApplicationException;
+import eng.eSystem.exceptions.ApplicationException;
 
 import java.util.Random;
 
@@ -15,7 +15,7 @@ public class ERandom extends Random {
     try {
       ret = nextInt(toExclusive - fromInclusive) + fromInclusive;
     } catch (Exception ex) {
-      throw new EApplicationException(sf("Unable to generate random number from %d to %d.", fromInclusive, toExclusive));
+      throw new ApplicationException(sf("Unable to generate random number from %d to %d.", fromInclusive, toExclusive));
     }
     return ret;
   }

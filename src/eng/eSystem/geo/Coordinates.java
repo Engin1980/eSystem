@@ -1,6 +1,6 @@
 package eng.eSystem.geo;
 
-import eng.eSystem.exceptions.EEnumValueUnsupportedException;
+import eng.eSystem.exceptions.EnumValueUnsupportedException;
 import eng.eSystem.utilites.UnitUtils;
 
 public class Coordinates {
@@ -245,7 +245,7 @@ public class Coordinates {
         RADIAL_MAX_DIFF = 45;
         break;
       default:
-        throw new EEnumValueUnsupportedException(behavior);
+        throw new EnumValueUnsupportedException(behavior);
     }
 
     double heading = Coordinates.getBearing(current, target);

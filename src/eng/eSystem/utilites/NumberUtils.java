@@ -43,15 +43,24 @@ public class NumberUtils {
   }
   /**
    * Returns if value is between specified inclusive bounds.
-   * @param min Minimum value
+   * @param min Minimum value, must be lower or equal than maximum
    * @param value Checked value
-   * @param max Maximum value
+   * @param max Maximum value, must be greater or equal than minimum
    * @return True if value is between minimum and maximum, inclusively.
+   * @see #isInRange(double, double, double)
    */
   public static boolean isBetweenOrEqual(double min, double value, double max){
     return min <= value && value <= max;
   }
 
+  /**
+   * Returns if value is between specified exclusive bounds.
+   * @param a First value
+   * @param value Checked value
+   * @param b Second value, must be greater or equal than minimum
+   * @return True if value is between a and b, exclusively.
+   * @see #isBetween(int, int, int)
+   */
   public static boolean isInRange(double a, double value, double b){
     boolean ret;
     if (a <= b)

@@ -100,7 +100,7 @@ public class EAbstractMap<K, V> implements IMap<K, V> {
   }
 
   @Override
-  public IMap<K, V> with(IMap<K, V> map) {
+  public IMap<K, V> with(IReadOnlyMap<K, V> map) {
     this.inner.putAll(map.toJavaMap());
     return this;
   }

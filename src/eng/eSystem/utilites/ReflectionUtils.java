@@ -8,7 +8,7 @@ package eng.eSystem.utilites;
 import eng.eSystem.collections.EList;
 import eng.eSystem.collections.IList;
 import eng.eSystem.collections.IReadOnlyList;
-import eng.eSystem.exceptions.EApplicationException;
+import eng.eSystem.exceptions.ApplicationException;
 import eng.eSystem.validation.EAssert;
 
 import java.io.File;
@@ -176,7 +176,7 @@ public class ReflectionUtils {
         field.set(target, value);
         field.setAccessible(false);
       } catch (Exception e) {
-        throw new EApplicationException(sf("Unable to set field value. Class: '%s', field '%s'.", target.getClass(), fieldName), e);
+        throw new ApplicationException(sf("Unable to set field value. Class: '%s', field '%s'.", target.getClass(), fieldName), e);
       }
     }
 
@@ -190,7 +190,7 @@ public class ReflectionUtils {
         ret = field.get(source);
         field.setAccessible(false);
       } catch (Exception e) {
-        throw new EApplicationException(sf("Unable to get field value. Class: '%s', field '%s'.", source.getClass(), fieldName), e);
+        throw new ApplicationException(sf("Unable to get field value. Class: '%s', field '%s'.", source.getClass(), fieldName), e);
       }
       return ret;
     }
@@ -201,7 +201,7 @@ public class ReflectionUtils {
       if (ret == null && clz.getSuperclass() != null)
         ret = getField(clz.getSuperclass(), fieldName);
       if (ret == null)
-        throw new EApplicationException(sf("Failed to find field named '%s' in '%s'.", fieldName, clz.getName()));
+        throw new ApplicationException(sf("Failed to find field named '%s' in '%s'.", fieldName, clz.getName()));
       return ret;
     }
   }

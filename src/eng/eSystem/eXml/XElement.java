@@ -2,7 +2,6 @@ package eng.eSystem.eXml;
 
 import eng.eSystem.EStringBuilder;
 import eng.eSystem.collections.*;
-import eng.eSystem.exceptions.EXmlRuntimeException;
 import eng.eSystem.utilites.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,7 +77,7 @@ public class XElement {
 
   public void addElement(XElement childElement) {
     if (childElement.getParent() != null)
-      throw new EXmlRuntimeException("Element " + childElement + " has already a parent " + childElement.getParent() + ".");
+      throw new XmlRuntimeException("Element " + childElement + " has already a parent " + childElement.getParent() + ".");
     childElement.setParent(this);
     this.children.add(childElement);
   }
@@ -102,9 +101,9 @@ public class XElement {
     XElement ret;
     IReadOnlyList<XElement> tmp = this.getChildren(name);
     if (tmp.size() == 0) {
-      throw new EXmlRuntimeException("Element '" + name + "' not found.");
+      throw new XmlRuntimeException("Element '" + name + "' not found.");
     } else if (tmp.size() > 1) {
-      throw new EXmlRuntimeException("Element '" + name + "' has multiple occurrences.");
+      throw new XmlRuntimeException("Element '" + name + "' has multiple occurrences.");
     } else {
       ret = tmp.get(0);
     }
@@ -165,7 +164,7 @@ public class XElement {
     try {
       ret = doc.createElement(this.name);
     } catch (Exception ex) {
-      throw new EXmlRuntimeException("Failed to create an element '" + this.name + "'.", ex);
+      throw new XmlRuntimeException("Failed to create an element '" + this.name + "'.", ex);
     }
 
     for (String key : this.attributes.getKeys()) {
@@ -173,7 +172,7 @@ public class XElement {
       try {
         ret.setAttribute(key, val);
       } catch (Exception ex) {
-        throw new EXmlRuntimeException(sf("Failed to set attribute '%s=\"%s\"' to element '%s'.", key, val, this.name));
+        throw new XmlRuntimeException(sf("Failed to set attribute '%s=\"%s\"' to element '%s'.", key, val, this.name));
       }
     }
 
@@ -250,7 +249,7 @@ public class XElement {
     if (tmp.size() == 0) {
       ret = Optional.empty();
     } else if (tmp.size() > 1) {
-      throw new EXmlRuntimeException("Element '" + name + "' has multiple occurrences.");
+      throw new XmlRuntimeException("Element '" + name + "' has multiple occurrences.");
     } else {
       ret = Optional.of(tmp.get(0));
     }

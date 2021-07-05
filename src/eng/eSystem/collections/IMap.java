@@ -73,7 +73,7 @@ public interface IMap<K, V> extends IReadOnlyMap<K, V> {
 
   //region with(...) methods
 
-  default IMap<K, V> with(IMap<K, V> map) {
+  default IMap<K, V> with(IReadOnlyMap<K, V> map) {
     return this.with(map.toJavaMap().entrySet());
   }
 

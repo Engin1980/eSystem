@@ -1,6 +1,5 @@
 package eng.eSystem.eXml;
 
-import eng.eSystem.exceptions.EXmlException;
 import eng.eSystem.validation.EAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

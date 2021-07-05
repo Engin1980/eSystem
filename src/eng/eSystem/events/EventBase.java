@@ -4,7 +4,7 @@ import eng.eSystem.collections.EList;
 import eng.eSystem.collections.EMap;
 import eng.eSystem.collections.IList;
 import eng.eSystem.collections.IMap;
-import eng.eSystem.exceptions.EApplicationException;
+import eng.eSystem.exceptions.ApplicationException;
 
 abstract class EventBase<TListener> {
   private static int nextId = 1;
@@ -37,7 +37,7 @@ abstract class EventBase<TListener> {
     else if (innerAsync.contains(lst))
       this.removeAsync(lst);
     else
-      throw new EApplicationException("Handler with id " + id + " not known.");
+      throw new ApplicationException("Handler with id " + id + " not known.");
   }
 
   protected int add(TListener listener) {

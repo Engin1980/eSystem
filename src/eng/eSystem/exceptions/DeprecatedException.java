@@ -1,5 +1,8 @@
 package eng.eSystem.exceptions;
 
+/**
+ * Throw when calling deprecated method or method in deprecated class.
+ */
 public class DeprecatedException extends RuntimeException {
 
   public DeprecatedException(String message) {

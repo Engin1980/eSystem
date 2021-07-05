@@ -4,7 +4,10 @@ import eng.eSystem.EStringBuilder;
 
 import static eng.eSystem.utilites.FunctionShortcuts.sf;
 
-public class EMultiCauseException extends Exception {
+/**
+ * Used when multiple causes are causing an exception.
+ */
+public class MultiCauseException extends Exception {
   private static Throwable getUniversalCause(int numberOfCauses) {
     return new Exception(sf(
         "There are %d causes of this exception. Check 'getCauses()' method of this exception.",
@@ -12,12 +15,12 @@ public class EMultiCauseException extends Exception {
   }
   private Throwable[] causes;
 
-  public EMultiCauseException(String message, Throwable[] causes) {
+  public MultiCauseException(String message, Throwable[] causes) {
     super(message, getUniversalCause(causes.length));
     this.causes = causes;
   }
 
-  public EMultiCauseException(String message, Throwable cause) {
+  public MultiCauseException(String message, Throwable cause) {
     super(message, cause);
     this.causes = new Throwable[1];
     this.causes[0] = cause;
